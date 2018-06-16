@@ -1,0 +1,148 @@
+body {
+	  text-align: center;
+}
+#wrapper {
+	  text-align: left;
+	  width: 80%;
+	  margin-left: auto;
+	  margin-right: auto;
+}
+
+#options{
+	width: 15%;
+	height:550px;
+	border:1px solid black;
+	float:left;
+}
+
+#frame{
+	width:84%;
+	height:550px;
+	background-image: url("../../images/rular_bg.png");
+	background-repeat: repeat-y repeat-x;
+    	background-position: 0 0;
+    	border:1px solid black;
+    	float:right;
+}
+
+#tbldevs{
+	border:1px solid black;
+	width:80%;
+	margin-left:50px;
+	margin-top:10px;
+}
+
+#tbldevs th{
+	text-align:center;
+	height:50px;
+	width:50px;
+}
+
+#tbldevs td{
+	height:50px;
+}
+.dragCommon{
+    background-size: contain;
+	width:70px;
+	height:70px;
+        margin-left:30px;
+	margin-top:15px;
+        background-repeat: no-repeat;
+
+}
+
+#drag1 {
+ 
+	background-image: url("../../images/icon_g_plus.svg");
+       
+}
+
+#drag2 {
+
+	background-image: url("../../images/icon_fb.svg");
+      
+}
+
+#drag3 {
+
+	background-image: url("../../images/icon_photo.svg");
+       
+}
+
+#drag4 {
+
+	background-image: url("../../images/icon_video.svg");
+       
+}
+
+#drag5 {
+
+	background-image: url("../../images/icon_link.svg");
+       
+}
+
+#drag6 {
+
+	background-image: url("../../images/e_mail.svg");
+        
+}
+
+.ui-draggable-helperMoving {
+	border: 1px dotted #000;
+	padding: 6px;
+	background: #fff;
+	font-size: 1.2em;
+	width:100px;
+	height:100px;
+}
+
+.ui-draggable-helperStoped {
+	border: 1px solid #000;
+	width:5px;
+	height:5px;
+}
+
+
+
+/* classes for dragged stuff */
+
+.dragged1 {
+	position:absolute; 
+	background-image: url("../../images/icon_g_plus.svg");
+         
+}
+
+.dragged2 {
+	position:absolute; 
+	background-image: url("../../images/icon_fb.svg");
+     
+}
+
+.dragged3 {
+	position:absolute; 
+	background-image: url("../../images/icon_photo.svg");
+      
+}
+
+.dragged4 {
+	position:absolute; 
+	background-image: url("../../images/icon_video.svg");
+    
+}
+
+.dragged5 {
+	position:absolute; 
+	background-image: url("../../images/icon_link.svg");
+      
+}
+
+.dragged6 {
+	position:absolute; 
+	background-image: url("../../images/e_mail.svg");
+    
+}
+
+
+#element{
+	border:1px solid red
+}
