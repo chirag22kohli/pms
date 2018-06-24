@@ -26,3 +26,14 @@ Route::resource('admin/users', 'Admin\UsersController');
 Route::get('admin/generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@getGenerator']);
 Route::post('admin/generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@postGenerator']);
 Route::get('admin/arDashboard', 'Admin\ArController@index');
+
+Route::get('uploadDataVuforia', 'Admin\ArController@uploadDataVuforia');
+
+Route::post('admin/trackerUpload', 'Admin\ArController@trackerUpload');
+
+
+
+Route::resource('admin/projects', 'Admin\\ProjectsController');
+Route::resource('admin/objects', 'Admin\\objectsController');
+
+Route::post('admin/addUpdateObject', 'Admin\objectsController@addUpdateObject');
