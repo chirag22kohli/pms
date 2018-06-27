@@ -35,5 +35,6 @@ Route::post('admin/trackerUpload', 'Admin\ArController@trackerUpload');
 
 Route::resource('admin/projects', 'Admin\\ProjectsController');
 Route::resource('admin/objects', 'Admin\\objectsController');
+Route::resource('admin/trackers', 'Admin\\TrackersController');
 
 Route::post('admin/addUpdateObject', 'Admin\objectsController@addUpdateObject');

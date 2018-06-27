@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class object extends Model
+class Tracker extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'objects';
+    protected $table = 'trackers';
 
     /**
     * The database primary key value.
@@ -25,7 +25,11 @@ class object extends Model
      *
      * @var array
      */
-    protected $fillable = ['xpos', 'ypos', 'height', 'width', 'tracker_id', 'type', 'object_div', 'user_id' , 'main_class'];
+    protected $fillable = ['tracker_name', 'height', 'width', 'project_id', 'params'];
 
+    public function comments()
+    {
+        return $this->hasMany('App\Project');
+    }
     
 }

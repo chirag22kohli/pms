@@ -112,14 +112,15 @@
         var width = $('#' + objName).css('width');
         var height = $('#' + objName).css('height');
         var main_class = $('#' + objName).attr('main_class');
-
-        var project_id = '<?php echo $project_id ?>';
+        
+        var tracker_id = '<?php echo $tracker_id ?>';
+        console.log(tracker_id);
         $.ajax({
             type: "POST",
             url: 'addUpdateObject',
-            data: {type: type, width: width, height: height, xpos: xpos, ypos: ypos, main_class: main_class, project_id: project_id, object_div: objName},
+            data: {type: type, width: width, height: height, xpos: xpos, ypos: ypos, main_class: main_class, tracker_id: tracker_id, object_div: objName},
             success: function (msg) {
-                console.log(msg);
+             
             }
         });
 
@@ -135,7 +136,7 @@
             <div class = "col-md-3"> <button onclick ="uploadTracker()" class = "btn btn-success trackerButton">Upload Tracker</button></div>
             <form  style ="display: none" enctype="multipart/form-data" name ="imageUploadForm" id =  "imageUploadForm" method = "post" action = "trackerUpload">
                 <input type="file"  id ="trackerImage" name = "trackerImage" onchange="upload()">
-                <input type ="hidden" name ="project_id" value = "{{$project_id}}">
+                <input type ="hidden" name ="tracker_id" value = "{{$tracker_id}}">
             </form>
 
         </div>

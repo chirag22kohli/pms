@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
 use App\Project;
 use App\object;
+use App\Tracker;
 class ArController extends Controller {
 
     /**
@@ -33,19 +34,20 @@ class ArController extends Controller {
 
     public function index(Request $request) {
 
-        $projectID = $request->input('id');
-        $projectDetails = Project::where('id', $projectID)->first();
-        $objectLastId = object::where('project_id',$projectID)->orderBy('id','desc')->first();
-        $objects = object::where('project_id',$projectID)->get();
+        $trackerId = $request->input('id');
+    
+        $trackerDetails = Tracker::where('id', $trackerId)->first();
+        $objectLastId = object::where('tracker_id',$trackerDetails->id)->orderBy('id','desc')->first();
+        $objects = object::where('tracker_id',$trackerId)->get();
         if(count($objectLastId)>0):
             $cloneId = $objectLastId->id;
             else:
             $cloneId = 0; 
         endif;
-        if (count($projectDetails) > 0):
-            return view('ar.dashboard', ['project_id' => $projectID, 'tracker' => $projectDetails->tracker_path,'cloneId'=>$cloneId, 'objects' =>$objects] );
+        if (count($trackerDetails) > 0):
+            return view('ar.dashboard', ['tracker_id' => $trackerId, 'tracker' => $trackerDetails->tracker_path,'cloneId'=>$cloneId, 'objects' =>$objects] );
         else:
-            return 'Project Not Found';
+            return 'Tracker Not Found';
         endif;
     }
 
@@ -56,9 +58,9 @@ class ArController extends Controller {
         ]);
 
         $imagePath = $this->uploadFile($request, 'trackerImage', '/images/trackers');
-        $project_id = $request->input('project_id');
+        $tracker_id = $request->input('tracker_id');
 
-        $update = Project::where('id', $project_id)->update([
+        $update = Tracker::where('id', $tracker_id)->update([
             'tracker_path' => $imagePath
         ]);
         return json_encode([

@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\object;
+use App\Tracker;
 use Illuminate\Http\Request;
 
-class objectsController extends Controller {
+class TrackersController extends Controller {
 
     /**
      * Display a listing of the resource.
@@ -17,22 +17,23 @@ class objectsController extends Controller {
     public function index(Request $request) {
         $keyword = $request->get('search');
         $perPage = 25;
-
+        $project_id = $request->get('p_id');
+        if (empty($request->get('p_id'))) {
+            return response('Internal Server Error', 500);
+        }
         if (!empty($keyword)) {
-            $objects = object::where('xpos', 'LIKE', "%$keyword%")
-                    ->orWhere('ypos', 'LIKE', "%$keyword%")
+            $trackers = Tracker::where('tracker_name', 'LIKE', "%$keyword%")
                     ->orWhere('height', 'LIKE', "%$keyword%")
                     ->orWhere('width', 'LIKE', "%$keyword%")
                     ->orWhere('project_id', 'LIKE', "%$keyword%")
-                    ->orWhere('type', 'LIKE', "%$keyword%")
-                    ->orWhere('object_div', 'LIKE', "%$keyword%")
-                    ->orWhere('user_id', 'LIKE', "%$keyword%")
+                    ->orWhere('params', 'LIKE', "%$keyword%")
+                    ->Where('project_id', $project_id)
                     ->paginate($perPage);
         } else {
-            $objects = object::paginate($perPage);
+            $trackers = Tracker::Where('project_id', $project_id)->paginate($perPage);
         }
 
-        return view('objects.objects.index', compact('objects'));
+        return view('admin.trackers.index', compact('trackers'), ['project_id' => $project_id]);
     }
 
     /**
@@ -40,8 +41,12 @@ class objectsController extends Controller {
      *
      * @return \Illuminate\View\View
      */
-    public function create() {
-        return view('objects.objects.create');
+    public function create(Request $request) {
+        $project_id = $request->get('p_id');
+        if (empty($request->get('p_id'))) {
+            return response('Internal Server Error', 500);
+        }
+        return view('admin.trackers.create', ['project_id' => $project_id]);
     }
 
     /**
@@ -55,9 +60,9 @@ class objectsController extends Controller {
 
         $requestData = $request->all();
 
-        object::create($requestData);
+        Tracker::create($requestData);
 
-        return redirect('admin/objects')->with('flash_message', 'object added!');
+        return redirect('admin/trackers?p_id='.$request->input('project_id').'')->with('flash_message', 'Tracker added!');
     }
 
     /**
@@ -68,9 +73,9 @@ class objectsController extends Controller {
      * @return \Illuminate\View\View
      */
     public function show($id) {
-        $object = object::findOrFail($id);
+        $tracker = Tracker::findOrFail($id);
 
-        return view('objects.objects.show', compact('object'));
+        return view('admin.trackers.show', compact('tracker'));
     }
 
     /**
@@ -81,9 +86,9 @@ class objectsController extends Controller {
      * @return \Illuminate\View\View
      */
     public function edit($id) {
-        $object = object::findOrFail($id);
+        $tracker = Tracker::findOrFail($id);
 
-        return view('objects.objects.edit', compact('object'));
+        return view('admin.trackers.edit', compact('tracker'));
     }
 
     /**
@@ -98,10 +103,10 @@ class objectsController extends Controller {
 
         $requestData = $request->all();
 
-        $object = object::findOrFail($id);
-        $object->update($requestData);
+        $tracker = Tracker::findOrFail($id);
+        $tracker->update($requestData);
 
-        return redirect('admin/objects')->with('flash_message', 'object updated!');
+        return redirect('admin/trackers')->with('flash_message', 'Tracker updated!');
     }
 
     /**
@@ -112,22 +117,11 @@ class objectsController extends Controller {
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy($id) {
-        object::destroy($id);
-
-        return redirect('admin/objects')->with('flash_message', 'object deleted!');
-    }
-
-    public function addUpdateObject(Request $request) {
-
-        $object = object::where('tracker_id', $request->input('tracker_id'))->where('object_div', $request->input('object_div'))->first();
-
-        if (count($object) > 0):
-            
-            object::where('tracker_id', $request->input('tracker_id'))->where('object_div', $request->input('object_div'))->update($request->all());
-
-        else:
-            object::create($request->all());
-        endif;
+        $selectProjectId = Tracker::where('id',$id)->first();
+        
+        Tracker::destroy($id);
+        
+        return redirect('admin/trackers?p_id='.$selectProjectId->project_id.'')->with('flash_message', 'Tracker deleted!');
     }
 
 }
