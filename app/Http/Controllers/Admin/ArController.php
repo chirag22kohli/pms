@@ -79,12 +79,53 @@ class ArController extends Controller {
 
         $trackerDetails = Tracker::where('id', $tracker_id)->with('objects')->first();
         if (count($trackerDetails) > 0) {
-           $vuforiaParams = $this->uploadDataVuforia($trackerDetails->tracker_path, $trackerDetails['objects']);
-           $updateTracker = Tracker::where('id',$tracker_id)->update(['parm'=>$vuforiaParams]);
-           return $vuforiaParams;
+
+            if ($trackerDetails->parm != '') {
+                $trackerVuforia = json_decode($trackerDetails->parm);
+                $vuforiaParams = $this->updateVuforia($trackerVuforia->target_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
+            } else {
+                $vuforiaParams = $this->uploadDataVuforia($trackerDetails->tracker_path, $trackerDetails['objects']);
+                $updateTracker = Tracker::where('id', $tracker_id)->update(['parm' => $vuforiaParams]);
+                return $vuforiaParams;
+            }
         } else {
             return 0;
         }
+    }
+
+    public function updateVuforia($id, $trackerUrl, $objectData) {
+
+        $imagePath = '';
+        $imageName = public_path($trackerUrl);
+        $this->imagePath = '/';
+        $this->imageName = public_path($trackerUrl);
+        $image = file_get_contents($imagePath . $imageName);
+        $image_base64 = base64_encode($image);
+        // Use date to create unique filenames on server
+        $date = new DateTime();
+        $dateTime = $date->getTimestamp();
+        $file = pathinfo($this->imageName);
+        $filename = $file['filename'];
+        $fileextension = $file['extension'];
+        $post_data = array(
+            'name' => $filename . "_" . $dateTime . "." . $fileextension,
+            'width' => 74.5,
+            'image' => $image_base64,
+            'application_metadata' => $this->createMetadata($objectData),
+            'active_flag' => 1
+        );
+
+        $data_json = json_encode($post_data);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, self::BASE_URL . self::TARGETS_PATH . '/' . $id);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->getHeaders('PUT', self::TARGETS_PATH . '/' . $id, self::JSON_CONTENT_TYPE, $data_json));
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return $response;
     }
 
     public function uploadDataVuforia($trackerUrl, $objectData) {
@@ -121,7 +162,7 @@ class ArController extends Controller {
             return 'none';
         } else {
             $vuforiaTargetID = json_decode($response)->target_id;
-           // print 'Successfully added target: ' . $vuforiaTargetID . "\n";
+            // print 'Successfully added target: ' . $vuforiaTargetID . "\n";
             return $response;
         }
     }
@@ -170,14 +211,14 @@ class ArController extends Controller {
      * @return [String] Vuforia result_code
      */
     public function deleteAllTargets() {
-        
-        
+
+
         $ch = curl_init(self::BASE_URL . self::TARGETS_PATH);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->getHeaders('GET'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
         $info = curl_getinfo($ch);
-       // dd(curl_error($ch));
+        // dd(curl_error($ch));
         if ($info['http_code'] !== 200) {
             die('Failed to list targets: ' . $response . "\n");
         }
@@ -247,8 +288,8 @@ class ArController extends Controller {
         $metadata = array(
             'id' => 1,
             'image_url' => $this->imagePath . $this->imageName,
-            'width'=>745,
-            'height'=>550,
+            'width' => 745,
+            'height' => 550,
             'objects' => $objects
         );
         return base64_encode(json_encode($metadata));
