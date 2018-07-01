@@ -111,37 +111,37 @@ body {
 
 .dragged1 {
 	position:absolute; 
-	background-image: url("../../images/icon_g_plus.svg");
+	background-image: url("../../images/icon_g_plus.png");
          
 }
 
 .dragged2 {
 	position:absolute; 
-	background-image: url("../../images/icon_fb.svg");
+	background-image: url("../../images/icon_fb.png");
      
 }
 
 .dragged3 {
 	position:absolute; 
-	background-image: url("../../images/icon_photo.svg");
+	background-image: url("../../images/icon_photo.png");
       
 }
 
 .dragged4 {
 	position:absolute; 
-	background-image: url("../../images/icon_video.svg");
+	background-image: url("../../images/icon_video.png");
     
 }
 
 .dragged5 {
 	position:absolute; 
-	background-image: url("../../images/icon_link.svg");
+	background-image: url("../../images/icon_link.png");
       
 }
 
 .dragged6 {
 	position:absolute; 
-	background-image: url("../../images/e_mail.svg");
+	background-image: url("../../images/e_mail.png");
     
 }
 
