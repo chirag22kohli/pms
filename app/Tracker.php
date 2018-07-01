@@ -25,7 +25,7 @@ class Tracker extends Model
      *
      * @var array
      */
-    protected $fillable = ['tracker_name', 'height', 'width', 'project_id', 'params'];
+    protected $fillable = ['tracker_name', 'height', 'width', 'project_id', 'parm'];
 
     public function comments()
     {

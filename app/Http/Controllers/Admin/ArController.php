@@ -80,7 +80,7 @@ class ArController extends Controller {
         $trackerDetails = Tracker::where('id', $tracker_id)->with('objects')->first();
         if (count($trackerDetails) > 0) {
            $vuforiaParams = $this->uploadDataVuforia($trackerDetails->tracker_path, $trackerDetails['objects']);
-           $updateTracker = Tracker::where('id',$tracker_id)->update(['params'=>$vuforiaParams]);
+           $updateTracker = Tracker::where('id',$tracker_id)->update(['parm'=>$vuforiaParams]);
            return $vuforiaParams;
         } else {
             return 0;
@@ -106,7 +106,7 @@ class ArController extends Controller {
         $fileextension = $file['extension'];
         $post_data = array(
             'name' => $filename . "_" . $dateTime . "." . $fileextension,
-            'width' => 32.0,
+            'width' => 74.5,
             'image' => $image_base64,
             'application_metadata' => $this->createMetadata($objectData),
             'active_flag' => 1
