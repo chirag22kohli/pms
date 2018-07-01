@@ -15,7 +15,10 @@ body {
 	border:1px solid black;
 	float:left;
 }
-
+#options .drag {
+     margin-left:30px;
+	margin-top:15px;
+}
 #frame{
 	width:84%;
 	height:550px;
@@ -46,8 +49,7 @@ body {
     background-size: contain;
 	width:70px;
 	height:70px;
-        margin-left:30px;
-	margin-top:15px;
+       
         background-repeat: no-repeat;
 
 }
