@@ -31,5 +31,7 @@ class Tracker extends Model
     {
         return $this->hasMany('App\Project');
     }
-    
+    public function objects(){
+        return $this->hasMany(\App\object::class, 'tracker_id', 'id');
+    }
 }

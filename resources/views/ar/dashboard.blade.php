@@ -8,6 +8,7 @@
         counter = <?php echo $cloneId; ?>;
         //Make element draggable
         $(".drag").draggable({
+            revert: 'invalid',
             helper: 'clone',
             containment: 'frame',
             //When first dragged
@@ -22,7 +23,9 @@
                     containment: 'parent',
                     stop: function (ev, ui) {
                         var pos = $(ui.helper).offset();
-                        addObject(objNameDB, pos.left, pos.top);
+                        var left_tracker = pos.left - $("#frame").position().left;
+                        var top_tracker = pos.top - $("#frame").position().top;
+                        addObject(objNameDB, pos.left, pos.top, left_tracker, top_tracker);
                     }
                 });
             }
@@ -45,13 +48,16 @@
                     $("#clonediv" + counter).css('position', 'absolute');
                     $("#clonediv" + counter).resizable({aspectRatio: true,
                         resize: function (event, ui) {
-                            addObject("clonediv" + counter, pos.left, pos.top);
+                            var left_tracker = pos.left - $("#frame").position().left;
+                            var top_tracker = pos.top - $("#frame").position().top;
+                            addObject("clonediv" + counter, pos.left, pos.top, left_tracker, top_tracker);
                         }
                     });
                     $("#clonediv" + counter).addClass(itemDragged);
                     var pos = $(ui.helper).offset();
-
-                    addObject("clonediv" + counter, pos.left, pos.top);
+                    var left_tracker = pos.left - $("#frame").position().left;
+                    var top_tracker = pos.top - $("#frame").position().top;
+                    addObject("clonediv" + counter, pos.left, pos.top, left_tracker, top_tracker);
                 }
             }
         });
@@ -66,10 +72,15 @@
                 containment: 'parent',
                 stop: function (ev, ui) {
                     var pos = $(ui.helper).offset();
-                    addObject(this.id, pos.left, pos.top);
+                    var left_tracker = pos.left - $("#frame").position().left;
+                    var top_tracker = pos.top - $("#frame").position().top;
+                    addObject(this.id, pos.left, pos.top, left_tracker, top_tracker);
                     $('#' + this.id).resizable({aspectRatio: true,
+                        ghost: true,
                         resize: function (event, ui) {
-                            addObject(this.id, pos.left, pos.top);
+                            var left_tracker = pos.left - $("#frame").position().left;
+                            var top_tracker = pos.top - $("#frame").position().top;
+                            addObject(this.id, pos.left, pos.top, left_tracker, top_tracker);
                         }
                     });
                 }
@@ -94,7 +105,7 @@
         xhr.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var obj = JSON.parse(this.responseText);
-                console.log(obj);
+                // console.log(obj);
                 $("body").removeClass("loading");
                 if (obj.success == '1') {
                     $('#frame').css("background-image", "url(" + obj.path + ")");
@@ -107,23 +118,45 @@
 
     }
 
-    function addObject(objName, xpos, ypos) {
+    function addObject(objName, xpos, ypos, left_tracker, top_tracker) {
+
+
         var type = $('#' + objName).attr('type');
         var width = $('#' + objName).css('width');
         var height = $('#' + objName).css('height');
         var main_class = $('#' + objName).attr('main_class');
-        
+
         var tracker_id = '<?php echo $tracker_id ?>';
-        console.log(tracker_id);
+        // console.log(tracker_id);
+        var bg = $('#' + objName).css('background-image');
+        bg = bg.replace('url(', '').replace(')', '').replace(/\"/gi, "");
+        //console.log(bg);
         $.ajax({
             type: "POST",
             url: 'addUpdateObject',
-            data: {type: type, width: width, height: height, xpos: xpos, ypos: ypos, main_class: main_class, tracker_id: tracker_id, object_div: objName},
+            data: {type: type, width: width, height: height, xpos: xpos, ypos: ypos, main_class: main_class, tracker_id: tracker_id, object_div: objName, pos_top: top_tracker, pos_left: left_tracker, object_image: bg},
+
             success: function (msg) {
-             
+
             }
         });
 
+    }
+    function finalizeTracker() {
+        var tracker_id = '<?php echo $tracker_id ?>';
+       // return false;
+        $.ajax({
+            type: "POST",
+            url: 'finalizeTracker',
+            data: {tracker_id: tracker_id},
+            beforeSend: function () {
+                $("body").addClass("loading");
+            },
+            success: function (msg) {
+                console.log(msg);
+                $("body").removeClass("loading");
+            }
+        });
     }
 </script>
 <div class="modal"><!-- Place at bottom of page --></div>
@@ -131,7 +164,7 @@
     <div id="wrapper">
         <div class = "row">
             <div class = "col-md-9">
-
+                <button class = "btn btn-warning" onclick="finalizeTracker()" >Finalize Tracker</button>
             </div>
             <div class = "col-md-3"> <button onclick ="uploadTracker()" class = "btn btn-success trackerButton">Upload Tracker</button></div>
             <form  style ="display: none" enctype="multipart/form-data" name ="imageUploadForm" id =  "imageUploadForm" method = "post" action = "trackerUpload">
@@ -162,6 +195,7 @@
             }
             ?>
         </div><!-- end of frame -->
+
     </div>
 
 </div>

@@ -25,7 +25,7 @@ class object extends Model
      *
      * @var array
      */
-    protected $fillable = ['xpos', 'ypos', 'height', 'width', 'tracker_id', 'type', 'object_div', 'user_id' , 'main_class'];
+    protected $fillable = ['xpos', 'ypos', 'height', 'width', 'tracker_id', 'type', 'object_div', 'user_id' , 'main_class','pos_top','pos_left','object_image'];
 
     
 }

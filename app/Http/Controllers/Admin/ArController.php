@@ -11,6 +11,7 @@ use Illuminate\Validation\Validator;
 use App\Project;
 use App\object;
 use App\Tracker;
+
 class ArController extends Controller {
 
     /**
@@ -35,17 +36,17 @@ class ArController extends Controller {
     public function index(Request $request) {
 
         $trackerId = $request->input('id');
-    
+
         $trackerDetails = Tracker::where('id', $trackerId)->first();
-        $objectLastId = object::where('tracker_id',$trackerDetails->id)->orderBy('id','desc')->first();
-        $objects = object::where('tracker_id',$trackerId)->get();
-        if(count($objectLastId)>0):
+        $objectLastId = object::where('tracker_id', $trackerDetails->id)->orderBy('id', 'desc')->first();
+        $objects = object::where('tracker_id', $trackerId)->get();
+        if (count($objectLastId) > 0):
             $cloneId = $objectLastId->id;
-            else:
-            $cloneId = 0; 
+        else:
+            $cloneId = 0;
         endif;
         if (count($trackerDetails) > 0):
-            return view('ar.dashboard', ['tracker_id' => $trackerId, 'tracker' => $trackerDetails->tracker_path,'cloneId'=>$cloneId, 'objects' =>$objects] );
+            return view('ar.dashboard', ['tracker_id' => $trackerId, 'tracker' => $trackerDetails->tracker_path, 'cloneId' => $cloneId, 'objects' => $objects]);
         else:
             return 'Tracker Not Found';
         endif;
@@ -66,14 +67,31 @@ class ArController extends Controller {
         return json_encode([
             'success' => '1',
             'path' => url($imagePath)
-                ]);
+        ]);
     }
 
-    public function uploadDataVuforia() {
+    public function finalizeTracker(Request $request) {
+        $this->validate($request, [
+            'tracker_id' => 'required',
+        ]);
+
+        $tracker_id = $request->input('tracker_id');
+
+        $trackerDetails = Tracker::where('id', $tracker_id)->with('objects')->first();
+        if (count($trackerDetails) > 0) {
+           $vuforiaParams = $this->uploadDataVuforia($trackerDetails->tracker_path, $trackerDetails['objects']);
+           $updateTracker = Tracker::where('id',$tracker_id)->update(['params'=>$vuforiaParams]);
+           return $vuforiaParams;
+        } else {
+            return 0;
+        }
+    }
+
+    public function uploadDataVuforia($trackerUrl, $objectData) {
         $imagePath = '';
-        $imageName = 'PB892124.JPG';
+        $imageName = public_path($trackerUrl);
         $this->imagePath = '/';
-        $this->imageName = 'PB892124.JPG';
+        $this->imageName = public_path($trackerUrl);
         $ch = curl_init(self::BASE_URL . self::TARGETS_PATH);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -90,7 +108,7 @@ class ArController extends Controller {
             'name' => $filename . "_" . $dateTime . "." . $fileextension,
             'width' => 32.0,
             'image' => $image_base64,
-            'application_metadata' => $this->createMetadata(),
+            'application_metadata' => $this->createMetadata($objectData),
             'active_flag' => 1
         );
         $body = json_encode($post_data);
@@ -103,8 +121,8 @@ class ArController extends Controller {
             return 'none';
         } else {
             $vuforiaTargetID = json_decode($response)->target_id;
-            print 'Successfully added target: ' . $vuforiaTargetID . "\n";
-            return $vuforiaTargetID;
+           // print 'Successfully added target: ' . $vuforiaTargetID . "\n";
+            return $response;
         }
     }
 
@@ -152,11 +170,14 @@ class ArController extends Controller {
      * @return [String] Vuforia result_code
      */
     public function deleteAllTargets() {
+        
+        
         $ch = curl_init(self::BASE_URL . self::TARGETS_PATH);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->getHeaders('GET'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
         $info = curl_getinfo($ch);
+       // dd(curl_error($ch));
         if ($info['http_code'] !== 200) {
             die('Failed to list targets: ' . $response . "\n");
         }
@@ -222,10 +243,13 @@ class ArController extends Controller {
      * Create a metadata for request. You can write any information into the metadata array you want to store.
      * @return [Array] Metadata for request.
      */
-    private function createMetadata() {
+    private function createMetadata($objects) {
         $metadata = array(
             'id' => 1,
-            'image_url' => $this->imagePath . $this->imageName
+            'image_url' => $this->imagePath . $this->imageName,
+            'width'=>745,
+            'height'=>550,
+            'objects' => $objects
         );
         return base64_encode(json_encode($metadata));
     }

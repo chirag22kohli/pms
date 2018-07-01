@@ -12,6 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'admin/trackerUpload' , 'admin/addUpdateObject'
+        'admin/trackerUpload' , 'admin/addUpdateObject','admin/finalizeTracker'
     ];
 }

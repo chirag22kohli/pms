@@ -28,7 +28,7 @@ Route::post('admin/generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\P
 Route::get('admin/arDashboard', 'Admin\ArController@index');
 
 Route::get('uploadDataVuforia', 'Admin\ArController@uploadDataVuforia');
-
+Route::get('deleteAllTargets', 'Admin\ArController@deleteAllTargets');
 Route::post('admin/trackerUpload', 'Admin\ArController@trackerUpload');
 
 
@@ -38,3 +38,5 @@ Route::resource('admin/objects', 'Admin\\objectsController');
 Route::resource('admin/trackers', 'Admin\\TrackersController');
 
 Route::post('admin/addUpdateObject', 'Admin\objectsController@addUpdateObject');
+
+Route::post('admin/finalizeTracker', 'Admin\ArController@finalizeTracker');
