@@ -23,7 +23,7 @@ body {
 	width:84%;
 	height:550px;
 	background-image: url("../../images/rular_bg.png");
-	background-repeat: repeat-y repeat-x;
+	background-repeat:no repeat;
     	background-position: 0 0;
     	border:1px solid black;
     	float:right;
