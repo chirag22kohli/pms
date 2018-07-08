@@ -29,4 +29,15 @@ class Controller extends BaseController {
         return $path . '/cropped/' .'thu-'. $input['imagename'];
     }
 
+    
+    public function uploadMediaFile($request, $fileName, $path){
+        $image = $request->file($fileName);
+        //dd($_FILES);
+        $input['imagename'] = time() . '.' . $image->getClientOriginalExtension();
+
+        $destinationPath = public_path($path);
+
+        $image->move($destinationPath, $input['imagename']);
+        return $path . $input['imagename'];
+    }
 }

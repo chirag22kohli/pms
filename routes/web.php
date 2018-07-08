@@ -40,3 +40,17 @@ Route::resource('admin/trackers', 'Admin\\TrackersController');
 Route::post('admin/addUpdateObject', 'Admin\objectsController@addUpdateObject');
 
 Route::post('admin/finalizeTracker', 'Admin\ArController@finalizeTracker');
+
+Route::resource('admin/actions', 'Admin\\ActionsController');
+
+//Google
+Route::get('admin/google', 'Admin\ActionsController@google');
+Route::get('admin/facebook', 'Admin\ActionsController@facebook');
+Route::get('admin/audio', 'Admin\ActionsController@audio');
+Route::get('admin/email', 'Admin\ActionsController@email');
+
+Route::get('admin/video', 'Admin\ActionsController@video');
+Route::post('admin/googleUpload', 'Admin\ActionsController@googleUpload');
+Route::post('admin/facebookUpload', 'Admin\ActionsController@facebookUpload');
+Route::post('admin/videoUpload', 'Admin\ActionsController@videoUpload');
+Route::post('admin/emailUpload', 'Admin\ActionsController@emailUpload');

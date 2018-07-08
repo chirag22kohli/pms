@@ -6,36 +6,39 @@
     $(document).ready(function () {
         //Counter
         counter = <?php echo $cloneId; ?>;
+
         //Make element draggable
-        $(".drag").draggable({
+        $j(".drag").draggable({
             revert: 'invalid',
             helper: 'clone',
             containment: 'frame',
             //When first dragged
             stop: function (ev, ui) {
-                var pos = $(ui.helper).offset();
+                var pos = $j(ui.helper).offset();
                 objName = "#clonediv" + counter;
                 objNameDB = "clonediv" + counter;
                 $(objName).css({"left": pos.left, "top": pos.top});
                 $(objName).removeClass("drag");
                 //When an existiung object is dragged
-                $(objName).draggable({
+                $j(objName).draggable({
                     containment: 'parent',
                     stop: function (ev, ui) {
                         var pos = $(ui.helper).offset();
                         var left_tracker = pos.left - $("#frame").position().left;
                         var top_tracker = pos.top - $("#frame").position().top;
                         addObject(objNameDB, pos.left, pos.top, left_tracker, top_tracker);
+
                     }
                 });
             }
         });
         //Make element droppable
-        $("#frame").droppable({
+        $j("#frame").droppable({
             revert: false,
             drop: function (ev, ui) {
                 if (ui.helper.attr('id').search(/drag[0-9]/) != -1) {
                     counter++;
+
                     var element = $(ui.draggable).clone();
                     element.addClass("tempclass");
                     $(this).append(element);
@@ -44,38 +47,40 @@
                     //Get the dynamically item id
                     draggedNumber = ui.helper.attr('id').search(/drag([0-9])/)
                     itemDragged = "dragCommon dragged" + RegExp.$1
-
-                    $("#clonediv" + counter).css('position', 'absolute');
-                    $("#clonediv" + counter).resizable({aspectRatio: true,
+                    
+                    $j("#clonediv" + counter).css('position', 'absolute');
+                    $j("#clonediv" + counter).resizable({aspectRatio: true,
                         resize: function (event, ui) {
                             var left_tracker = pos.left - $("#frame").position().left;
                             var top_tracker = pos.top - $("#frame").position().top;
                             addObject("clonediv" + counter, pos.left, pos.top, left_tracker, top_tracker);
                         }
                     });
-                    $("#clonediv" + counter).addClass(itemDragged);
+                    $j("#clonediv" + counter).addClass(itemDragged);
                     var pos = $(ui.helper).offset();
                     var left_tracker = pos.left - $("#frame").position().left;
                     var top_tracker = pos.top - $("#frame").position().top;
                     addObject("clonediv" + counter, pos.left, pos.top, left_tracker, top_tracker);
+                    initActions();
                 }
             }
         });
         commonInitiate();
+        initActions();
     });
 
     function commonInitiate() {
 
-        $.each($('.dragCommon'), function () {
+        $j.each($('.dragCommon'), function () {
 
-            $('#' + this.id).draggable({
+            $j('#' + this.id).draggable({
                 containment: 'parent',
                 stop: function (ev, ui) {
                     var pos = $(ui.helper).offset();
                     var left_tracker = pos.left - $("#frame").position().left;
                     var top_tracker = pos.top - $("#frame").position().top;
                     addObject(this.id, pos.left, pos.top, left_tracker, top_tracker);
-                    $('#' + this.id).resizable({aspectRatio: true,
+                    $j('#' + this.id).resizable({aspectRatio: true,
                         ghost: true,
                         resize: function (event, ui) {
                             var left_tracker = pos.left - $("#frame").position().left;
@@ -97,7 +102,7 @@
 
     function upload() {
         //  $('#imageUploadForm').submit()
-        $("body").addClass("loading");
+        $j("body").addClass("loading");
         var form = document.getElementById('imageUploadForm');
         var formData = new FormData(form);
         var xhr = new XMLHttpRequest();
@@ -106,9 +111,9 @@
             if (this.readyState == 4 && this.status == 200) {
                 var obj = JSON.parse(this.responseText);
                 // console.log(obj);
-                $("body").removeClass("loading");
+                $j("body").removeClass("loading");
                 if (obj.success == '1') {
-                    $('#frame').css("background-image", "url(" + obj.path + ")");
+                    $j('#frame').css("background-image", "url(" + obj.path + ")");
                 }
             }
         };
@@ -144,7 +149,7 @@
     }
     function finalizeTracker() {
         var tracker_id = '<?php echo $tracker_id ?>';
-       // return false;
+        // return false;
         $.ajax({
             type: "POST",
             url: 'finalizeTracker',
@@ -158,7 +163,10 @@
             }
         });
     }
+
+
 </script>
+<script src="{{ asset('js/ar/ar.js') }}"></script>
 <div class="modal"><!-- Place at bottom of page --></div>
 <div class="container">
     <div id="wrapper">
@@ -189,7 +197,7 @@
             if (count($objects) > 0) {
                 foreach ($objects as $object) {
                     ?>
-                    <div id="<?php echo $object->object_div ?>" main_class="<?php echo $object->main_class ?>" type="<?php echo $object->type ?>" class="dragCommon ui-draggable  <?php echo $object->main_class ?>" style="position: absolute; left: <?php echo $object->xpos ?>px ; top: <?php echo $object->ypos ?>px; height:  <?php echo $object->height ?>; width:  <?php echo $object->width ?>"></div>
+                    <div id="<?php echo $object->object_div ?>" main_class="<?php echo $object->main_class ?>" type="<?php echo $object->type ?>" class="dragCommon ui-draggable  <?php echo $object->main_class ?>" style="position: absolute; left: <?php echo $object->xpos ?>px ; top: <?php echo $object->ypos ?>px; height:  <?php echo $object->height ?>; width:  <?php echo $object->width ?>; background-image: url(<?php echo $object->object_image ?>)"></div>
                     <?php
                 }
             }
