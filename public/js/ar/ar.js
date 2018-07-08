@@ -132,7 +132,7 @@ function initActions() {
         $.confirm({
             theme: 'supervan', // 'material', 'bootstrap'
             animation: 'rotate',
-            title: 'Enter Email',
+            title: 'Add an Audio file',
             content: 'url:video?object_id=' + this.id,
             buttons: {
                 formSubmit: {

@@ -27,5 +27,7 @@ class object extends Model
      */
     protected $fillable = ['xpos', 'ypos', 'height', 'width', 'tracker_id', 'type', 'object_div', 'user_id' , 'main_class','pos_top','pos_left','object_image'];
 
-    
+     public function actions(){
+        return $this->hasOne(\App\Action::class, 'object_id', 'id');
+    }
 }
