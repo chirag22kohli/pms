@@ -6,7 +6,7 @@
     $(document).ready(function () {
         //Counter
         counter = <?php echo $cloneId; ?>;
-
+        
         //Make element draggable
         $j(".drag").draggable({
             revert: 'invalid',
