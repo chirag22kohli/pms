@@ -79,7 +79,7 @@ class ActionsController extends Controller {
                 'success' => '1',
             ]);
         endif;
-        $imagePath = $this->uploadFile($request, 'get_social_google', '/images/actions');
+        $imagePath = $this->uploadObjectFile($request, 'get_social_google', '/images/actions');
 
         $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
 
@@ -118,7 +118,7 @@ class ActionsController extends Controller {
                 'success' => '1',
             ]);
         endif;
-        $imagePath = $this->uploadFile($request, 'get_social_facebook', '/images/actions');
+        $imagePath = $this->uploadObjectFile($request, 'get_social_facebook', '/images/actions');
 
         $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
 
