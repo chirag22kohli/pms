@@ -55,3 +55,8 @@ Route::post('admin/facebookUpload', 'Admin\ActionsController@facebookUpload');
 Route::post('admin/audioUpload', 'Admin\ActionsController@audioUpload');
 Route::post('admin/videoUpload', 'Admin\ActionsController@videoUpload');
 Route::post('admin/emailUpload', 'Admin\ActionsController@emailUpload');
+
+
+//delete object
+Route::post('admin/deleteObject', 'Admin\objectsController@deleteObject');
+

@@ -129,5 +129,12 @@ class objectsController extends Controller {
             object::create($request->all());
         endif;
     }
+    
+    function deleteObject(Request $request){
+        $object_div = $request->input('id');
+        $deleteObject = object::where('object_div', '=', $object_div)->delete();
+        return 'Success';
+    }
+    
 
 }

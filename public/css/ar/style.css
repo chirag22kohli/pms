@@ -199,22 +199,10 @@ body.loading .modal {
 
        
 
-
-        .win-size-grip {
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            padding: 4px;
-            bottom: 0;
-            right: 0;
-            cursor: nwse-resize;
-            background: url(../assets/wingrip.png) no-repeat;
-        }
-
-        pre {
-            margin: 20px;
-            padding: 10px;
-            background: #eee;
-            border: 1px solid silver;
-            border-radius: 4px;
-        }
+#close {
+    float:right;
+    display:inline-block;
+    padding:2px 5px;
+    background:#ccc;
+    cursor: pointer;
+}

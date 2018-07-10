@@ -218,23 +218,24 @@ function initActions() {
     // for selection and remove
 
     $('.dragCommon').click(function () {
-         $('.dragCommon').css('border', 'none');
-         
-        $('#'+this.id).css('border', '2px dotted');
-        
-         $j('#' + this.id).resizable({aspectRatio: true,
-                        ghost: true,
-                        resize: function (event, ui) {
-                            
-                          //  addObject(this.id, pos.left, pos.top, left_tracker, top_tracker);
-                        },
-                        stop: function(e, ui) {
-                            var pos = $(ui.helper).offset();
-                            var left_tracker = pos.left - $("#frame").position().left;
-                            var top_tracker = pos.top - $("#frame").position().top;
-                            addObject(this.id, pos.left, pos.top, left_tracker, top_tracker);
-                        }
-                    });
+        $('.dragCommon').css('border', 'none');
+        $('.dragCommon').find("span").remove();
+        $('#' + this.id).css('border', '2px dotted');
+        $('#' + this.id).append('<span onclick = " deleteObject(' + this.id + ')" id="close">x</span>');
+
+        $j('#' + this.id).resizable({aspectRatio: true,
+            ghost: true,
+            resize: function (event, ui) {
+
+                //  addObject(this.id, pos.left, pos.top, left_tracker, top_tracker);
+            },
+            stop: function (e, ui) {
+                var pos = $(ui.helper).offset();
+                var left_tracker = pos.left - $("#frame").position().left;
+                var top_tracker = pos.top - $("#frame").position().top;
+                addObject(this.id, pos.left, pos.top, left_tracker, top_tracker);
+            }
+        });
     });
 }
 
@@ -246,7 +247,37 @@ function open_google_image() {
     $('#get_social_google').click();
 }
 
+function deleteObject(id) {
 
+
+
+    $.confirm({
+        theme: 'supervan', // 'material', 'bootstrap'
+        animation: 'rotate',
+        title: 'Delete Object?',
+        content: 'Are you sure you want to delete this object? This action cannot be undone.',
+        buttons: {
+            confirm: function () {
+                $.ajax({
+                    type: "POST",
+                    url: 'deleteObject',
+                    data: {id: id.id},
+
+                    success: function (msg) {
+                        $("#" + id.id).remove();
+                        $.alert('Object has been deleted.');
+                    }
+                });
+
+            },
+            cancel: function () {
+                //  $.alert('Canceled!');
+            }
+        }
+    });
+
+
+}
 
 function actionUpload(formName) {
     //  $('#imageUploadForm').submit()
