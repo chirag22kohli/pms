@@ -45,7 +45,12 @@ class ArController extends Controller {
             $cloneId = $objectLastId->id + 1;
         else:
             $lastId = object::orderBy('id', 'desc')->first();
+        if(count($lastId) > 0):
             $cloneId = $lastId->id + 1;
+            else:
+            $cloneId = 1;
+        endif;
+            
         endif;
         if (count($trackerDetails) > 0):
             return view('ar.dashboard', ['tracker_id' => $trackerId, 'tracker' => $trackerDetails->tracker_path, 'cloneId' => $cloneId, 'objects' => $objects]);

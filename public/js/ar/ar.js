@@ -30,10 +30,10 @@ function initActions() {
                             $.alert('Please enter message.');
                             return false;
                         }
-                        
-                       actionUploadImage('googleUpload',ids);
-                       
-                       
+
+                        actionUploadImage('googleUpload', ids);
+
+
                     }
                 },
                 cancel: function () {
@@ -56,7 +56,7 @@ function initActions() {
     $(".dragged2").dblclick(function () {
         //  $('#fbModal').modal('show');
         var ids = this.id;
-        
+
         $.confirm({
             theme: 'supervan', // 'material', 'bootstrap'
             animation: 'rotate',
@@ -73,8 +73,8 @@ function initActions() {
                             return false;
                         }
 
-                        actionUploadImage('facebookUpload',ids);
-                     
+                        actionUploadImage('facebookUpload', ids);
+
                     }
                 },
                 cancel: function () {
@@ -169,11 +169,11 @@ function initActions() {
         });
     });
     //image
-    $(".dragged5").click(function () {
+    $(".dragged5").dblclick(function () {
         //  $('#fbModal').modal('show');
         $.alert({
-            title: 'Alert!',
-            content: 'Simple alert!',
+            title: 'In Progress',
+            content: 'Working on this!',
         });
     });
     //mail
@@ -213,6 +213,29 @@ function initActions() {
             }
         });
     });
+
+
+    // for selection and remove
+
+    $('.dragCommon').click(function () {
+         $('.dragCommon').css('border', 'none');
+         
+        $('#'+this.id).css('border', '2px dotted');
+        
+         $j('#' + this.id).resizable({aspectRatio: true,
+                        ghost: true,
+                        resize: function (event, ui) {
+                            
+                          //  addObject(this.id, pos.left, pos.top, left_tracker, top_tracker);
+                        },
+                        stop: function(e, ui) {
+                            var pos = $(ui.helper).offset();
+                            var left_tracker = pos.left - $("#frame").position().left;
+                            var top_tracker = pos.top - $("#frame").position().top;
+                            addObject(this.id, pos.left, pos.top, left_tracker, top_tracker);
+                        }
+                    });
+    });
 }
 
 
@@ -237,10 +260,10 @@ function actionUpload(formName) {
             var obj = JSON.parse(this.responseText);
             // console.log(obj);
             $j("body").removeClass("loading");
-            
+
             if (obj.success == '1') {
                 // $j('#frame').css("background-image", "url(" + obj.path + ")");
-               
+
             }
         }
     };
@@ -250,7 +273,7 @@ function actionUpload(formName) {
 
 }
 
-function actionUploadImage(formName,ids) {
+function actionUploadImage(formName, ids) {
     //  $('#imageUploadForm').submit()
     $j("body").addClass("loading");
     var form = document.getElementById(formName);
@@ -262,10 +285,10 @@ function actionUploadImage(formName,ids) {
             var obj = JSON.parse(this.responseText);
             // console.log(obj);
             $j("body").removeClass("loading");
-            
+
             if (obj.success == '1') {
-                 $j('#'+ids).css("background-image", "url(" + obj.path + ")");
-               
+                $j('#' + ids).css("background-image", "url(" + obj.path + ")");
+
             }
         }
     };

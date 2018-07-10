@@ -47,24 +47,26 @@
                     //Get the dynamically item id
                     draggedNumber = ui.helper.attr('id').search(/drag([0-9])/)
                     itemDragged = "dragCommon dragged" + RegExp.$1
-                    
+                     
                     $j("#clonediv" + counter).css('position', 'absolute');
-                    $j("#clonediv" + counter).resizable({aspectRatio: true,
-                        resize: function (event, ui) {
-                            var left_tracker = pos.left - $("#frame").position().left;
-                            var top_tracker = pos.top - $("#frame").position().top;
-                            
-                        },
-                        stop: function(e, ui) {
-                            addObject("clonediv" + counter, pos.left, pos.top, left_tracker, top_tracker);
-                        }
-                    });
+//                    $j("#clonediv" + counter).resizable({aspectRatio: true,
+//                        resize: function (event, ui) {
+//                            var left_tracker = pos.left - $("#frame").position().left;
+//                            var top_tracker = pos.top - $("#frame").position().top;
+//                            addObject("clonediv" + counter, pos.left, pos.top, left_tracker, top_tracker);
+//                        }
+//                        stop: function(e, ui) {
+//                            
+//                        }
+//                    });
                     $j("#clonediv" + counter).addClass(itemDragged);
                     var pos = $(ui.helper).offset();
                     var left_tracker = pos.left - $("#frame").position().left;
                     var top_tracker = pos.top - $("#frame").position().top;
                     addObject("clonediv" + counter, pos.left, pos.top, left_tracker, top_tracker);
+                    
                     initActions();
+                    $( "#clonediv" + counter ).dblclick();
                 }
             }
         });
@@ -83,17 +85,14 @@
                     var left_tracker = pos.left - $("#frame").position().left;
                     var top_tracker = pos.top - $("#frame").position().top;
                     addObject(this.id, pos.left, pos.top, left_tracker, top_tracker);
-                    $j('#' + this.id).resizable({aspectRatio: true,
-                        ghost: true,
-                        resize: function (event, ui) {
-                            var left_tracker = pos.left - $("#frame").position().left;
-                            var top_tracker = pos.top - $("#frame").position().top;
-                          //  addObject(this.id, pos.left, pos.top, left_tracker, top_tracker);
-                        },
-                        stop: function(e, ui) {
-                            addObject("clonediv" + counter, pos.left, pos.top, left_tracker, top_tracker);
-                        }
-                    });
+//                    $j('#' + this.id).resizable({aspectRatio: true,
+//                        ghost: true,
+//                        resize: function (event, ui) {
+//                            var left_tracker = pos.left - $("#frame").position().left;
+//                            var top_tracker = pos.top - $("#frame").position().top;
+//                            addObject(this.id, pos.left, pos.top, left_tracker, top_tracker);
+//                        }
+//                    });
                 }
             });
 
