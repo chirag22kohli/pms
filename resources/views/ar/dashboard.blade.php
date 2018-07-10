@@ -53,6 +53,9 @@
                         resize: function (event, ui) {
                             var left_tracker = pos.left - $("#frame").position().left;
                             var top_tracker = pos.top - $("#frame").position().top;
+                            
+                        },
+                        stop: function(e, ui) {
                             addObject("clonediv" + counter, pos.left, pos.top, left_tracker, top_tracker);
                         }
                     });
@@ -85,7 +88,10 @@
                         resize: function (event, ui) {
                             var left_tracker = pos.left - $("#frame").position().left;
                             var top_tracker = pos.top - $("#frame").position().top;
-                            addObject(this.id, pos.left, pos.top, left_tracker, top_tracker);
+                          //  addObject(this.id, pos.left, pos.top, left_tracker, top_tracker);
+                        },
+                        stop: function(e, ui) {
+                            addObject("clonediv" + counter, pos.left, pos.top, left_tracker, top_tracker);
                         }
                     });
                 }
