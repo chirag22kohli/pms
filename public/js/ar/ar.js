@@ -14,7 +14,7 @@ function initActions() {
     //Google
     $(".dragged1").dblclick(function () {
         //  $('#fbModal').modal('show');
-
+        var ids = this.id;
         $.confirm({
             theme: 'supervan', // 'material', 'bootstrap'
             animation: 'rotate',
@@ -30,8 +30,10 @@ function initActions() {
                             $.alert('Please enter message.');
                             return false;
                         }
-
-                        actionUpload('googleUpload');
+                        
+                       actionUploadImage('googleUpload',ids);
+                       
+                       
                     }
                 },
                 cancel: function () {
@@ -53,6 +55,8 @@ function initActions() {
     //Facebook
     $(".dragged2").dblclick(function () {
         //  $('#fbModal').modal('show');
+        var ids = this.id;
+        
         $.confirm({
             theme: 'supervan', // 'material', 'bootstrap'
             animation: 'rotate',
@@ -69,7 +73,8 @@ function initActions() {
                             return false;
                         }
 
-                        actionUpload('facebookUpload');
+                        actionUploadImage('facebookUpload',ids);
+                     
                     }
                 },
                 cancel: function () {
@@ -232,8 +237,35 @@ function actionUpload(formName) {
             var obj = JSON.parse(this.responseText);
             // console.log(obj);
             $j("body").removeClass("loading");
+            
             if (obj.success == '1') {
                 // $j('#frame').css("background-image", "url(" + obj.path + ")");
+               
+            }
+        }
+    };
+
+    xhr.open('POST', formName, true);
+    xhr.send(formData);
+
+}
+
+function actionUploadImage(formName,ids) {
+    //  $('#imageUploadForm').submit()
+    $j("body").addClass("loading");
+    var form = document.getElementById(formName);
+    var formData = new FormData(form);
+    var xhr = new XMLHttpRequest();
+// Add any event handlers here...
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var obj = JSON.parse(this.responseText);
+            // console.log(obj);
+            $j("body").removeClass("loading");
+            
+            if (obj.success == '1') {
+                 $j('#'+ids).css("background-image", "url(" + obj.path + ")");
+               
             }
         }
     };
