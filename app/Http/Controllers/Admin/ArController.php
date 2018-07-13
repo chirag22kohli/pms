@@ -21,8 +21,8 @@ class ArController extends Controller {
      * @return void
      */
     const JSON_CONTENT_TYPE = 'application/json';
-    const ACCESS_KEY = '463dce4372cd216e1b6582e1bb75b16984bcfdc8';
-    const SECRET_KEY = '9bc79a20a13624b2e885c8ea0aad227f7e6ba41c';
+    const ACCESS_KEY = '72a4c0a54659757ae901449adcfd5b82e02a5da2';
+    const SECRET_KEY = '2bca7331b17c8fa727e54c260c2f3a8c68b0db88';
     const BASE_URL = 'https://vws.vuforia.com';
     const TARGETS_PATH = '/targets';
     const ID_INDEX = 0;
