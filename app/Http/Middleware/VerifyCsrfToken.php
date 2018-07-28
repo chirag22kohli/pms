@@ -12,6 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'admin/trackerUpload' , 'admin/addUpdateObject','admin/finalizeTracker','admin/googleUpload','admin/facebookUpload','admin/audioUpload','admin/videoUpload','admin/emailUpload','admin/deleteObject'
+        'admin/trackerUpload' , 'admin/addUpdateObject','admin/finalizeTracker','admin/googleUpload','admin/facebookUpload','admin/audioUpload','admin/videoUpload','admin/emailUpload','admin/deleteObject','admin/imageUpload'
     ];
 }

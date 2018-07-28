@@ -171,9 +171,39 @@ function initActions() {
     //image
     $(".dragged5").dblclick(function () {
         //  $('#fbModal').modal('show');
-        $.alert({
-            title: 'In Progress',
-            content: 'Working on this!',
+        var ids = this.id;
+        $.confirm({
+            theme: 'supervan', // 'material', 'bootstrap'
+            animation: 'rotate',
+            title: 'Add Image',
+            content: 'url:image?object_id=' + this.id,
+            buttons: {
+                formSubmit: {
+                    text: 'Submit',
+                    btnClass: 'btn-blue',
+                    action: function () {
+                        var name = this.$content.find('#imagefile').val();
+                        if (!name) {
+                            $.alert('Please select Image.');
+                            return false;
+                        }
+
+                       actionUploadImage('imageUpload', ids);
+                    }
+                },
+                cancel: function () {
+                    //close
+                },
+            },
+            onContentReady: function () {
+                // bind to events
+                var jc = this;
+                this.$content.find('form').on('submit', function (e) {
+                    // if the user submits the form by pressing enter in the field.
+                    e.preventDefault();
+                    jc.$$formSubmit.trigger('click'); // reference the button and click it
+                });
+            }
         });
     });
     //mail

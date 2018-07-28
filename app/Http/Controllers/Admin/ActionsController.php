@@ -42,6 +42,13 @@ class ActionsController extends Controller {
 
         return view('actions.video', ['object_id' => $object_details->id, 'objectAction' => $objectActionDetails]);
     }
+    
+     public function image(Request $request) {
+        $object_details = $this->getObjectDetails($request->get('object_id'));
+        $objectActionDetails = $this->objectActionDetails($object_details->id);
+
+        return view('actions.image', ['object_id' => $object_details->id, 'objectAction' => $object_details->object_image]);
+    }
 
     public function email(Request $request) {
         $object_details = $this->getObjectDetails($request->get('object_id'));
@@ -89,6 +96,26 @@ class ActionsController extends Controller {
         ]);
     }
 
+    public function imageUpload(Request $request) {
+
+        $this->validate($request, [
+            'object_id' => 'required',
+            'imagefile' => 'required'
+        ]);
+
+        $object_id = $request->input('object_id');
+       
+       
+       
+        $imagePath = $this->uploadObjectFile($request, 'imagefile', '/images/actions');
+
+        $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
+
+        return json_encode([
+            'success' => '1',
+            'path' => url($imagePath)
+        ]);
+    }
     public function facebookUpload(Request $request) {
 
         $this->validate($request, [

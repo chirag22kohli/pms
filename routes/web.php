@@ -49,12 +49,14 @@ Route::get('admin/facebook', 'Admin\ActionsController@facebook');
 Route::get('admin/audio', 'Admin\ActionsController@audio');
 Route::get('admin/video', 'Admin\ActionsController@video');
 Route::get('admin/email', 'Admin\ActionsController@email');
+Route::get('admin/image', 'Admin\ActionsController@image');
 
 Route::post('admin/googleUpload', 'Admin\ActionsController@googleUpload');
 Route::post('admin/facebookUpload', 'Admin\ActionsController@facebookUpload');
 Route::post('admin/audioUpload', 'Admin\ActionsController@audioUpload');
 Route::post('admin/videoUpload', 'Admin\ActionsController@videoUpload');
 Route::post('admin/emailUpload', 'Admin\ActionsController@emailUpload');
+Route::post('admin/imageUpload', 'Admin\ActionsController@imageUpload');
 
 
 //delete object
