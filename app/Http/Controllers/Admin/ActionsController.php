@@ -42,8 +42,8 @@ class ActionsController extends Controller {
 
         return view('actions.video', ['object_id' => $object_details->id, 'objectAction' => $objectActionDetails]);
     }
-    
-     public function image(Request $request) {
+
+    public function image(Request $request) {
         $object_details = $this->getObjectDetails($request->get('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
@@ -54,7 +54,7 @@ class ActionsController extends Controller {
         $object_details = $this->getObjectDetails($request->get('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
-        return view('actions.email', ['object_id' => $object_details->id, 'objectAction' => $objectActionDetails]);
+        return view('actions.email', ['object_id' => $object_details->id, 'objectImage' => $object_details->object_image, 'objectAction'=> $objectActionDetails]);
     }
 
     public function googleUpload(Request $request) {
@@ -104,9 +104,9 @@ class ActionsController extends Controller {
         ]);
 
         $object_id = $request->input('object_id');
-       
-       
-       
+
+
+
         $imagePath = $this->uploadObjectFile($request, 'imagefile', '/images/actions');
 
         $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
@@ -116,6 +116,7 @@ class ActionsController extends Controller {
             'path' => url($imagePath)
         ]);
     }
+
     public function facebookUpload(Request $request) {
 
         $this->validate($request, [
@@ -210,15 +211,26 @@ class ActionsController extends Controller {
             'object_id' => $object_id,
             'message' => $email,
         ];
-    
+
         $checkObjectAction = Action::where('object_id', $object_id)->first();
         if (count($checkObjectAction) > 0):
             $addAction = Action::where('object_id', $object_id)->update($data);
         else:
             $addAction = Action::create($data);
         endif;
+
+        if ($request->file('imagefile') === null):
+            return json_encode([
+                'success' => $email,
+            ]);
+        endif;
+        $imagePath = $this->uploadObjectFile($request, 'imagefile', '/images/actions');
+
+        $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
+
         return json_encode([
             'success' => '1',
+            'path' => url($imagePath)
         ]);
     }
 

@@ -209,10 +209,11 @@ function initActions() {
     //mail
     $(".dragged6").dblclick(function () {
         //  $('#fbModal').modal('show');
+       var ids = this.id;
         $.confirm({
             theme: 'supervan', // 'material', 'bootstrap'
             animation: 'rotate',
-            title: 'Add an Video file',
+            title: 'Add Email',
             content: 'url:email?object_id=' + this.id,
             buttons: {
                 formSubmit: {
@@ -224,8 +225,8 @@ function initActions() {
                             $.alert('Please enter Email.');
                             return false;
                         }
-
-                        actionUpload('emailUpload');
+                        actionUploadImage('emailUpload', ids);
+                     
                     }
                 },
                 cancel: function () {
