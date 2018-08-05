@@ -1,15 +1,15 @@
 <?php
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+  |--------------------------------------------------------------------------
+  | Web Routes
+  |--------------------------------------------------------------------------
+  |
+  | Here is where you can register web routes for your application. These
+  | routes are loaded by the RouteServiceProvider within a group which
+  | contains the "web" middleware group. Now create something great!
+  |
+ */
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,48 +17,76 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('admin', 'Admin\AdminController@index');
-Route::resource('admin/roles', 'Admin\RolesController');
-Route::resource('admin/permissions', 'Admin\PermissionsController');
-Route::resource('admin/users', 'Admin\UsersController');
-Route::get('admin/generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@getGenerator']);
-Route::post('admin/generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@postGenerator']);
-Route::get('admin/arDashboard', 'Admin\ArController@index');
+Route::get('status', [
+    'as' => 'status',
+    'uses' => 'PaymentController@getPaymentStatus'
+]);
 
 Route::get('uploadDataVuforia', 'Admin\ArController@uploadDataVuforia');
 Route::get('deleteAllTargets', 'Admin\ArController@deleteAllTargets');
-Route::post('admin/trackerUpload', 'Admin\ArController@trackerUpload');
+Route::get('/home', 'HomeController@index')->name('home');
 
 
+// Admin MiddleWare-------------------------------------------------------------
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => 'Admin'], function () {
+    Route::get('/', 'Admin\AdminController@index');
+    Route::resource('roles', 'Admin\RolesController');
+    Route::resource('permissions', 'Admin\PermissionsController');
+    Route::resource('users', 'Admin\UsersController');
+    Route::get('generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@getGenerator']);
+    Route::post('generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@postGenerator']);
+});
 
-Route::resource('admin/projects', 'Admin\\ProjectsController');
-Route::resource('admin/objects', 'Admin\\objectsController');
-Route::resource('admin/trackers', 'Admin\\TrackersController');
+//Client MiddleWare-------------------------------------------------------------
+Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPayment'], 'roles' => 'Client'], function () {
+    Route::get('home', [
+        'as' => 'home',
+        'uses' => 'ClientController@home'
+    ]);
+});
+Route::post('client/makePayment', 'PaymentController@payWithpaypal');
+\
 
-Route::post('admin/addUpdateObject', 'Admin\objectsController@addUpdateObject');
 
-Route::post('admin/finalizeTracker', 'Admin\ArController@finalizeTracker');
+//Common MiddleWare-------------------------------------------------------------
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => ['Admin', 'Client']], function () {
+    Route::resource('admin/projects', 'Admin\\ProjectsController');
+    Route::get('arDashboard', 'Admin\ArController@index');
+    Route::post('trackerUpload', 'Admin\ArController@trackerUpload');
+    Route::post('addUpdateObject', 'Admin\objectsController@addUpdateObject');
+    Route::post('finalizeTracker', 'Admin\ArController@finalizeTracker');
+    Route::resource('actions', 'Admin\\ActionsController');
 
-Route::resource('admin/actions', 'Admin\\ActionsController');
+//OBJECTS
 
-//Google
-Route::get('admin/google', 'Admin\ActionsController@google');
-Route::get('admin/facebook', 'Admin\ActionsController@facebook');
-Route::get('admin/audio', 'Admin\ActionsController@audio');
-Route::get('admin/video', 'Admin\ActionsController@video');
-Route::get('admin/email', 'Admin\ActionsController@email');
-Route::get('admin/image', 'Admin\ActionsController@image');
+    Route::get('google', 'Admin\ActionsController@google');
+    Route::get('facebook', 'Admin\ActionsController@facebook');
+    Route::get('audio', 'Admin\ActionsController@audio');
+    Route::get('video', 'Admin\ActionsController@video');
+    Route::get('email', 'Admin\ActionsController@email');
+    Route::get('image', 'Admin\ActionsController@image');
 
-Route::post('admin/googleUpload', 'Admin\ActionsController@googleUpload');
-Route::post('admin/facebookUpload', 'Admin\ActionsController@facebookUpload');
-Route::post('admin/audioUpload', 'Admin\ActionsController@audioUpload');
-Route::post('admin/videoUpload', 'Admin\ActionsController@videoUpload');
-Route::post('admin/emailUpload', 'Admin\ActionsController@emailUpload');
-Route::post('admin/imageUpload', 'Admin\ActionsController@imageUpload');
+    Route::post('googleUpload', 'Admin\ActionsController@googleUpload');
+    Route::post('facebookUpload', 'Admin\ActionsController@facebookUpload');
+    Route::post('audioUpload', 'Admin\ActionsController@audioUpload');
+    Route::post('videoUpload', 'Admin\ActionsController@videoUpload');
+    Route::post('emailUpload', 'Admin\ActionsController@emailUpload');
+    Route::post('imageUpload', 'Admin\ActionsController@imageUpload');
+
 
 
 //delete object
-Route::post('admin/deleteObject', 'Admin\objectsController@deleteObject');
+    Route::post('deleteObject', 'Admin\objectsController@deleteObject');
+    Route::resource('projects', 'Admin\\ProjectsController');
 
+
+    Route::resource('objects', 'Admin\\objectsController');
+    Route::resource('trackers', 'Admin\\TrackersController');
+});
+
+Route::resource('plans', 'admin\\PlansController');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('admin/user-plans', 'admin\\UserPlansController');

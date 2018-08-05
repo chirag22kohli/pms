@@ -1,0 +1,582 @@
+
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,dl,dt,dd,ol,nav ul,nav li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
+article, aside, details, figcaption, figure,footer, header, hgroup, menu, nav, section {display: block;}
+ol,ul{list-style:none;margin:0px;padding:0px;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+table{border-collapse:collapse;border-spacing:0;}
+/* start editing from here */
+a{text-decoration:none;}
+.txt-rt{text-align:right;}/* text align right */
+.txt-lt{text-align:left;}/* text align left */
+.txt-center{text-align:center;}/* text align center */
+.float-rt{float:right;}/* float right */
+.float-lt{float:left;}/* float left */
+.clear{clear:both;}/* clear float */
+.pos-relative{position:relative;}/* Position Relative */
+.pos-absolute{position:absolute;}/* Position Absolute */
+.vertical-base{	vertical-align:baseline;}/* vertical align baseline */
+.vertical-top{	vertical-align:top;}/* vertical align top */
+nav.vertical ul li{	display:block;}/* vertical menu */
+nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
+img{max-width:100%;}
+/*end reset*/
+html, body{
+	font-size: 100%;
+    font-family: 'Montserrat', sans-serif;
+	background: url(../../images/clientsignup/banner.jpg) no-repeat 0px 0px;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    background-attachment: fixed;
+}
+h1,h2,h3,h4,h5,h6,input,p,a,select{
+	font-family: 'Montserrat', sans-serif;
+	margin:0;
+}
+ul,label{
+	margin:0;
+	padding:0;
+}
+body a:hover,body a{
+	text-decoration:none;
+}
+/*-- main --*/
+.agileits_copyright{
+	text-align: center;
+	margin:3.5em 0 0;
+}
+.w3_agile_main_grid:not(:first-child) {
+    margin-left: 10px;
+}
+.agileits_copyright p{
+	font-size: 1em;
+    color:#fff;
+    line-height: 1.8em;
+    padding: 0 1em;
+    text-transform: capitalize;
+}
+.agileits_copyright p a {
+    color:#4b65c5;
+    text-decoration: none;
+}
+.agileits_copyright p a:hover{
+	color:#fff;
+}
+input[type="submit"],a{
+	transition:.5s ease-in;
+	-webkit-transition:.5s ease-in;
+	-moz-transition:.5s ease-in;
+	-o-transition:.5s ease-in;
+	-ms-transition:.5s ease-in;
+}
+.main{
+	padding:3em 0;
+}
+.main h1{
+	text-align: center;
+    color: #ffffff;
+    font-size: 2.5em;
+    margin-bottom:1em;
+    text-transform: uppercase;
+}
+/*-- main --*/
+.w3layouts_main_grids{
+	width:60%;
+	margin:0 auto;
+}
+.w3_agileits_pricing_grid{
+	float:left;
+	width:32.2%;
+}
+.wthree_learning_grid1,.agileinfo_learning_grid1,.agileits_learning_grid1{
+	border-radius: 10px;
+	position:relative;
+}
+.w3_agile_learning_grid1_pos{
+	position:absolute;
+	bottom:0%;
+	left:25%;
+}
+.w3_agile_learning_grid1_pos a{
+	padding: 8px 45px;
+    font-size: 1em;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.w3_agile_learning_grid1_pos a:focus{
+	outline:none;
+}
+.w3_agile_learning_grid1_pos a.w3_agileits_sign_up{
+	background:#6082ff;
+}
+.w3_agile_learning_grid1_pos a.w3_agileits_sign_up1{
+	background:#49b681;
+}
+.w3_agile_learning_grid1_pos a.w3_agileits_sign_up2{
+	background:#ff9d77;
+}
+.w3_agile_learning_grid1_pos a:hover{
+	background:#fff;
+	color:#212121;
+}
+.wthree_learning_grid1{
+	background:url(../../images/clientsignup/1.jpg) no-repeat 0px 0px;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+}
+.agileinfo_learning_grid1{
+	background: url(../../images/clientsignup/2.jpg) no-repeat 0px 0px;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+}
+.agileits_learning_grid1{
+	background: url(../../images/clientsignup/3.jpg) no-repeat 0px 0px;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+}
+.agile_main_grid {
+    padding: 0 1em;
+}
+.w3ls_pricing_grid_top{
+	padding: 5em 2em 3em;
+    text-align: center;
+    border-bottom: 1px solid #7283c6;
+	position:relative;
+}
+.wthree_pricing_grid_top{
+	border-bottom:1px solid #5bbd84 !important;
+}
+.wthree_pricing_grid_top1{
+	border-bottom:1px solid #e29b80 !important;
+}
+.w3ls_pricing_grid_top_pos{
+	position: absolute;
+    bottom: -7%;
+    left: 29%;
+    text-align: center;
+}
+.w3ls_pricing_grid_top_pos h4{
+	padding:.3em .8em;
+	background:#fff;
+	color:#212121;
+	font-size:1em;
+}
+.w3ls_pricing_grid_top h3{
+	font-size:1.5em;
+    color: #fff;
+	margin-bottom:.2em;
+}
+.w3ls_pricing_grid_top h3 span{
+	font-size:1.5em;
+}
+.w3ls_pricing_grid_top h3 span.agile_counter{
+	color:#0d2373;
+}
+.w3ls_pricing_grid_top h3 span.agile_counter1{
+	color:#2c5441;
+}
+.w3ls_pricing_grid_top h3 span.agile_counter2{
+	color:#4a2a1d;
+}
+.w3ls_pricing_grid_top p{
+	font-size:1em;
+	color:#fff;
+}
+.w3l_pricing_grid_content{
+	padding:3em 2em 5em;
+}
+.w3l_pricing_grid_content ul li{
+	list-style-type:none;
+	padding:1em;
+	border-bottom:1px dotted #c1c1c1;
+	font-size:14px;
+	color:#fff;
+}
+.w3l_pricing_grid_content ul li i{
+	padding-right:1.5em;
+	color: #ff0000;
+}
+.w3l_pricing_grid_content ul li i.w3layouts_icon{
+	color:#46d927 !important;
+}
+/*-- pop-up --*/
+.agile_signup_form h2{
+	text-align: center;
+    font-size: 1.7em;
+    margin-bottom: 2em;
+    color: #212121;
+    position: relative;
+    padding-bottom: .5em;
+}
+.agile_signup_form h2:after{
+	content: '';
+    background: #f15f22;
+    height: 2px;
+    width: 15%;
+    position: absolute;
+    bottom: 0%;
+    left: 43%;
+}
+.form-control{
+	position:relative;
+	margin-top: 1em;
+}
+.form-control label{
+	font-size: 1em;
+    color: #212121;
+    width: 40%;
+    display: inline-block;
+}
+.form-control label span{
+	position:absolute;
+	left: 30%;
+}
+input#firstname,input#lastname,input#email,input#password1,input#password2 {
+	padding: 20px 40px;
+    width: 45%;
+    border: 1px solid #dadada;
+    color: #212121;
+    text-align:justify;
+    outline: none;
+    letter-spacing: 1px;
+    font-size: 1em;
+	font-weight:normal;
+    background-color:transparent;
+	border-radius:30px;
+	-webkit-border-radius:30px;
+	-moz-border-radius:30px;
+	-o-border-radius:30px;
+	-ms-border-radius:30px;	
+}
+input#firstname:focus,input#lastname:focus,input#email:focus,input#password1:focus,input#password2:focus  {
+	background-color: #efefef;
+    border: 1px solid #d6d6d6;
+}
+.w3_submit{
+	text-align:right;
+	margin:1em 0 0;
+}
+.register {
+    background-color: #f15f22;
+    width: 59%;
+    padding: 20px 0px;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    outline: none;
+    font-size: 1em;
+    font-weight: normal;
+    text-transform: uppercase;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -o-border-radius: 30px;
+    -ms-border-radius: 30px;
+}
+.register:hover{
+    background-color: #49b681;
+}
+/*-- start-responsive-design --*/
+@media (max-width:1440px){
+	.w3layouts_main_grids {
+		width: 67%;
+	}
+}
+@media (max-width: 1366px){
+	.w3layouts_main_grids {
+		width: 70%;
+	}
+}
+@media (max-width: 1280px){
+	.w3_agileits_pricing_grid {
+		width: 32.14%;
+	}
+	.w3ls_pricing_grid_top_pos {
+		left: 28%;
+	}
+}
+@media (max-width: 1080px){
+	.w3layouts_main_grids {
+		width: 85%;
+	}
+}
+@media (max-width: 1024px){
+	.w3_agileits_pricing_grid {
+		width: 32.06%;
+	}
+	.w3ls_pricing_grid_top_pos {
+		left: 26%;
+	}
+	.w3_agile_learning_grid1_pos {
+		left: 24%;
+	}
+}
+@media (max-width: 991px){
+	.w3_agileits_pricing_grid {
+		width: 32%;
+	}
+	.w3ls_pricing_grid_top_pos {
+		left: 24%;
+	}
+	.w3_agile_learning_grid1_pos {
+		left: 23%;
+	}
+	.w3ls_pricing_grid_top {
+		padding: 4em 2em 3em;
+	}
+	.w3l_pricing_grid_content {
+		padding: 3em 2em 4em;
+	}
+	.w3ls_pricing_grid_top h3 span {
+		font-size: 1.4em;
+	}
+}
+@media (max-width: 900px){
+	.w3layouts_main_grids {
+		width: 91%;
+	}
+	.w3l_pricing_grid_content {
+		padding: 3em 1em 4em;
+	}
+}
+@media (max-width: 800px){
+	.w3_agileits_pricing_grid {
+		width: 31.8%;
+	}
+	.w3ls_pricing_grid_top_pos h4 {
+		font-size: 14px;
+	}
+	.w3ls_pricing_grid_top h3 {
+		font-size: 1.3em;
+	}
+	.w3_agile_learning_grid1_pos {
+		left: 19%;
+	}
+	.w3l_pricing_grid_content {
+		padding: 2em 1em 4em;
+	}
+	.main h1 {
+		font-size: 2.3em;
+	}
+}
+@media (max-width: 768px){
+	.w3layouts_main_grids {
+		width: 95%;
+	}
+}
+@media (max-width: 736px){
+	.w3_agileits_pricing_grid {
+		width: 100%;
+		float: none;
+	}
+	.w3layouts_main_grids {
+		width: 55%;
+	}
+	.w3ls_pricing_grid_top_pos {
+		left: 35%;
+	}
+	.agile_main_grid {
+		padding: 3em 0;
+	}
+	.w3_agile_learning_grid1_pos {
+		left: 31%;
+	}
+	.form-control label {
+		width: 38%;
+	}
+	.agile_signup_form h2 {
+		margin-bottom: 1.3em;
+	}
+	.register {
+		width: 61%;
+	}
+}
+@media (max-width: 667px){
+	.w3ls_pricing_grid_top_pos {
+		left: 34%;
+	}
+	input#firstname, input#lastname, input#email, input#password1, input#password2 {
+		padding: 15px 35px;
+	}
+	.form-control label {
+		font-size: 14px;
+	}
+	.form-control label span {
+		left: 33%;
+	}
+	.register {
+		padding: 15px 0px;
+	}
+}
+@media (max-width: 640px){
+	.main h1 {
+		font-size: 2em;
+	}
+	.w3_agile_learning_grid1_pos {
+		left: 29%;
+	}
+	input#firstname, input#lastname, input#email, input#password1, input#password2 {
+		width: 43%;
+	}
+}
+@media (max-width: 568px){
+	.w3ls_pricing_grid_top_pos {
+		left: 33%;
+	}
+	.w3ls_pricing_grid_top {
+		padding: 3em 2em 2.5em;
+	}
+	.w3ls_pricing_grid_top_pos {
+		left: 32%;
+	}
+	.w3_agile_learning_grid1_pos {
+		left: 28%;
+	}
+	.agileits_copyright p {
+		font-size: 14px;
+	}
+}
+@media (max-width: 480px){
+	.main h1 {
+		font-size: 1.8em;
+	}
+	.w3layouts_main_grids {
+		width: 65%;
+	}
+	.w3_agile_learning_grid1_pos {
+		left: 27%;
+	}
+	.w3ls_pricing_grid_top_pos {
+		left: 31%;
+	}
+	input#firstname, input#lastname, input#email, input#password1, input#password2 {
+		font-size: 14px;
+		padding: 12px 27px;
+	}
+	.agile_signup_form h2 {
+		font-size: 1.4em;
+	}
+	.register {
+		padding: 12px 0px;
+		font-size: 14px;
+	}
+}
+@media (max-width: 414px){
+	.w3ls_pricing_grid_top_pos {
+		left: 30%;
+	}
+	.w3_agile_learning_grid1_pos {
+		left: 26%;
+	}
+	.main {
+		padding: 2em 0;
+	}
+	.main h1 {
+		font-size: 1.6em;
+	}
+	.w3layouts_main_grids {
+		width: 70%;
+	}
+	.agileits_copyright {
+		margin: 2.5em 0 0;
+	}
+	.form-control label {
+		width: 100%;
+	}
+	input#firstname, input#lastname, input#email, input#password1, input#password2 {
+		width: 82%;
+		margin: 1em 0 0;
+	}
+	.register {
+		width: 100%;
+	}
+}
+@media (max-width:384px){
+	.main h1 {
+		font-size: 1.5em;
+	}
+	.w3ls_pricing_grid_top_pos {
+		left: 29%;
+	}
+	.w3_agile_learning_grid1_pos {
+		left: 23%;
+	}
+	.agile_main_grid {
+		padding: 2em 0;
+	}
+}
+@media (max-width: 375px){
+	.w3ls_pricing_grid_top_pos {
+		left: 27%;
+	}
+	.w3_agile_learning_grid1_pos {
+		left: 22%;	
+	}
+}
+@media (max-width: 320px){
+	.main h1 {
+		font-size: 1.4em;
+	}
+	.w3layouts_main_grids {
+		width: 85%;
+	}
+	.w3ls_pricing_grid_top h3 {
+		font-size: 1.1em;
+	}
+	.w3ls_pricing_grid_top p {
+		font-size: 14px;
+	}
+	.w3ls_pricing_grid_top {
+		padding: 2em 1em 2.5em;
+	}
+	.w3ls_pricing_grid_top_pos h4,.w3l_pricing_grid_content ul li,.agileits_copyright p {
+		font-size: 13px;
+	}
+	.w3l_pricing_grid_content {
+		padding: 1.5em 1em 3.5em;
+	}
+	.w3_agile_learning_grid1_pos a {
+		padding: 8px 35px;
+		font-size: 14px;
+	}
+	.w3_agile_learning_grid1_pos {
+		left: 27%;
+	}
+	.w3ls_pricing_grid_top_pos {
+		left: 30%;
+	}
+	input#firstname, input#lastname, input#email, input#password1, input#password2 {
+		width: 78%;
+		font-size: 13px;
+	}
+	.agile_signup_form h2 {
+		font-size: 1.3em;
+	}
+}
+/*-- Custom --*/
+
+.paypalButton {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
