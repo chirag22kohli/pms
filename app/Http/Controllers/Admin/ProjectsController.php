@@ -4,29 +4,41 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
 use App\Project;
 use Illuminate\Http\Request;
+use Auth;
 
-class ProjectsController extends Controller
-{
+class ProjectsController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\View\View
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         $keyword = $request->get('search');
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $projects = Project::where('name', 'LIKE', "%$keyword%")
-                ->orWhere('tracker_path', 'LIKE', "%$keyword%")
-                ->orWhere('created_by', 'LIKE', "%$keyword%")
-                ->paginate($perPage);
+
+            if (Auth::user()->hasRole('Admin')):
+                $projects = Project::where('name', 'LIKE', "%$keyword%")
+                        ->orWhere('tracker_path', 'LIKE', "%$keyword%")
+                        ->orWhere('created_by', 'LIKE', "%$keyword%")
+                        ->paginate($perPage);
+            else:
+                $projects = Project::where('name', 'LIKE', "%$keyword%")
+                        ->orWhere('tracker_path', 'LIKE', "%$keyword%")
+                        ->orWhere('created_by', 'LIKE', "%$keyword%")
+                        ->where('created_by', Auth::id())
+                        ->paginate($perPage);
+            endif;
         } else {
-            $projects = Project::paginate($perPage);
+            if (Auth::user()->hasRole('Admin')):
+                $projects = Project::paginate($perPage);
+            else:
+                $projects = Project::where('created_by', Auth::id())->paginate($perPage);
+            endif;
         }
 
         return view('projects.projects.index', compact('projects'));
@@ -37,8 +49,7 @@ class ProjectsController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
-    {
+    public function create() {
         return view('projects.projects.create');
     }
 
@@ -49,11 +60,10 @@ class ProjectsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
-    {
-        
+    public function store(Request $request) {
+
         $requestData = $request->all();
-        
+
         Project::create($requestData);
 
         return redirect('admin/projects')->with('flash_message', 'Project added!');
@@ -66,8 +76,7 @@ class ProjectsController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function show($id)
-    {
+    public function show($id) {
         $project = Project::findOrFail($id);
 
         return view('projects.projects.show', compact('project'));
@@ -80,8 +89,7 @@ class ProjectsController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $project = Project::findOrFail($id);
 
         return view('projects.projects.edit', compact('project'));
@@ -95,11 +103,10 @@ class ProjectsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
-    {
-        
+    public function update(Request $request, $id) {
+
         $requestData = $request->all();
-        
+
         $project = Project::findOrFail($id);
         $project->update($requestData);
 
@@ -113,10 +120,10 @@ class ProjectsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         Project::destroy($id);
 
         return redirect('admin/projects')->with('flash_message', 'Project deleted!');
     }
+
 }

@@ -22,12 +22,12 @@
             </a>
         </li>
         <li>
-            <a href="grids.html">
+            <a href="{{url('admin/projects')}}">
                 <i class="fas fa-th"></i>
                 View Projects
             </a>
         </li>
-        <li class="active">
+        <!--<li class="active">
             <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false">
                 <i class="far fa-file"></i>
                 Assets
@@ -42,21 +42,21 @@
                 </li>
                 
             </ul>
-        </li>
+        </li> -->
         <li>
-            <a href="widgets.html">
+            <a href="#">
                 <i class="far fa-user"></i>
                 Profile
             </a>
         </li>
         <li>
-            <a href="widgets.html">
+            <a href="#">
                 <i class="far fa-file"></i>
                 Plan Info
             </a>
         </li>
         <li>
-            <a href="mailbox.html">
+            <a href="{{url('client/support')}}">
                 <i class="far fa-envelope"></i>
                 Support
                

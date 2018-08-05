@@ -13,8 +13,8 @@
         </form>
         <!--// Search-from -->
         <ul class="top-icons-agileits-w3layouts float-right">
-           
-            
+
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false">
@@ -26,32 +26,32 @@
                           <!--  <img src="images/profile.jpg" class="img-fluid mb-3" alt="Responsive image"> -->
                         </div>
                         <div class="profile-r align-self-center">
-                            <h3 class="sub-title-w3-agileits">Will Smith</h3>
-                            <a href="mailto:info@example.com">info@example.com</a>
+                            <h3 class="sub-title-w3-agileits">    {{ Auth::user()->name }}</h3>
+                            <a href="mailto:info@example.com">    {{ Auth::user()->email }}</a>
                         </div>
                     </div>
                     <a href="#" class="dropdown-item mt-3">
                         <h4>
                             <i class="far fa-user mr-3"></i>My Profile</h4>
                     </a>
-                    <a href="#" class="dropdown-item mt-3">
-                        <h4>
-                            <i class="fas fa-link mr-3"></i>Activity</h4>
-                    </a>
-                    <a href="#" class="dropdown-item mt-3">
-                        <h4>
-                            <i class="far fa-envelope mr-3"></i>Messages</h4>
-                    </a>
+
                     <a href="#" class="dropdown-item mt-3">
                         <h4>
                             <i class="far fa-question-circle mr-3"></i>Faq</h4>
                     </a>
-                    <a href="#" class="dropdown-item mt-3">
+                    <a href="{{url('client/support')}}" class="dropdown-item mt-3">
                         <h4>
                             <i class="far fa-thumbs-up mr-3"></i>Support</h4>
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="login.html">Logout</a>
+                    <a class="dropdown-item" href="{{ url('/logout') }}"
+                       onclick="event.preventDefault();
+                               document.getElementById('logout-form').submit();">
+                        Logout
+                    </a>
+                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 </div>
             </li>
         </ul>

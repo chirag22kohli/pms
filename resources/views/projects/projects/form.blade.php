@@ -5,9 +5,9 @@
         {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
     </div>
 </div><div class="form-group {{ $errors->has('created_by') ? 'has-error' : ''}}">
-    {!! Form::label('created_by', 'Created By', ['class' => 'col-md-4 control-label']) !!}
+   
     <div class="col-md-6">
-        {!! Form::text('created_by', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
+        {!! Form::hidden('created_by', Auth::user()->id, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
         {!! $errors->first('created_by', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
