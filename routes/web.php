@@ -43,9 +43,10 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
         'as' => 'home',
         'uses' => 'ClientController@home'
     ]);
+    Route::resource('projects', 'Admin\\ProjectsController');
 });
 Route::post('client/makePayment', 'PaymentController@payWithpaypal');
-\
+
 
 
 //Common MiddleWare-------------------------------------------------------------

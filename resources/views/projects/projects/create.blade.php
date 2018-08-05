@@ -1,10 +1,11 @@
-@extends('layouts.backend')
-
+@extends(\Auth::user()->roles[0]->name == 'Client' ? 'layouts.client' : 'layouts.backend')
 @section('content')
-    <div class="container">
-        <div class="row">
-            @include('admin.sidebar')
 
+<div class="container">
+        <div class="row">
+            @if(Auth::user()->roles[0]->name == 'Admin')
+            @include('admin.sidebar')
+            @endif
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">Create New Project</div>

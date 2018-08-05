@@ -1,35 +1,37 @@
-@extends('layouts.backend')
-
+@extends(\Auth::user()->roles[0]->name == 'Client' ? 'layouts.client' : 'layouts.backend')
 @section('content')
-    <div class="container">
-        <div class="row">
-            @include('admin.sidebar')
 
-            <div class="col-md-9">
-                <div class="card">
-                    <div class="card-header">Create New Tracker</div>
-                    <div class="card-body">
-                        <a href="{{ url('/admin/trackers?p_id='.$project_id) }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
-                        <br />
-                        <br />
+<div class="container">
+    <div class="row">
+        @if(Auth::user()->roles[0]->name == 'Admin')
+        @include('admin.sidebar')
+        @endif
 
-                        @if ($errors->any())
-                            <ul class="alert alert-danger">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        @endif
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header">Create New Tracker</div>
+                <div class="card-body">
+                    <a href="{{ url('/admin/trackers?p_id='.$project_id) }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                    <br />
+                    <br />
 
-                        {!! Form::open(['url' => '/admin/trackers', 'class' => 'form-horizontal', 'files' => true]) !!}
+                    @if ($errors->any())
+                    <ul class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    @endif
 
-                        @include ('admin.trackers.form')
+                    {!! Form::open(['url' => '/admin/trackers', 'class' => 'form-horizontal', 'files' => true]) !!}
 
-                        {!! Form::close() !!}
+                    @include ('admin.trackers.form')
 
-                    </div>
+                    {!! Form::close() !!}
+
                 </div>
             </div>
         </div>
     </div>
+</div>
 @endsection
