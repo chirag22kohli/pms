@@ -3,7 +3,7 @@
 @section('content')
 
 <!-- main-heading -->
-<h2 class="main-title-w3layouts mb-2 text-center">Blank page</h2>
+<h2 class="main-title-w3layouts mb-2 text-center">Welcome to Chap</h2>
 <!--// main-heading -->
 
 <!-- Error Page Content -->

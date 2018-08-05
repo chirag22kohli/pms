@@ -27,7 +27,7 @@
                         </div>
                         <div class="profile-r align-self-center">
                             <h3 class="sub-title-w3-agileits">    {{ Auth::user()->name }}</h3>
-                            <a href="mailto:info@example.com">    {{ Auth::user()->email }}</a>
+                            <a href="mailto:{{ Auth::user()->email }}">    {{ Auth::user()->email }}</a>
                         </div>
                     </div>
                     <a href="#" class="dropdown-item mt-3">

@@ -32,14 +32,16 @@
                         <table class="table table-borderless">
                             <thead>
                                 <tr>
-                                    <th>#</th><th>Tracker Name</th><th>Height</th><th>Width</th><th>Actions</th>
+                                    <th>#</th><th>Tracker Name</th><th>Image</th><th>Height</th><th>Width</th><th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($trackers as $item)
                                 <tr>
                                     <td>{{ $loop->iteration or $item->id }}</td>
-                                    <td>{{ $item->tracker_name }}</td><td>{{ $item->height }}</td><td>{{ $item->width }}</td>
+                                    
+                                    <td>{{ $item->tracker_name }}</td>
+                                    <td><img style ="width:30%" src = "{{{ isset($item->tracker_path) ? url($item->tracker_path) : url('images/No_Image_Available.png') }}}"></td><td>745px</td><td>550px</td>
                                     <td>
                                         <a href="{{ url('/admin/arDashboard?id=' . $item->id) }}" title="Manage AR"><button class="btn btn-warning btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> Manage AR</button></a>
                                        <!--<a href="{{ url('/admin/trackers/' . $item->id) }}" title="View Tracker"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
