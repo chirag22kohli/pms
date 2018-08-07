@@ -30,7 +30,7 @@
                             <table class="table table-borderless">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Name</th><th>Price</th><th>Pricing Type</th><th>Max Projects</th><th>Actions</th>
+                                        <th>#</th><th>Name</th><th>Price</th><th>Pricing Type</th><th>Plan Type</th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -40,7 +40,7 @@
                                         <td>{{ $item->name }}</td>
                                         <td>${{ $item->price }}</td>
                                         <td>{{ $item->price_type }}</td>
-                                        <td>{{ $item->max_projects }}</td>
+                                        <td>{{ $item->type }}</td>
                                         <td>
                                             <a href="{{ url('/plans/' . $item->id) }}" title="View Plan"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
                                             <a href="{{ url('/plans/' . $item->id . '/edit') }}" title="Edit Plan"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>

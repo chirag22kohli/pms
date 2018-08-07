@@ -19,10 +19,21 @@
                 </div>
                 <div class="w3l_pricing_grid_content">
                     <ul class="w3_count">
-                        <li><i class="fa fa-check" aria-hidden="true"></i>{{ $plan->max_trackers }} Trackers</li>
-                        <li><i class="fa fa-check w3layouts_icon" aria-hidden="true"></i>{{ $plan->max_projects }} Projects</li>
+
+                        <?php if ($plan->type == 'size') { ?>
+                            <li><i class="fa fa-check w3layouts_icon" aria-hidden="true"></i> {{ $plan->max_trackers }} MB Storage</li> 
+                            
+                        <?php } else { ?>
+
+                            <li><i class="fa fa-check w3layouts_icon" aria-hidden="true"></i>{{ $plan->max_trackers }} Trackers</li> 
+
+                            <li><i class="fa fa-check w3layouts_icon" aria-hidden="true"></i>Unlimited Storage</li> 
+
+                        <?php } ?>
+
+
                         <li><i class="fa fa-check" aria-hidden="true"></i>True AR Experience</li>
-                        <li><i class="fa fa-check w3layouts_icon" aria-hidden="true"></i>3GB BandWidth</li>
+
                     </ul>
                 </div>
                 <div class="w3_agile_learning_grid1_pos">

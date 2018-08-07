@@ -39,9 +39,18 @@
                                 @foreach($trackers as $item)
                                 <tr>
                                     <td>{{ $loop->iteration or $item->id }}</td>
-                                    
+
                                     <td>{{ $item->tracker_name }}</td>
-                                    <td><img style ="width:30%" src = "{{{ isset($item->tracker_path) ? url($item->tracker_path) : url('images/No_Image_Available.png') }}}"></td><td>745px</td><td>550px</td>
+                                    <td><img style ="width:30%" src = "{{{ isset($item->tracker_path) ? url($item->tracker_path) : url('images/No_Image_Available.png') }}}"><?php if (!isset($item->tracker_path)) { ?>
+                                        <button onclick ="uploadTracker()" class = "btn btn-success trackerButton">Upload Tracker</button>
+
+                                        <form  style ="display: none" enctype="multipart/form-data" name ="imageUploadForm" id =  "imageUploadForm" method = "post" action = "trackerUpload">
+                                            <input type="file"  id ="trackerImage" name = "trackerImage" onchange="upload()">
+                                            <input type ="hidden" name ="tracker_id" value = "{{$item->id}}">
+                                        </form>
+
+                                        <?php } ?>
+                                    </td><td>745px</td><td>550px</td>
                                     <td>
                                         <a href="{{ url('/admin/arDashboard?id=' . $item->id) }}" title="Manage AR"><button class="btn btn-warning btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> Manage AR</button></a>
                                        <!--<a href="{{ url('/admin/trackers/' . $item->id) }}" title="View Tracker"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
@@ -73,4 +82,39 @@
         </div>
     </div>
 </div>
+
+<script>
+    function uploadTracker() {
+        $('#trackerImage').click();
+    }
+    function upload() {
+        //  $('#imageUploadForm').submit()
+        $j("body").addClass("loading");
+        var form = document.getElementById('imageUploadForm');
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+// Add any event handlers here...
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var obj = JSON.parse(this.responseText);
+                // console.log(obj);
+                $j("body").removeClass("loading");
+                if (obj.success == '1') {
+                    location.reload();
+                }
+            }
+        };
+
+        xhr.open('POST', 'trackerUpload', true);
+        xhr.send(formData);
+
+    }
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+var $j = jQuery.noConflict(true);
+</script>
+<script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 @endsection

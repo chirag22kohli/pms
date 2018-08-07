@@ -35,6 +35,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::resource('users', 'Admin\UsersController');
     Route::get('generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@getGenerator']);
     Route::post('generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@postGenerator']);
+    Route::resource('user-plans', 'admin\\UserPlansController');
+    Route::resource('plans', 'admin\\PlansController');
+});
+
+Route::group(['middleware' => ['auth', 'roles'], 'roles' => 'Admin'], function () {
+    Route::resource('plans', 'admin\\PlansController');
 });
 
 //Client MiddleWare-------------------------------------------------------------
@@ -88,9 +94,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::resource('trackers', 'Admin\\TrackersController');
 });
 
-Route::resource('plans', 'admin\\PlansController');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('admin/user-plans', 'admin\\UserPlansController');

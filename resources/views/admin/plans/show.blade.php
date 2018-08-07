@@ -33,7 +33,8 @@
                                     <tr>
                                         <th>ID</th><td>{{ $plan->id }}</td>
                                     </tr>
-                                    <tr><th> Name </th><td> {{ $plan->name }} </td></tr><tr><th> Price </th><td> ${{ $plan->price }} </td></tr><tr><th> Max Trackers </th><td> {{ $plan->max_trackers }} </td></tr>
+                                    <tr><th> Name </th><td> {{ $plan->name }} </td></tr><tr><th> Price </th><td> ${{ $plan->price }} </td></tr>
+                                    <tr><th><?php if($plan->type == 'size'){ echo "Maximum Size";}else{ echo "Max Trackers"; } ?> </th><td> {{ $plan->max_trackers }} </td></tr>
                                 </tbody>
                             </table>
                         </div>

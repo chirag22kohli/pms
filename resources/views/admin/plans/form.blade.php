@@ -12,16 +12,29 @@
         {!! $errors->first('description', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
+
+<div class="form-group {{ $errors->has('type') ? 'has-error' : ''}}">
+    {!! Form::label('type', 'Plan Type', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+        <select name = "type" class = "form-control" onchange = "changeType(this.value)"> 
+            <option value ="trackers_count">Limit by Trackers</option>
+            <option value ="size">Limit by Size of Account </option>
+           
+        </select>
+          {!! $errors->first('type', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
+
 <div class="form-group {{ $errors->has('max_trackers') ? 'has-error' : ''}}">
-    {!! Form::label('max_trackers', 'Max Trackers', ['class' => 'col-md-4 control-label']) !!}
+    {!! Form::label('max_trackers', 'Max Trackers', ['class' => 'typeLable col-md-4 control-label']) !!}
     <div class="col-md-6">
         {!! Form::number('max_trackers', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
         {!! $errors->first('max_trackers', '<p class="help-block">:message</p>') !!}
     </div>
 </div><div class="form-group {{ $errors->has('max_projects') ? 'has-error' : ''}}">
-    {!! Form::label('max_projects', 'Max Projects', ['class' => 'col-md-4 control-label']) !!}
+   
     <div class="col-md-6">
-        {!! Form::number('max_projects', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
+        {!! Form::hidden('max_projects', 0, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
         {!! $errors->first('max_projects', '<p class="help-block">:message</p>') !!}
     </div>
 </div><div class="form-group {{ $errors->has('price') ? 'has-error' : ''}}">
@@ -63,3 +76,13 @@
         {!! Form::submit(isset($submitButtonText) ? $submitButtonText : 'Create', ['class' => 'btn btn-primary']) !!}
     </div>
 </div>
+
+<script>
+function changeType(type){
+  if(type == 'trackers_count'){
+      $('.typeLable').html('Max Trackers');
+  }else if(type == 'size'){
+      $('.typeLable').html('Max Size (In Megabytes)');
+  }
+}
+</script>
