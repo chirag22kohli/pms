@@ -54,7 +54,7 @@ class ActionsController extends Controller {
         $object_details = $this->getObjectDetails($request->get('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
-        return view('actions.email', ['object_id' => $object_details->id, 'objectImage' => $object_details->object_image, 'objectAction'=> $objectActionDetails]);
+        return view('actions.email', ['object_id' => $object_details->id, 'objectImage' => $object_details->object_image, 'objectAction' => $objectActionDetails]);
     }
 
     public function googleUpload(Request $request) {
@@ -89,10 +89,15 @@ class ActionsController extends Controller {
         $imagePath = $this->uploadObjectFile($request, 'get_social_google', '/images/actions');
 
         $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
-
+        list($width, $height) = getimagesize(url($imagePath));
+        $ratio = $width / $height;
+        $targetHeight = 70 / $ratio;
         return json_encode([
             'success' => '1',
-            'path' => url($imagePath)
+            'path' => url($imagePath),
+            'width' => $width,
+            'height' => $height,
+            'newHeight' => $targetHeight
         ]);
     }
 
@@ -110,10 +115,15 @@ class ActionsController extends Controller {
         $imagePath = $this->uploadObjectFile($request, 'imagefile', '/images/actions');
 
         $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
-
+        list($width, $height) = getimagesize(url($imagePath));
+        $ratio = $width / $height;
+        $targetHeight = 70 / $ratio;
         return json_encode([
             'success' => '1',
-            'path' => url($imagePath)
+            'path' => url($imagePath),
+            'width' => $width,
+            'height' => $height,
+            'newHeight' => $targetHeight
         ]);
     }
 
@@ -150,9 +160,15 @@ class ActionsController extends Controller {
 
         $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
 
+        list($width, $height) = getimagesize(url($imagePath));
+        $ratio = $width / $height;
+        $targetHeight = 70 / $ratio;
         return json_encode([
             'success' => '1',
-            'path' => url($imagePath)
+            'path' => url($imagePath),
+            'width' => $width,
+            'height' => $height,
+            'newHeight' => $targetHeight
         ]);
     }
 
@@ -228,9 +244,15 @@ class ActionsController extends Controller {
 
         $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
 
+        list($width, $height) = getimagesize(url($imagePath));
+        $ratio = $width / $height;
+        $targetHeight = 70 / $ratio;
         return json_encode([
             'success' => '1',
-            'path' => url($imagePath)
+            'path' => url($imagePath),
+            'width' => $width,
+            'height' => $height,
+            'newHeight' => $targetHeight
         ]);
     }
 
@@ -240,6 +262,14 @@ class ActionsController extends Controller {
 
     public function objectActionDetails($object_id) {
         return $id = Action::where('object_id', $object_id)->first();
+    }
+
+    public function updateHieghtNewObject(Request $request) {
+        $object_id = $request->input('id');
+        $height = $request->input('height');
+        object::where('object_div', $object_id)->update([
+            'height' => $height
+        ]);
     }
 
     public function index(Request $request) {

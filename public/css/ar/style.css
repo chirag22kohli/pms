@@ -1,108 +1,108 @@
 body {
-	  text-align: center;
+    text-align: center;
 }
 #wrapper {
-	  text-align: left;
-          width:80%;
-	  margin-left: auto;
-	  margin-right: auto;
-       
+    text-align: left;
+    width:80%;
+    margin-left: auto;
+    margin-right: auto;
+
 }
 
 #options{
-	width: 15%;
-	height:550px;
-	border:1px solid black;
-	float:left;
+    width: 15%;
+    height:550px;
+    border:1px solid black;
+    float:left;
 }
 #options .drag {
-     margin-left:30px;
-	margin-top:15px;
+    margin-left:30px;
+    margin-top:15px;
 }
 #frame{
-	width:745px;
-	height:550px;
-	background-image: url("../../images/rular_bg.png");
-	background-repeat:no repeat;
-    	background-position: 0 0;
-    	border:1px solid black;
-    	float:right;
+    width:745px;
+    height:550px;
+    background-image: url("../../images/rular_bg.png");
+    background-repeat:no repeat;
+    background-position: 0 0;
+    border:1px solid black;
+    float:right;
 }
 
 #tbldevs{
-	border:1px solid black;
-	width:80%;
-	margin-left:50px;
-	margin-top:10px;
+    border:1px solid black;
+    width:80%;
+    margin-left:50px;
+    margin-top:10px;
 }
 
 #tbldevs th{
-	text-align:center;
-	height:50px;
-	width:50px;
+    text-align:center;
+    height:50px;
+    width:50px;
 }
 
 #tbldevs td{
-	height:50px;
+    height:50px;
 }
-.dragCommon{
+#options .dragCommon{
     background-size: contain;
-	width:70px;
-	height:70px;
-       
-        background-repeat: no-repeat;
+    width:70px;
+    height:70px;
+
+    background-repeat: no-repeat;
 
 }
 
 #drag1 {
- 
-	background-image: url("../../images/icon_g_plus.png");
-       
+
+    background-image: url("../../images/icon_g_plus.png");
+
 }
 
 #drag2 {
 
-	background-image: url("../../images/icon_fb.png");
-      
+    background-image: url("../../images/icon_fb.png");
+
 }
 
 #drag3 {
 
-	background-image: url("../../images/sound.png");
-       
+    background-image: url("../../images/sound.png");
+
 }
 
 #drag4 {
 
-	background-image: url("../../images/icon_video.png");
-       
+    background-image: url("../../images/icon_video.png");
+
 }
 
 #drag5 {
 
-	background-image: url("../../images/icon_link.png");
-       
+    background-image: url("../../images/icon_link.png");
+
 }
 
 #drag6 {
 
-	background-image: url("../../images/e_mail.png");
-        
+    background-image: url("../../images/e_mail.png");
+
 }
 
 .ui-draggable-helperMoving {
-	border: 1px dotted #000;
-	padding: 6px;
-	background: #fff;
-	font-size: 1.2em;
-	width:100px;
-	height:100px;
+    border: 1px dotted #000;
+    padding: 6px;
+    background: #fff;
+    font-size: 1.2em;
+    width:100px;
+    height:100px;
 }
 
 .ui-draggable-helperStoped {
-	border: 1px solid #000;
-	width:5px;
-	height:5px;
+    border: 1px solid #000;
+    width:5px;
+    height:5px;
 }
 
 
@@ -110,44 +110,44 @@ body {
 /* classes for dragged stuff */
 
 .dragged1 {
-	position:absolute; 
-	background-image: url("../../images/icon_g_plus.png");
-         
+    position:absolute; 
+    background-image: url("../../images/icon_g_plus.png");
+
 }
 
 .dragged2 {
-	position:absolute; 
-	background-image: url("../../images/icon_fb.png");
-     
+    position:absolute; 
+    background-image: url("../../images/icon_fb.png");
+
 }
 
 .dragged3 {
-	position:absolute; 
-	background-image: url("../../images/sound.png");
-      
+    position:absolute; 
+    background-image: url("../../images/sound.png");
+
 }
 
 .dragged4 {
-	position:absolute; 
-	background-image: url("../../images/icon_video.png");
-    
+    position:absolute; 
+    background-image: url("../../images/icon_video.png");
+
 }
 
 .dragged5 {
-	position:absolute; 
-	background-image: url("../../images/icon_link.png");
-      
+    position:absolute; 
+    background-image: url("../../images/icon_link.png");
+
 }
 
 .dragged6 {
-	position:absolute; 
-	background-image: url("../../images/e_mail.png");
-    
+    position:absolute; 
+    background-image: url("../../images/e_mail.png");
+
 }
 
 
 #element{
-	border:1px solid red
+    border:1px solid red
 }
 
 .trackerButton{
@@ -168,9 +168,9 @@ body {
     height:     100%;
     width:      100%;
     background: rgba( 255, 255, 255, .8 ) 
-                url('http://i.stack.imgur.com/FhHRx.gif') 
-                50% 50% 
-                no-repeat;
+        url('http://i.stack.imgur.com/FhHRx.gif') 
+        50% 50% 
+        no-repeat;
 }
 
 /* When the body has the loading class, we turn
@@ -190,14 +190,20 @@ body.loading .modal {
 
 
 
-  #frame .dragCommon {
-           
-            box-shadow: 3px 3px 6px #535353;
-          
-            border-radius: 4px;
-  } 
+#frame .dragCommon {
 
-       
+    box-shadow: 3px 3px 6px #535353;
+
+    border-radius: 4px;
+    background-size: cover;
+    width:70px;
+    height:70px;
+
+    background-repeat: no-repeat;
+
+} 
+
+
 
 #close {
     float:right;

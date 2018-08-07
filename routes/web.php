@@ -75,6 +75,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::post('videoUpload', 'Admin\ActionsController@videoUpload');
     Route::post('emailUpload', 'Admin\ActionsController@emailUpload');
     Route::post('imageUpload', 'Admin\ActionsController@imageUpload');
+    Route::post('updateHieghtNewObject', 'Admin\ActionsController@updateHieghtNewObject');
 
 
 

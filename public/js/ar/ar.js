@@ -188,7 +188,7 @@ function initActions() {
                             return false;
                         }
 
-                       actionUploadImage('imageUpload', ids);
+                        actionUploadImage('imageUpload', ids);
                     }
                 },
                 cancel: function () {
@@ -209,7 +209,7 @@ function initActions() {
     //mail
     $(".dragged6").dblclick(function () {
         //  $('#fbModal').modal('show');
-       var ids = this.id;
+        var ids = this.id;
         $.confirm({
             theme: 'supervan', // 'material', 'bootstrap'
             animation: 'rotate',
@@ -226,7 +226,7 @@ function initActions() {
                             return false;
                         }
                         actionUploadImage('emailUpload', ids);
-                     
+
                     }
                 },
                 cancel: function () {
@@ -310,6 +310,17 @@ function deleteObject(id) {
 
 }
 
+function updateHieghtNewObject(id, height) {
+    $.ajax({
+        type: "POST",
+        url: 'updateHieghtNewObject',
+        data: {id: id, height: height},
+
+        success: function (msg) {
+          console.log('Done');
+        }
+    });
+}
 function actionUpload(formName) {
     //  $('#imageUploadForm').submit()
     $j("body").addClass("loading");
@@ -349,7 +360,12 @@ function actionUploadImage(formName, ids) {
             $j("body").removeClass("loading");
 
             if (obj.success == '1') {
+                console.log(obj.newHeight);
                 $j('#' + ids).css("background-image", "url(" + obj.path + ")");
+                $j('#' + ids).css("height", "" + obj.newHeight + "px");
+                //  $j('#' + ids).css("background-size", "cover");
+               var height =  obj.newHeight + "px";
+                updateHieghtNewObject(ids,height);
 
             }
         }

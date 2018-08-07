@@ -202,7 +202,7 @@
             if (count($objects) > 0) {
                 foreach ($objects as $object) {
                     ?>
-                    <div id="<?php echo $object->object_div ?>" main_class="<?php echo $object->main_class ?>" type="<?php echo $object->type ?>" class="dragCommon ui-draggable  <?php echo $object->main_class ?>" style="position: absolute; left: <?php echo $object->xpos ?>px ; top: <?php echo $object->ypos ?>px; height:  <?php echo $object->height ?>; width:  <?php echo $object->width ?>; background-image: url(<?php echo $object->object_image ?>)"></div>
+                    <div id="<?php echo $object->object_div ?>" main_class="<?php echo $object->main_class ?>" type="<?php echo $object->type ?>" class="dragCommon ui-draggable  <?php echo $object->main_class ?>" style="position: absolute;background-size: cover; left: <?php echo $object->xpos ?>px ; top: <?php echo $object->ypos ?>px; height:  <?php echo $object->height ?>; width:  <?php echo $object->width ?>; background-image: url(<?php echo $object->object_image ?>)"></div>
                     <?php
                 }
             }
