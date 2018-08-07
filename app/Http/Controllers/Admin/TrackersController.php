@@ -6,7 +6,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Tracker;
 use Illuminate\Http\Request;
-
+use DB;
 class TrackersController extends Controller {
 
     /**
@@ -62,7 +62,15 @@ class TrackersController extends Controller {
 
         Tracker::create($requestData);
 
-        return redirect('admin/trackers?p_id='.$request->input('project_id').'')->with('flash_message', 'Tracker added!');
+         
+        
+        $imagePath = $this->uploadFile($request, 'tracker_path', '/images/trackers');
+        $tracker_id = DB::getPdo()->lastInsertId();
+
+        $update = Tracker::where('id', $tracker_id)->update([
+            'tracker_path' => $imagePath
+        ]);
+        return redirect('admin/trackers?p_id=' . $request->input('project_id') . '')->with('flash_message', 'Tracker added!');
     }
 
     /**
@@ -117,11 +125,11 @@ class TrackersController extends Controller {
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy($id) {
-        $selectProjectId = Tracker::where('id',$id)->first();
-        
+        $selectProjectId = Tracker::where('id', $id)->first();
+
         Tracker::destroy($id);
-        
-        return redirect('admin/trackers?p_id='.$selectProjectId->project_id.'')->with('flash_message', 'Tracker deleted!');
+
+        return redirect('admin/trackers?p_id=' . $selectProjectId->project_id . '')->with('flash_message', 'Tracker deleted!');
     }
 
 }

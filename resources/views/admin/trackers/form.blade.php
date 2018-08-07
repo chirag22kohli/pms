@@ -4,7 +4,16 @@
         {!! Form::text('tracker_name', null, ('required' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
         {!! $errors->first('tracker_name', '<p class="help-block">:message</p>') !!}
     </div>
-</div><div class="form-group {{ $errors->has('project_id') ? 'has-error' : ''}}">
+</div>
+
+<div class="form-group {{ $errors->has('tracker_path') ? 'has-error' : ''}}">
+    {!! Form::label('tracker_path', 'Tracker', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+        <input type = "file" id = "tracker_path" name = "tracker_path" required>
+        {!! $errors->first('tracker_path', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
+<div class="form-group {{ $errors->has('project_id') ? 'has-error' : ''}}">
     {!! Form::label('project_id', 'Project Id', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         {!! Form::text('project_id', $project_id, ('required' == 'required') ? ['class' => 'form-control', 'required' => 'required','readonly' => 'true'] : ['class' => 'form-control']) !!}
