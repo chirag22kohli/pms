@@ -161,6 +161,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Softon\SweetAlert\SweetAlertServiceProvider::class,
          SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
 
     ],
 

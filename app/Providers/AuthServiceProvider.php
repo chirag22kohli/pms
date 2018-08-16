@@ -2,12 +2,13 @@
 
 namespace App\Providers;
 
+use Laravel\Passport\Passport;
 use App\Permission;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
-class AuthServiceProvider extends ServiceProvider
-{
+class AuthServiceProvider extends ServiceProvider {
+
     /**
      * The policy mappings for the application.
      *
@@ -24,10 +25,9 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(GateContract $gate)
-    {
+    public function boot(GateContract $gate) {
         parent::registerPolicies($gate);
-
+        Passport::routes();
         try {
             if (\Schema::hasTable('permissions')) {
                 // Dynamically register permissions with Laravel's Gate.
@@ -47,8 +47,8 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    protected function getPermissions()
-    {
+    protected function getPermissions() {
         return Permission::with('roles')->get();
     }
+
 }
