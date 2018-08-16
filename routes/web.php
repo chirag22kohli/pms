@@ -64,6 +64,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::post('trackerUpload', 'Admin\ArController@trackerUpload');
     Route::post('addUpdateObject', 'Admin\objectsController@addUpdateObject');
     Route::post('finalizeTracker', 'Admin\ArController@finalizeTracker');
+    Route::get('qrcode', 'Admin\ArController@qrCode');
     Route::resource('actions', 'Admin\\ActionsController');
 
 //OBJECTS
@@ -92,10 +93,18 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
 
     Route::resource('objects', 'Admin\\objectsController');
     Route::resource('trackers', 'Admin\\TrackersController');
+
+
+    Route::resource('restricted-uid', 'Admin\\RestrictedUidController');
+    Route::get('import', 'Admin\RestrictedUidController@import');
+   // Route::get('/', 'ImportController@getImport')->name('import');
+    Route::post('/import_parse', 'Admin\RestrictedUidController@parseImport')->name('import_parse');
+    Route::post('/import_process', 'RestrictedUidController@processImport')->name('import_process');
 });
 
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
 

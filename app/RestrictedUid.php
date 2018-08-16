@@ -3,15 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Project extends Model
+class RestrictedUid extends Model
 {
+    use SoftDeletes;
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'projects';
+    protected $table = 'restricted_uids';
 
     /**
     * The database primary key value.
@@ -25,7 +27,11 @@ class Project extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'tracker_path','project_type','price','billing_cycle', 'created_by'];
+    protected $fillable = ['project_id', 'uid'];
 
+    public function users()
+    {
+        return $this->hasMany('App\Project');
+    }
     
 }

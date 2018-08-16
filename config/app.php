@@ -160,6 +160,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Softon\SweetAlert\SweetAlertServiceProvider::class,
+         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
 
     ],
 
@@ -210,6 +211,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'SWAL' => Softon\SweetAlert\Facades\SWAL::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class
 
     ],
 

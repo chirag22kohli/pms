@@ -13,6 +13,7 @@ use App\object;
 use App\Tracker;
 use Image;
 use Illuminate\Support\Facades\Input;
+
 class ArController extends Controller {
 
     /**
@@ -45,18 +46,22 @@ class ArController extends Controller {
             $cloneId = $objectLastId->id + 1;
         else:
             $lastId = object::orderBy('id', 'desc')->first();
-        if(count($lastId) > 0):
-            $cloneId = $lastId->id + 1;
+            if (count($lastId) > 0):
+                $cloneId = $lastId->id + 1;
             else:
-            $cloneId = 1;
-        endif;
-            
+                $cloneId = 1;
+            endif;
+
         endif;
         if (count($trackerDetails) > 0):
             return view('ar.dashboard', ['tracker_id' => $trackerId, 'tracker' => $trackerDetails->tracker_path, 'cloneId' => $cloneId, 'objects' => $objects]);
         else:
             return 'Tracker Not Found';
         endif;
+    }
+
+    public function qrCode() {
+      return view('client.qr');
     }
 
     public function trackerUpload(Request $request) {
@@ -74,7 +79,7 @@ class ArController extends Controller {
         //$img = Image::make($request->file('trackerImage')->getRealPath());
         //$image->save(public_path('images/' . time() . '.jpg'));
         //$image->fit(300, 200)->save(public_path('images/' . time() . '-thumbs.jpg'));
-        
+
         return json_encode([
             'success' => '1',
             'path' => url($imagePath)

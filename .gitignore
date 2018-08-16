@@ -11,6 +11,7 @@ public/storage
 #public/images
 public/images/actions
 public/images/trackers
+public/restrictedCsv
 public/hot
 storage/*.key
 .env.*.php
