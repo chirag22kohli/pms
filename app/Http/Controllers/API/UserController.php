@@ -24,7 +24,7 @@ class UserController extends Controller {
             $success['token'] = $user->createToken('MyApp')->accessToken;
             return parent::success($success, $this->successStatus);
         } else {
-            return parent::error('Unauthorized', 401);
+            return parent::error('Unauthorized', 200);
         }
     }
 
@@ -41,7 +41,7 @@ class UserController extends Controller {
                     'c_password' => 'required|same:password',
         ]);
         if ($validator->fails()) {
-            return parent::error($validator->errors(), 401);
+            return parent::error($validator->errors(), 200);
         }
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
