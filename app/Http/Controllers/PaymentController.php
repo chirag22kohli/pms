@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Input;
 use PayPal\Api\PaymentExecution;
 use Auth;
 use App\UserPlan;
+use Rap2hpoutre\LaravelStripeConnect\StripeConnect;
+use stdClass;
 
 class PaymentController extends Controller {
 
@@ -108,14 +110,36 @@ class PaymentController extends Controller {
         \Session::put('error', 'Payment failed');
         return Redirect::route('home');
     }
-    
+
     protected function assignPlan($result) {
         $userId = Auth::id();
-        $userPlan = UserPlan::where('user_id',$userId)->first();
-        $updateParams = UserPlan::where('user_id',$userId)->update([
-            'payment_status'=>1,
-            'payment_params'=>json_encode($result)
+        $userPlan = UserPlan::where('user_id', $userId)->first();
+        $updateParams = UserPlan::where('user_id', $userId)->update([
+            'payment_status' => 1,
+            'payment_params' => json_encode($result)
         ]);
+    }
+
+    public function payWithStripe(Request $request) {
+        //  dd(Auth::user()->name);
+        $token = $request->input('stripe');
+        //$customer = new \App\User();
+        // return Auth::user();
+        // $customer->user_id = Auth::id();
+        $customer = StripeConnect::createCustomer($token['id'], Auth::user());
+        //return $token['id'];
+        $superAdmin = \App\User::where('id', 2)->first();
+
+        $charge = StripeConnect::transaction()
+                ->amount(1000, 'usd')
+                ->useSavedCustomer()
+                ->from(Auth::user())
+                ->to($superAdmin)
+                ->create();
+
+        $this->assignPlan($charge);
+        $createVendor = StripeConnect::createAccount(Auth::user());
+       // var_dump($createVendor);
     }
 
 }

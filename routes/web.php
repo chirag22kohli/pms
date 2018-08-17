@@ -53,7 +53,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
         return View::make("client.support");
     });
 });
-Route::post('client/makePayment', 'PaymentController@payWithpaypal');
+Route::post('client/makePayment', 'PaymentController@payWithStripe');
 
 
 

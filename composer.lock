@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "436cdf3b74baab4bdbe1c827b6fdcdb5",
+    "content-hash": "dc9cdabc7759ad19591a59d299cda661",
     "packages": [
         {
             "name": "appzcoder/crud-generator",
@@ -2609,6 +2609,58 @@
             "time": "2018-07-19T23:38:55+00:00"
         },
         {
+            "name": "rap2hpoutre/laravel-stripe-connect",
+            "version": "v0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rap2hpoutre/laravel-stripe-connect.git",
+                "reference": "ccf4f34c39ecb31329f3f9fee2ddb2b9573d31e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rap2hpoutre/laravel-stripe-connect/zipball/ccf4f34c39ecb31329f3f9fee2ddb2b9573d31e8",
+                "reference": "ccf4f34c39ecb31329f3f9fee2ddb2b9573d31e8",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^5.5",
+                "illuminate/support": "^5.5",
+                "stripe/stripe-php": "^5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Rap2hpoutre\\LaravelStripeConnect\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Rap2hpoutre\\LaravelStripeConnect\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "rap2h",
+                    "email": "raphaelht@gmail.com"
+                }
+            ],
+            "keywords": [
+                "billing",
+                "laravel",
+                "stripe"
+            ],
+            "time": "2018-01-25T09:26:51+00:00"
+        },
+        {
             "name": "simplesoftwareio/simple-qrcode",
             "version": "2.0.0",
             "source": {
@@ -2724,6 +2776,61 @@
                 "sweetalert2"
             ],
             "time": "2017-12-03T14:34:40+00:00"
+        },
+        {
+            "name": "stripe/stripe-php",
+            "version": "v5.9.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "026191d12241a76c957884dff75e4f3721b0e77f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/026191d12241a76c957884dff75e4f3721b0e77f",
+                "reference": "026191d12241a76c957884dff75e4f3721b0e77f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "satooshi/php-coveralls": "~0.6.1",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stripe\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stripe and contributors",
+                    "homepage": "https://github.com/stripe/stripe-php/contributors"
+                }
+            ],
+            "description": "Stripe PHP Library",
+            "homepage": "https://stripe.com/",
+            "keywords": [
+                "api",
+                "payment processing",
+                "stripe"
+            ],
+            "time": "2018-02-07T18:36:55+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
