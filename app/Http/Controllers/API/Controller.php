@@ -28,4 +28,12 @@ class Controller {
         return response()->json(['status' => true, 'code' => $code, 'data' => (object) $data], $code);
     }
 
+    public function formatValidator($validator) {
+        $messages = $validator->getMessageBag();
+        foreach ($messages->keys() as $key) {
+            $errors[] = $messages->get($key)['0'];
+        }
+        return $errors;
+    }
+
 }

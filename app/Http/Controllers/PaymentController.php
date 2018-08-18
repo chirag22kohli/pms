@@ -123,6 +123,7 @@ class PaymentController extends Controller {
     public function payWithStripe(Request $request) {
         //  dd(Auth::user()->name);
         $token = $request->input('stripe');
+        $price = $request->input('plan');
         //$customer = new \App\User();
         // return Auth::user();
         // $customer->user_id = Auth::id();
@@ -131,7 +132,7 @@ class PaymentController extends Controller {
         $superAdmin = \App\User::where('id', 2)->first();
 
         $charge = StripeConnect::transaction()
-                ->amount(1000, 'usd')
+                ->amount($price, 'usd')
                 ->useSavedCustomer()
                 ->from(Auth::user())
                 ->to($superAdmin)

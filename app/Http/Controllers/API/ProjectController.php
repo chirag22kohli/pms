@@ -24,7 +24,9 @@ class ProjectController extends Controller {
                     'project_id' => 'required'
         ]);
         if ($validator->fails()) {
-            return parent::error($validator->errors(), 200);
+             $errors =   self::formatValidator($validator);
+            return parent::error($errors, 200);
+            //return parent::error($validator->errors(), 200);
         }
         $projectDetails = Project::where('id', $request->input('project_id'))->first();
        if (count($projectDetails) > 0) {
@@ -39,7 +41,9 @@ class ProjectController extends Controller {
                     'project_type' => 'in:paid,restricted,public|required'
         ]);
         if ($validator->fails()) {
-            return parent::error($validator->errors(), 200);
+             $errors =   self::formatValidator($validator);
+            return parent::error($errors, 200);
+          //  return parent::error($validator->errors(), 200);
         }
         $projectDetails = Project::where('project_type', $request->input('project_type'))->get();
        if (count($projectDetails) > 0) {
