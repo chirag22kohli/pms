@@ -187,10 +187,15 @@ function stripeTokenHandler(token) {
             });
         },
         success: function (data) {
-            console.log(data);
-
-
-            location.reload();
+            if (data == 'success') {
+                location.reload();
+            } else {
+                $.alert({
+                    theme: 'supervan',
+                    title: 'Payment Failed',
+                    content: 'There is some issue in processing your payment, Please try again.',
+                });
+            }
         }
     }
     );

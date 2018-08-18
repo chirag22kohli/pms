@@ -21,6 +21,8 @@ use Auth;
 use App\UserPlan;
 use Rap2hpoutre\LaravelStripeConnect\StripeConnect;
 use stdClass;
+use App\Plan;
+use Carbon;
 
 class PaymentController extends Controller {
 
@@ -114,9 +116,12 @@ class PaymentController extends Controller {
     protected function assignPlan($result) {
         $userId = Auth::id();
         $userPlan = UserPlan::where('user_id', $userId)->first();
+        $planDetails = Plan::where('id', $userPlan->plan_id)->first();
+        $expiryData = $this->getExpiryDate($planDetails->price_type);
         $updateParams = UserPlan::where('user_id', $userId)->update([
             'payment_status' => 1,
-            'payment_params' => json_encode($result)
+            'payment_params' => json_encode($result),
+            'plan_expiry_date' => $expiryData
         ]);
     }
 
@@ -138,9 +143,33 @@ class PaymentController extends Controller {
                 ->to($superAdmin)
                 ->create();
 
-        $this->assignPlan($charge);
+
         $createVendor = StripeConnect::createAccount(Auth::user());
-       // var_dump($createVendor);
+        if ($charge->status == 'succeeded') {
+            $this->assignPlan($charge);
+
+            return 'success';
+        } else {
+            return 'false';
+        }
+
+        // var_dump($createVendor);
+    }
+
+    protected function getExpiryDate($type) {
+        $date = Carbon\Carbon::now();
+        $date = strtotime($date);
+        if ($type == 'weekly') {
+
+
+            $date = strtotime("+7 day", $date);
+        } elseif ($type == 'monthly') {
+            $date = strtotime("+30 day", $date);
+        } else {
+            $date = strtotime("+365 day", $date);
+        }
+        $date = date('Y-m-d', $date);
+        return $date;
     }
 
 }
