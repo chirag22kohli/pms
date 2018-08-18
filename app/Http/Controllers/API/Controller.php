@@ -10,7 +10,7 @@ use Image;
 
 class Controller {
 
-    public static function error($validatorMessage, $errorCode = 422, $messageIndex = true) {
+    public static function error($validatorMessage, $errorCode = 422, $messageIndex = false) {
         if ($messageIndex === true):
             $validatorMessage = ['message' => [$validatorMessage]];
         else:
@@ -33,7 +33,7 @@ class Controller {
         foreach ($messages->keys() as $key) {
             $errors[] = $messages->get($key)['0'];
         }
-        return $errors;
+        return $errors[0];
     }
 
 }
