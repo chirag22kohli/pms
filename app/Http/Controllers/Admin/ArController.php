@@ -309,7 +309,7 @@ class ArController extends Controller {
             'project_id'=>$project_id,
             'objects' => $objects
         );
-        return base64_encode(json_encode($metadata));
+        return base64_encode(json_encode($metadata)); 
     }
 
 }
