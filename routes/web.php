@@ -52,6 +52,11 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
     Route::get("/support", function() {
         return View::make("client.support");
     });
+
+    Route::get('planinfo', 'Admin\PlansController@planinfo');
+    
+    Route::get('profile', 'ClientController@profile');
+    Route::post('updateProfile', 'ClientController@updateProfile');
 });
 Route::post('client/makePayment', 'PaymentController@payWithStripe');
 
@@ -97,7 +102,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
 
     Route::resource('restricted-uid', 'Admin\\RestrictedUidController');
     Route::get('import', 'Admin\RestrictedUidController@import');
-   // Route::get('/', 'ImportController@getImport')->name('import');
+    // Route::get('/', 'ImportController@getImport')->name('import');
     Route::post('/import_parse', 'Admin\RestrictedUidController@parseImport')->name('import_parse');
     Route::post('/import_process', 'RestrictedUidController@processImport')->name('import_process');
 });

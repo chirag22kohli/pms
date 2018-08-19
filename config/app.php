@@ -162,6 +162,7 @@ return [
         Softon\SweetAlert\SweetAlertServiceProvider::class,
          SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
+        PhpJunior\LaravelHtmlEncrypt\LaravelHtmlEncryptServiceProvider::class,
 
     ],
 

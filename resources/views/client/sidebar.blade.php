@@ -44,13 +44,13 @@
             </ul>
         </li> -->
         <li>
-            <a href="#">
+            <a href="{{url('client/profile')}}">
                 <i class="far fa-user"></i>
                 Profile
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="{{url('client/planinfo')}}">
                 <i class="far fa-file"></i>
                 Plan Info
             </a>
@@ -66,7 +66,7 @@
       
        
         <li>
-            <a href="maps.html">
+            <a href="#">
                 <i class="fas fa-link"></i>
                 Settings
             </a>

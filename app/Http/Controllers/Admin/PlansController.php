@@ -4,32 +4,33 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
 use App\Plan;
 use Illuminate\Http\Request;
+use App\UserPlan;
+use Auth;
+use Carbon\Carbon;
 
-class PlansController extends Controller
-{
+class PlansController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\View\View
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         $keyword = $request->get('search');
         $perPage = 25;
 
         if (!empty($keyword)) {
             $plans = Plan::where('name', 'LIKE', "%$keyword%")
-                ->orWhere('type', 'LIKE', "%$keyword%")
-                ->orWhere('max_trackers', 'LIKE', "%$keyword%")
-                ->orWhere('max_projects', 'LIKE', "%$keyword%")
-                ->orWhere('price', 'LIKE', "%$keyword%")
-                ->orWhere('price_type', 'LIKE', "%$keyword%")
-                ->orWhere('status', 'LIKE', "%$keyword%")
-                ->orWhere('created_by', 'LIKE', "%$keyword%")
-                ->paginate($perPage);
+                    ->orWhere('type', 'LIKE', "%$keyword%")
+                    ->orWhere('max_trackers', 'LIKE', "%$keyword%")
+                    ->orWhere('max_projects', 'LIKE', "%$keyword%")
+                    ->orWhere('price', 'LIKE', "%$keyword%")
+                    ->orWhere('price_type', 'LIKE', "%$keyword%")
+                    ->orWhere('status', 'LIKE', "%$keyword%")
+                    ->orWhere('created_by', 'LIKE', "%$keyword%")
+                    ->paginate($perPage);
         } else {
             $plans = Plan::paginate($perPage);
         }
@@ -42,8 +43,7 @@ class PlansController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
-    {
+    public function create() {
         return view('admin.plans.create');
     }
 
@@ -54,11 +54,10 @@ class PlansController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
-    {
-        
+    public function store(Request $request) {
+
         $requestData = $request->all();
-        
+
         Plan::create($requestData);
 
         return redirect('plans')->with('flash_message', 'Plan added!');
@@ -71,8 +70,7 @@ class PlansController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function show($id)
-    {
+    public function show($id) {
         $plan = Plan::findOrFail($id);
 
         return view('admin.plans.show', compact('plan'));
@@ -85,8 +83,7 @@ class PlansController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $plan = Plan::findOrFail($id);
 
         return view('admin.plans.edit', compact('plan'));
@@ -100,11 +97,10 @@ class PlansController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
-    {
-        
+    public function update(Request $request, $id) {
+
         $requestData = $request->all();
-        
+
         $plan = Plan::findOrFail($id);
         $plan->update($requestData);
 
@@ -118,10 +114,27 @@ class PlansController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         Plan::destroy($id);
 
         return redirect('plans')->with('flash_message', 'Plan deleted!');
     }
+
+    public function planinfo(Request $request) {
+
+        $userPlan = UserPlan::where('user_id', Auth::id())->first();
+        //   return $userPlan;
+        $planInfo = Plan::where('id', $userPlan->plan_id)->first();
+        $dayDiffrence = $userPlan->plan_expiry_date;
+
+        $created = new Carbon($dayDiffrence);
+        $now = Carbon::now();
+        $difference = ($created->diff($now)->days < 1) ? 'today' : $created->diffForHumans($now);
+        return view('client.planinfo',[
+            'userPlan' =>$userPlan,
+            'planInfo' => $planInfo,
+            'difference' =>$difference
+        ]);
+    }
+
 }
