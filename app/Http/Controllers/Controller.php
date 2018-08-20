@@ -7,12 +7,13 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Image;
-
+use App\Tracker;
 class Controller extends BaseController {
 
     use AuthorizesRequests,
         DispatchesJobs,
         ValidatesRequests;
+    
 
     public function uploadFile($request, $fileName, $path) {
         $image = $request->file($fileName);
@@ -21,14 +22,14 @@ class Controller extends BaseController {
 
         $destinationPath = public_path($path);
 
-       //
-        
+        //
+
         $thumb_img = Image::make($image->getRealPath())->resize(745, 550);
-        $thumb_img->save($destinationPath . '/cropped/' .'thu-'. $input['imagename'], 80);
+        $thumb_img->save($destinationPath . '/cropped/' . 'thu-' . $input['imagename'], 80);
         $image->move($destinationPath, $input['imagename']);
-        return $path . '/cropped/' .'thu-'. $input['imagename'];
+        return $path . '/cropped/' . 'thu-' . $input['imagename'];
     }
-    
+
     public function uploadObjectFile($request, $fileName, $path) {
         $image = $request->file($fileName);
         //dd($_FILES);
@@ -36,17 +37,16 @@ class Controller extends BaseController {
 
         $destinationPath = public_path($path);
 
-       //
-        
+        //
+
         $thumb_img = Image::make($image->getRealPath())->resize(400, 400);
-        $thumb_img->save($destinationPath . '/cropped/' .'thu-'. $input['imagename'], 80);
+        $thumb_img->save($destinationPath . '/cropped/' . 'thu-' . $input['imagename'], 80);
         $image->move($destinationPath, $input['imagename']);
         //return $path . '/cropped/' .'thu-'. $input['imagename'];
         return $path . '/' . $input['imagename'];
     }
 
-    
-    public function uploadMediaFile($request, $fileName, $path){
+    public function uploadMediaFile($request, $fileName, $path) {
         $image = $request->file($fileName);
         //dd($_FILES);
         $input['imagename'] = time() . '.' . $image->getClientOriginalExtension();
@@ -56,4 +56,16 @@ class Controller extends BaseController {
         $image->move($destinationPath, $input['imagename']);
         return $path . $input['imagename'];
     }
+
+    public function checkDup($filePath) {
+        $filename = $filePath;
+        $sha1file = sha1_file($filename);
+        $getSame = Tracker::where('sha',$sha1file)->first();
+        if(count($getSame) > 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
 }

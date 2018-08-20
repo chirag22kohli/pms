@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Tracker;
 use Illuminate\Http\Request;
 use DB;
+
 class TrackersController extends Controller {
 
     /**
@@ -62,15 +63,23 @@ class TrackersController extends Controller {
 
         Tracker::create($requestData);
 
-         
-        
+
+
         $imagePath = $this->uploadFile($request, 'tracker_path', '/images/trackers');
         $tracker_id = DB::getPdo()->lastInsertId();
 
-        $update = Tracker::where('id', $tracker_id)->update([
-            'tracker_path' => $imagePath
-        ]);
-        return redirect('admin/trackers?p_id=' . $request->input('project_id') . '')->with('flash_message', 'Tracker added!');
+
+        $str = substr($imagePath, 1);
+        $sha1file = sha1_file($str);
+        if ($this->checkDup($str)) {
+            $update = Tracker::where('id', $tracker_id)->update([
+                'tracker_path' => $imagePath,
+                'sha' => $sha1file
+            ]);
+            return redirect('admin/trackers?p_id=' . $request->input('project_id') . '')->with('flash_message', 'Tracker added!');
+        } else {
+            return redirect('admin/trackers?p_id=' . $request->input('project_id') . '')->with('flash_message', 'This tracker is already used by any other project. Please select any other file.');
+        }
     }
 
     /**

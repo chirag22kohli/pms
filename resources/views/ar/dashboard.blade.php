@@ -6,7 +6,7 @@
     $(document).ready(function () {
         //Counter
         counter = <?php echo $cloneId; ?>;
-        
+
         //Make element draggable
         $j(".drag").draggable({
             revert: 'invalid',
@@ -47,7 +47,7 @@
                     //Get the dynamically item id
                     draggedNumber = ui.helper.attr('id').search(/drag([0-9])/)
                     itemDragged = "dragCommon dragged" + RegExp.$1
-                     
+
                     $j("#clonediv" + counter).css('position', 'absolute');
 //                    $j("#clonediv" + counter).resizable({aspectRatio: true,
 //                        resize: function (event, ui) {
@@ -64,9 +64,9 @@
                     var left_tracker = pos.left - $("#frame").position().left;
                     var top_tracker = pos.top - $("#frame").position().top;
                     addObject("clonediv" + counter, pos.left, pos.top, left_tracker, top_tracker);
-                    
+
                     initActions();
-                    $( "#clonediv" + counter ).dblclick();
+                    $("#clonediv" + counter).dblclick();
                 }
             }
         });
@@ -107,6 +107,7 @@
 
     function upload() {
         //  $('#imageUploadForm').submit()
+
         $j("body").addClass("loading");
         var form = document.getElementById('imageUploadForm');
         var formData = new FormData(form);
@@ -118,7 +119,14 @@
                 // console.log(obj);
                 $j("body").removeClass("loading");
                 if (obj.success == '1') {
+                    alert('ss');
                     $j('#frame').css("background-image", "url(" + obj.path + ")");
+                } else {
+                    $.alert({
+                        theme: 'supervan',
+                        title: 'Uh Oh!',
+                        content: 'This tracker is already used by any other project. Please select any other file.',
+                    });
                 }
             }
         };

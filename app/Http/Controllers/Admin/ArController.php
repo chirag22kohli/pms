@@ -61,7 +61,7 @@ class ArController extends Controller {
     }
 
     public function qrCode() {
-      return view('client.qr');
+        return view('client.qr');
     }
 
     public function trackerUpload(Request $request) {
@@ -72,18 +72,28 @@ class ArController extends Controller {
 
         $imagePath = $this->uploadFile($request, 'trackerImage', '/images/trackers');
         $tracker_id = $request->input('tracker_id');
+        $str = substr($imagePath, 1);
+        if ($this->checkDup($str)) {
+            $filename = $imagePath;
+            $sha1file = sha1_file($str);
+            $update = Tracker::where('id', $tracker_id)->update([
+                'tracker_path' => $imagePath,
+                'sha'=>$sha1file
+            ]);
 
-        $update = Tracker::where('id', $tracker_id)->update([
-            'tracker_path' => $imagePath
-        ]);
+            return json_encode([
+                'success' => '1',
+                'path' => url($imagePath)
+            ]);
+        } else {
+            return json_encode([
+                'success' => '0',
+                'path' => ''
+            ]);
+        }
         //$img = Image::make($request->file('trackerImage')->getRealPath());
         //$image->save(public_path('images/' . time() . '.jpg'));
         //$image->fit(300, 200)->save(public_path('images/' . time() . '-thumbs.jpg'));
-
-        return json_encode([
-            'success' => '1',
-            'path' => url($imagePath)
-        ]);
     }
 
     public function finalizeTracker(Request $request) {
@@ -98,7 +108,7 @@ class ArController extends Controller {
 
             if ($trackerDetails->parm != '') {
                 $trackerVuforia = json_decode($trackerDetails->parm);
-                $vuforiaParams = $this->updateVuforia($trackerDetails->project_id,$trackerVuforia->target_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
+                $vuforiaParams = $this->updateVuforia($trackerDetails->project_id, $trackerVuforia->target_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
             } else {
                 $vuforiaParams = $this->uploadDataVuforia($trackerDetails->project_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
                 $updateTracker = Tracker::where('id', $tracker_id)->update(['parm' => $vuforiaParams]);
@@ -109,7 +119,7 @@ class ArController extends Controller {
         }
     }
 
-    public function updateVuforia($project_id,$id, $trackerUrl, $objectData) {
+    public function updateVuforia($project_id, $id, $trackerUrl, $objectData) {
 
         $imagePath = '';
         $imageName = public_path($trackerUrl);
@@ -127,7 +137,7 @@ class ArController extends Controller {
             'name' => $filename . "_" . $dateTime . "." . $fileextension,
             'width' => 74.5,
             'image' => $image_base64,
-            'application_metadata' => $this->createMetadata($project_id,$objectData),
+            'application_metadata' => $this->createMetadata($project_id, $objectData),
             'active_flag' => 1
         );
 
@@ -144,7 +154,7 @@ class ArController extends Controller {
         return $response;
     }
 
-    public function uploadDataVuforia($project_id,$trackerUrl, $objectData) {
+    public function uploadDataVuforia($project_id, $trackerUrl, $objectData) {
         $imagePath = '';
         $imageName = public_path($trackerUrl);
         $this->imagePath = '/';
@@ -165,7 +175,7 @@ class ArController extends Controller {
             'name' => $filename . "_" . $dateTime . "." . $fileextension,
             'width' => 74.5,
             'image' => $image_base64,
-            'application_metadata' => $this->createMetadata($project_id,$objectData),
+            'application_metadata' => $this->createMetadata($project_id, $objectData),
             'active_flag' => 1
         );
         $body = json_encode($post_data);
@@ -300,16 +310,16 @@ class ArController extends Controller {
      * Create a metadata for request. You can write any information into the metadata array you want to store.
      * @return [Array] Metadata for request.
      */
-    private function createMetadata($project_id,$objects) {
+    private function createMetadata($project_id, $objects) {
         $metadata = array(
             'id' => 1,
             'image_url' => $this->imagePath . $this->imageName,
             'width' => 745,
             'height' => 550,
-            'project_id'=>$project_id,
+            'project_id' => $project_id,
             'objects' => $objects
         );
-        return base64_encode(json_encode($metadata)); 
+        return base64_encode(json_encode($metadata));
     }
 
 }

@@ -101,6 +101,12 @@
                 $j("body").removeClass("loading");
                 if (obj.success == '1') {
                     location.reload();
+                } else {
+                    $.alert({
+                        theme: 'supervan',
+                        title: 'Uh Oh!',
+                        content: 'This tracker is already used by any other project. Please select any other file.',
+                    });
                 }
             }
         };
@@ -113,7 +119,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
 <script type="text/javascript">
-var $j = jQuery.noConflict(true);
+    var $j = jQuery.noConflict(true);
 </script>
 <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
 <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
