@@ -61,24 +61,26 @@ class TrackersController extends Controller {
 
         $requestData = $request->all();
 
-        Tracker::create($requestData);
+
 
 
 
         $imagePath = $this->uploadFile($request, 'tracker_path', '/images/trackers');
-        $tracker_id = DB::getPdo()->lastInsertId();
+      
 
 
         $str = substr($imagePath, 1);
         $sha1file = sha1_file($str);
         if ($this->checkDup($str)) {
+            Tracker::create($requestData);
+            $tracker_id = DB::getPdo()->lastInsertId();
             $update = Tracker::where('id', $tracker_id)->update([
                 'tracker_path' => $imagePath,
                 'sha' => $sha1file
             ]);
             return redirect('admin/trackers?p_id=' . $request->input('project_id') . '')->with('flash_message', 'Tracker added!');
         } else {
-            return redirect('admin/trackers?p_id=' . $request->input('project_id') . '')->with('flash_message', 'This tracker is already used by any other project. Please select any other file.');
+            return redirect('admin/trackers/create?p_id=' . $request->input('project_id') . '')->with('flash_message', 'This tracker is already used by any other project. Please select any other file.');
         }
     }
 
