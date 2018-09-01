@@ -20,39 +20,34 @@
        
             <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" value =" <?php if (isset($eventDetails->title) && !empty($eventDetails->title)) {
+                <input type="text" value ="<?php if (isset($eventDetails->title) && !empty($eventDetails->title)) {
           echo $eventDetails->title;
-        } ?>
-       "  name = "title" class="form-control" id="title">
+        } ?>"  name = "title" class="form-control" id="title">
             </div>
             <div class="form-group">
                 <label for="Location">Location</label>
-                <input type="text"  value =" <?php if (isset($eventDetails->location) && !empty($eventDetails->location)) {
+                <input type="text"  value ="<?php if (isset($eventDetails->location) && !empty($eventDetails->location)) {
           echo $eventDetails->location;
-        } ?>
-       " name = "location" class="form-control" id="location">
+        } ?>" name = "location" class="form-control" id="location">
             </div>
              <div class="form-group">
                 <label for="pwd">Description </label>
                 <textarea class = "form-group"  id = "description" name = "description" style ="height: 95px;
-    width: 310px;"> <?php if (isset($eventDetails->description) && !empty($eventDetails->description)) {
+    width: 310px;"><?php if (isset($eventDetails->description) && !empty($eventDetails->description)) {
           echo $eventDetails->description;
-        } ?>
-       </textarea>
+        } ?></textarea>
             </div>
             <div class="form-group">
                 <label for="pwd">Start Date</label>
-                <input type="text" name = "start_date" value =" <?php if (isset($eventDetails->start_date) && !empty($eventDetails->start_date)) {
+                <input type="text" name = "start_date" value ="<?php if (isset($eventDetails->start_date) && !empty($eventDetails->start_date)) {
           echo $eventDetails->start_date;
-        } ?>
-       " class="form-control" id="start_date">
+        } ?>" class="form-control" id="start_date">
             </div>
             <div class="form-group">
                 <label for="pwd">End Date</label>
-                <input type="text" value =" <?php if (isset($eventDetails->end_date) && !empty($eventDetails->end_date)) {
+                <input type="text" value ="<?php if (isset($eventDetails->end_date) && !empty($eventDetails->end_date)) {
           echo $eventDetails->end_date;
-        } ?>
-       " name = "end_date" class="form-control" id="end_date">
+        } ?>" name = "end_date" class="form-control" id="end_date">
             </div>
             
         <input type="file" name="imagefile" id="imagefile"  accept="image/*" required/>
