@@ -80,6 +80,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::get('video', 'Admin\ActionsController@video');
     Route::get('email', 'Admin\ActionsController@email');
     Route::get('image', 'Admin\ActionsController@image');
+    Route::get('webLink', 'Admin\ActionsController@webLink');
+    Route::get('event', 'Admin\ActionsController@event');
+    Route::get('contact', 'Admin\ActionsController@contact');
+    Route::get('youtube', 'Admin\ActionsController@youtube');
+    Route::get('flip', 'Admin\ActionsController@flip');
+    Route::get('screenShot', 'Admin\ActionsController@screenShot');
 
     Route::post('googleUpload', 'Admin\ActionsController@googleUpload');
     Route::post('facebookUpload', 'Admin\ActionsController@facebookUpload');
@@ -87,8 +93,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::post('videoUpload', 'Admin\ActionsController@videoUpload');
     Route::post('emailUpload', 'Admin\ActionsController@emailUpload');
     Route::post('imageUpload', 'Admin\ActionsController@imageUpload');
+    Route::post('webLinkUpload', 'Admin\ActionsController@webLinkUpload');
+    Route::post('eventUpload', 'Admin\ActionsController@eventUpload');
+    Route::post('contactUpload', 'Admin\ActionsController@contactUpload');
+    Route::post('youtubeUpload', 'Admin\ActionsController@youtubeUpload');
+    Route::post('flipUpload', 'Admin\ActionsController@flipUpload');
+    Route::post('screenShotUpload', 'Admin\ActionsController@screenShotUpload');
     Route::post('updateHieghtNewObject', 'Admin\ActionsController@updateHieghtNewObject');
-
+    
 
 
 //delete object

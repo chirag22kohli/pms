@@ -30,7 +30,10 @@ function initActions() {
                             $.alert('Please enter message.');
                             return false;
                         }
-
+                        if (!ValidURL(name)) {
+                            $.alert('Please enter a proper Url.');
+                            return false;
+                        }
                         actionUploadImage('googleUpload', ids);
 
 
@@ -72,7 +75,10 @@ function initActions() {
                             $.alert('Please enter message.');
                             return false;
                         }
-
+                        if (!ValidURL(name)) {
+                            $.alert('Please enter a proper Url.');
+                            return false;
+                        }
                         actionUploadImage('facebookUpload', ids);
 
                     }
@@ -246,6 +252,270 @@ function initActions() {
     });
 
 
+
+
+    //weblink
+    $(".dragged7").dblclick(function () {
+        //  $('#fbModal').modal('show');
+        var ids = this.id;
+        $.confirm({
+            theme: 'supervan', // 'material', 'bootstrap'
+            animation: 'rotate',
+            title: 'Add Web Link',
+            content: 'url:webLink?object_id=' + this.id,
+            buttons: {
+                formSubmit: {
+                    text: 'Submit',
+                    btnClass: 'btn-blue',
+                    action: function () {
+                        var name = this.$content.find('#webLink').val();
+                        if (!name) {
+                            $.alert('Please enter web link.');
+                            return false;
+                        }
+                        console.log(ValidURL(name));
+                        if (!ValidURL(name)) {
+                            $.alert('Please enter a proper Url.');
+                            return false;
+                        }
+                        actionUploadImage('webLinkUpload', ids);
+
+                    }
+                },
+                cancel: function () {
+                    //close
+                },
+            },
+            onContentReady: function () {
+                // bind to events
+                var jc = this;
+                this.$content.find('form').on('submit', function (e) {
+                    // if the user submits the form by pressing enter in the field.
+                    e.preventDefault();
+                    jc.$$formSubmit.trigger('click'); // reference the button and click it
+                });
+            }
+        });
+    });
+
+
+
+
+    //Event
+    $(".dragged8").dblclick(function () {
+        //  $('#fbModal').modal('show');
+        var ids = this.id;
+        $.confirm({
+            theme: 'supervan', // 'material', 'bootstrap'
+            animation: 'rotate',
+            title: 'Add Event',
+            content: 'url:event?object_id=' + this.id,
+            buttons: {
+                formSubmit: {
+                    text: 'Submit',
+                    btnClass: 'btn-blue',
+                    action: function () {
+                        var title = this.$content.find('#title').val();
+                        var location = this.$content.find('#description').val();
+                        var description = this.$content.find('#title').val();
+                        var fromdate = this.$content.find('#start_date').val();
+                        var todate = this.$content.find('#end_date').val();
+
+
+                        if (!title || !location || !description || !fromdate || !todate) {
+                            $.alert('Please enter all the fields.');
+                            return false;
+                        }
+                        actionUploadImage('eventUpload', ids);
+
+                    }
+                },
+                cancel: function () {
+                    //close
+                },
+            },
+            onContentReady: function () {
+                // bind to events
+                var jc = this;
+                this.$content.find('form').on('submit', function (e) {
+                    // if the user submits the form by pressing enter in the field.
+                    e.preventDefault();
+                    jc.$$formSubmit.trigger('click'); // reference the button and click it
+                });
+            }
+        });
+    });
+
+
+
+    //Contact
+    $(".dragged9").dblclick(function () {
+        //  $('#fbModal').modal('show');
+        var ids = this.id;
+        $.confirm({
+            theme: 'supervan', // 'material', 'bootstrap'
+            animation: 'rotate',
+            title: 'Add Contact',
+            content: 'url:contact?object_id=' + this.id,
+            buttons: {
+                formSubmit: {
+                    text: 'Submit',
+                    btnClass: 'btn-blue',
+                    action: function () {
+
+                        var name = this.$content.find('#namecontact').val();
+                        var email = this.$content.find('#emailcontact').val();
+                        var number = this.$content.find('#number').val();
+                        var address = this.$content.find('#address').val();
+                        var company = this.$content.find('#company').val();
+
+
+                        if (!name || !email || !number || !address || !company) {
+                            $.alert('Please enter all the fields.');
+                            return false;
+                        }
+                        actionUploadImage('contactUpload', ids);
+
+                    }
+                },
+                cancel: function () {
+                    //close
+                },
+            },
+            onContentReady: function () {
+                // bind to events
+                var jc = this;
+                this.$content.find('form').on('submit', function (e) {
+                    // if the user submits the form by pressing enter in the field.
+                    e.preventDefault();
+                    jc.$$formSubmit.trigger('click'); // reference the button and click it
+                });
+            }
+        });
+    });
+
+
+    //youtube
+    $(".dragged10").dblclick(function () {
+        //  $('#fbModal').modal('show');
+        var ids = this.id;
+        $.confirm({
+            theme: 'supervan', // 'material', 'bootstrap'
+            animation: 'rotate',
+            title: 'Add Youtube Link',
+            content: 'url:youtube?object_id=' + this.id,
+            buttons: {
+                formSubmit: {
+                    text: 'Submit',
+                    btnClass: 'btn-blue',
+                    action: function () {
+                        var name = this.$content.find('#youtube').val();
+                        if (!name) {
+                            $.alert('Please enter youtube link.');
+                            return false;
+                        }
+                        
+                       // console.log(validateYouTubeUrl());
+                        if(!validateYouTubeUrl(name)){
+                            $.alert('Please enter a valid youtube link.');
+                            return false;
+                        }
+                        actionUploadImage('youtubeUpload', ids);
+
+                    }
+                },
+                cancel: function () {
+                    //close
+                },
+            },
+            onContentReady: function () {
+                // bind to events
+                var jc = this;
+                this.$content.find('form').on('submit', function (e) {
+                    // if the user submits the form by pressing enter in the field.
+                    e.preventDefault();
+                    jc.$$formSubmit.trigger('click'); // reference the button and click it
+                });
+            }
+        });
+    });
+
+
+    //flip
+    $(".dragged11").dblclick(function () {
+        //  $('#fbModal').modal('show');
+        var ids = this.id;
+        $.confirm({
+            theme: 'supervan', // 'material', 'bootstrap'
+            animation: 'rotate',
+            title: 'Reverse AR Camera',
+            content: 'url:flip?object_id=' + this.id,
+            buttons: {
+                formSubmit: {
+                    text: 'Submit',
+                    btnClass: 'btn-blue',
+                    action: function () {
+                        
+                        actionUploadImage('flipUpload', ids);
+
+                    }
+                },
+                cancel: function () {
+                    //close
+                },
+            },
+            onContentReady: function () {
+                // bind to events
+                var jc = this;
+                this.$content.find('form').on('submit', function (e) {
+                    // if the user submits the form by pressing enter in the field.
+                    e.preventDefault();
+                    jc.$$formSubmit.trigger('click'); // reference the button and click it
+                });
+            }
+        });
+    });
+
+
+    //screenShotUpload
+    $(".dragged12").dblclick(function () {
+        //  $('#fbModal').modal('show');
+        var ids = this.id;
+        $.confirm({
+            theme: 'supervan', // 'material', 'bootstrap'
+            animation: 'rotate',
+            title: 'Take Screen Shot',
+            content: 'url:screenShot?object_id=' + this.id,
+            buttons: {
+                formSubmit: {
+                    text: 'Submit',
+                    btnClass: 'btn-blue',
+                    action: function () {
+                      
+                        actionUploadImage('screenShotUpload', ids);
+
+                    }
+                },
+                cancel: function () {
+                    //close
+                },
+            },
+            onContentReady: function () {
+                // bind to events
+                var jc = this;
+                this.$content.find('form').on('submit', function (e) {
+                    // if the user submits the form by pressing enter in the field.
+                    e.preventDefault();
+                    jc.$$formSubmit.trigger('click'); // reference the button and click it
+                });
+            }
+        });
+    });
+
+
+
+
+
     // for selection and remove
 
     $('.dragCommon').click(function () {
@@ -317,7 +587,7 @@ function updateHieghtNewObject(id, height) {
         data: {id: id, height: height},
 
         success: function (msg) {
-          console.log('Done');
+            console.log('Done');
         }
     });
 }
@@ -364,8 +634,8 @@ function actionUploadImage(formName, ids) {
                 $j('#' + ids).css("background-image", "url(" + obj.path + ")");
                 $j('#' + ids).css("height", "" + obj.newHeight + "px");
                 //  $j('#' + ids).css("background-size", "cover");
-               var height =  obj.newHeight + "px";
-                updateHieghtNewObject(ids,height);
+                var height = obj.newHeight + "px";
+                updateHieghtNewObject(ids, height);
 
             }
         }
@@ -374,4 +644,15 @@ function actionUploadImage(formName, ids) {
     xhr.open('POST', formName, true);
     xhr.send(formData);
 
+}
+
+
+function ValidURL(str) {
+    var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+    return regexp.test(str);
+}
+function validateYouTubeUrl(url)
+{
+     var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+      return p.test(url);
 }

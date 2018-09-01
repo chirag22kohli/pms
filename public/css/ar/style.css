@@ -3,21 +3,21 @@ body {
 }
 #wrapper {
     text-align: left;
-    width:80%;
+    width:84%;
     margin-left: auto;
     margin-right: auto;
 
 }
 
 #options{
-    width: 15%;
+    width: 19%;
     height:550px;
     border:1px solid black;
     float:left;
 }
 #options .drag {
-    margin-left:30px;
-    margin-top:15px;
+    margin-left:13px;
+    margin-top:9px;
 }
 #frame{
     width:745px;
@@ -51,6 +51,7 @@ body {
     height:70px;
 
     background-repeat: no-repeat;
+   float:left;
 
 }
 
@@ -89,6 +90,38 @@ body {
     background-image: url("../../images/e_mail.png");
 
 }
+
+#drag7 {
+
+    background-image: url("../../images/web_link.png");
+
+}
+#drag8 {
+
+    background-image: url("../../images/calender.png");
+
+}
+#drag9 {
+
+    background-image: url("../../images/contact.png");
+
+}
+#drag10 {
+
+    background-image: url("../../images/youtube.png");
+
+}
+#drag11 {
+
+    background-image: url("../../images/cam.png");
+
+}
+#drag12 {
+
+    background-image: url("../../images/screenshot.png");
+
+}
+
 
 .ui-draggable-helperMoving {
     border: 1px dotted #000;
@@ -142,6 +175,36 @@ body {
 .dragged6 {
     position:absolute; 
     background-image: url("../../images/e_mail.png");
+
+}
+.dragged7 {
+    position:absolute; 
+    background-image: url("../../images/web_link.png");
+
+}
+.dragged8 {
+    position:absolute; 
+    background-image: url("../../images/calender.png");
+
+}
+.dragged9 {
+    position:absolute; 
+    background-image: url("../../images/contact.png");
+
+}
+.dragged10 {
+    position:absolute; 
+    background-image: url("../../images/youtube.png");
+
+}
+.dragged11 {
+    position:absolute; 
+    background-image: url("../../images/cam.png");
+
+}
+.dragged12 {
+    position:absolute; 
+    background-image: url("../../images/screenshot.png");
 
 }
 

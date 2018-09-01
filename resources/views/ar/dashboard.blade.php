@@ -45,8 +45,10 @@
                     $(".tempclass").attr("id", "clonediv" + counter);
                     $("#clonediv" + counter).removeClass("tempclass");
                     //Get the dynamically item id
+                    draggedId = ui.helper.attr('id').match(/\d+$/);
+                  //  console.log(draggedId);
                     draggedNumber = ui.helper.attr('id').search(/drag([0-9])/)
-                    itemDragged = "dragCommon dragged" + RegExp.$1
+                    itemDragged = "dragCommon dragged" + draggedId
 
                     $j("#clonediv" + counter).css('position', 'absolute');
 //                    $j("#clonediv" + counter).resizable({aspectRatio: true,
@@ -203,7 +205,15 @@
             <div id="drag4" main_class ="dragged4" type ="video" class="drag dragCommon"></div> <!-- end of drag4 -->
             <div id="drag5" main_class ="dragged5" type ="image" class="drag dragCommon"></div> <!-- end of drag5 -->
             <div id="drag6" main_class ="dragged6" type ="email" class="drag dragCommon"></div> <!-- end of drag6 -->
+            <div id="drag7" main_class ="dragged7" type ="web_link" class="drag dragCommon"></div> <!-- end of drag6 -->
+            <div id="drag8" main_class ="dragged8" type ="event" class="drag dragCommon"></div> <!-- end of drag6 -->
+            <div id="drag9" main_class ="dragged9" type ="contact" class="drag dragCommon"></div> <!-- end of drag6 -->
+            <div id="drag10" main_class ="dragged10" type ="youtube" class="drag dragCommon"></div> <!-- end of drag6 -->
+            <div id="drag11" main_class ="dragged11" type ="screenshot" class="drag dragCommon"></div> <!-- end of drag6 -->
+            <div id="drag12" main_class ="dragged12" type ="flip" class="drag dragCommon"></div> <!-- end of drag6 -->
+  
         </div><!-- end of options -->
+        
         <div id="frame" <?php if (!empty($tracker)) { ?> style="background-image: url(<?php echo url($tracker); ?>); background-size: contain;;" <?php } ?>>
             <div class="card-header">Drop Here</div>
             <?php
