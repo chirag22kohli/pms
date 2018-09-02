@@ -113,12 +113,12 @@ body {
 }
 #drag11 {
 
-    background-image: url("../../images/cam.png");
+    background-image: url("../../images/screenshot.png");
 
 }
 #drag12 {
 
-    background-image: url("../../images/screenshot.png");
+    background-image: url("../../images/cam.png");
 
 }
 
@@ -199,12 +199,12 @@ body {
 }
 .dragged11 {
     position:absolute; 
-    background-image: url("../../images/cam.png");
+    background-image: url("../../images/screenshot.png");
 
 }
 .dragged12 {
     position:absolute; 
-    background-image: url("../../images/screenshot.png");
+    background-image: url("../../images/cam.png");
 
 }
 
