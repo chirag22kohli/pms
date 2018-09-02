@@ -21,6 +21,10 @@ Route::get('details', 'API\UserController@details');
 Route::post('projectDetails', 'API\ProjectController@projectDetails');
 Route::post('projectType', 'API\ProjectController@projectType');
 Route::post('validateUid', 'API\ProjectController@validateUid');
+Route::post('createContactEvent', 'API\UserController@createContactEvent');
+Route::post('getContactEvent', 'API\UserController@getContactEvent');
+
+
 
 
 });

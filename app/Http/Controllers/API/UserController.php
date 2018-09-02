@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use DB;
 use App\Role;
+use App\Contactandevents;
+
 class UserController extends Controller {
 
     public $successStatus = 200;
@@ -67,6 +69,50 @@ class UserController extends Controller {
 
         $user = Auth::user();
         return parent::success($user, $this->successStatus);
+    }
+    
+    
+    public function createContactEvent(Request $request) {
+        $validator = Validator::make($request->all(), [
+                   
+                    'type' => 'required',
+                    'json_info' => 'required',
+                    
+        ]);
+        if ($validator->fails()) {
+          $errors =   self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+        $input = $request->all();
+        
+        $user = Contactandevents::create(array_merge($request->all(), ['user_id' => Auth::id()]));
+     
+        $success['message'] = 'Saved Successfully';
+
+        return parent::success($success, $this->successStatus);
+    }
+    
+    public function getContactEvent(Request $request) {
+        $validator = Validator::make($request->all(), [
+                   
+                    'type' => 'required',
+                    
+                    
+        ]);
+        if ($validator->fails()) {
+          $errors =   self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+        
+        $details = Contactandevents::where('type', $request->input('type'))->where('user_id', Auth::id())->get();
+     
+        if (count($details) > 0) {
+            return parent::success($details, $this->successStatus);
+        }else{
+             return parent::error('No '. $request->input('type').' Found', 200);
+        }
+
+       
     }
 
 }
