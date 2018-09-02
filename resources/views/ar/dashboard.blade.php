@@ -209,8 +209,8 @@
             <div id="drag8" main_class ="dragged8" type ="event" class="drag dragCommon"></div> <!-- end of drag6 -->
             <div id="drag9" main_class ="dragged9" type ="contact" class="drag dragCommon"></div> <!-- end of drag6 -->
             <div id="drag10" main_class ="dragged10" type ="youtube" class="drag dragCommon"></div> <!-- end of drag6 -->
-            <div id="drag11" main_class ="dragged11" type ="screenshot" class="drag dragCommon"></div> <!-- end of drag6 -->
-            <div id="drag12" main_class ="dragged12" type ="flip" class="drag dragCommon"></div> <!-- end of drag6 -->
+            <div id="drag11" main_class ="dragged11" type ="flip" class="drag dragCommon"></div> <!-- end of drag6 -->
+            <div id="drag12" main_class ="dragged12" type ="screenshot" class="drag dragCommon"></div> <!-- end of drag6 -->
   
         </div><!-- end of options -->
         
