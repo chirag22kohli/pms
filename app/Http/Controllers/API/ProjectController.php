@@ -10,6 +10,7 @@ use Validator;
 use App\Project;
 use App\RestrictedUid;
 use App\RecentProject;
+use App\PaidProjectDetail;
 class ProjectController extends Controller {
 
     public $successStatus = 200;
@@ -31,7 +32,10 @@ class ProjectController extends Controller {
         $projectDetails = Project::where('id', $request->input('project_id'))->first();
         if (count($projectDetails) > 0) {
             $createRecentHistory = parent::recentHistoryProject(Auth::id(), $request->input('project_id'));
-
+            if ($projectDetails->project_type == 'paid') {
+                $paidDetails = parent::checkProjectPaidStatus($request->input('project_id'));
+                $projectDetails->paid_status = $paidDetails;
+            }
             return parent::success($projectDetails, $this->successStatus);
         } else {
             return parent::error('Project Not Found', 200);
@@ -71,11 +75,10 @@ class ProjectController extends Controller {
             return parent::error('No UID Found', 200);
         }
     }
-    
-    
+
     public function myRecentProjects(Request $request) {
-       
-        
+
+
         $recentProjects = RecentProject::where('user_id', Auth::id())->with('project')->get();
 
         if (count($recentProjects) > 0) {

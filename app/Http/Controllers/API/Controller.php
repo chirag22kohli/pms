@@ -9,6 +9,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Image;
 use Carbon;
 use App\RecentProject;
+use App\PaidProjectDetail;
+use Illuminate\Support\Facades\Auth;
+
 class Controller {
 
     public static function error($validatorMessage, $errorCode = 422, $messageIndex = false) {
@@ -53,14 +56,33 @@ class Controller {
         return $date;
     }
 
-    public static function recentHistoryProject($user_id = 0,$project_id = 0){
-        $checkRecent = RecentProject::where('user_id',$user_id)->where('project_id',$project_id)->first();
-        if(count($checkRecent) > 0):
-                return true;
-            else:
-                
-                RecentProject::create(['user_id'=>$user_id, 'project_id'=>$project_id]);
+    public static function recentHistoryProject($user_id = 0, $project_id = 0) {
+        $checkRecent = RecentProject::where('user_id', $user_id)->where('project_id', $project_id)->first();
+        if (count($checkRecent) > 0):
+            return true;
+        else:
+
+            RecentProject::create(['user_id' => $user_id, 'project_id' => $project_id]);
             return true;
         endif;
     }
+
+    public static function checkProjectPaidStatus($project_id = 0) {
+        $paidDetail = PaidProjectDetail::where('user_id', Auth::id())->where('project_id', $project_id)->first();
+
+        if (count($paidDetail) > 0) {
+            $date = Carbon\Carbon::now();
+            $date = strtotime($date);
+            $expiryDate = strtotime($paidDetail->expriy_date);
+            
+            if($expiryDate < $date){
+                return "false";
+            }else{
+                return "true";
+            }
+        } else {
+            return "false";
+        }
+    }
+
 }
