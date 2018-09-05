@@ -1,10 +1,11 @@
 <?php
 
 namespace App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Model;
 
-class Tracker extends Model {
+use Illuminate\Database\Eloquent\Model;
+use Auth;
+
+class PaidPlantHistory extends Model {
 
     public static function boot() {
         static::creating(function ($model) {
@@ -29,7 +30,7 @@ class Tracker extends Model {
      *
      * @var string
      */
-    protected $table = 'trackers';
+    protected $table = 'paid_plan_history';
 
     /**
      * The database primary key value.
@@ -43,14 +44,10 @@ class Tracker extends Model {
      *
      * @var array
      */
-    protected $fillable = ['tracker_name', 'updated_vuforia','target_id','height', 'width', 'project_id', 'parm', 'created_by'];
+    protected $fillable = ['plan_id', 'previous_expiry_date', 'user_id', 'price_paid', 'project_admin_id', 'expriy_date', 'current_payment_status', 'payment_params', 'created_by'];
 
-    public function comments() {
-        return $this->hasMany('App\Project');
-    }
-
-    public function objects() {
-        return $this->hasMany(\App\object::class, 'tracker_id', 'id')->with('actions');
+    public function plan() {
+        return $this->hasOne(\App\Plan::class, 'id', 'plan_id');
     }
 
 }

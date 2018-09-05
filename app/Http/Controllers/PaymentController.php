@@ -23,6 +23,7 @@ use Rap2hpoutre\LaravelStripeConnect\StripeConnect;
 use stdClass;
 use App\Plan;
 use Carbon;
+use App\PaidPlantHistory;
 
 class PaymentController extends Controller {
 
@@ -123,6 +124,38 @@ class PaymentController extends Controller {
             'payment_params' => json_encode($result),
             'plan_expiry_date' => $expiryData
         ]);
+
+        $historyParams = [
+            'payment_params' => json_encode($result),
+            'user_id' => Auth::id(),
+            'plan_id' => $userPlan->plan_id,
+            'expriy_date' => $expiryData,
+            'price_paid' => $planDetails->price
+        ];
+        PaidPlantHistory::create($historyParams);
+    }
+
+    protected function upgradePlan($result) {
+        $userId = Auth::id();
+        $userPlan = UserPlan::where('user_id', $userId)->first();
+        $planDetails = Plan::where('id', $userPlan->plan_id)->first();
+        $expiryData = $this->getExpiryWithDate($planDetails->price_type, $userPlan->plan_expiry_date);
+        $updateParams = UserPlan::where('user_id', $userId)->update([
+            'payment_status' => 1,
+            'payment_params' => json_encode($result),
+            'plan_expiry_date' => $expiryData
+        ]);
+
+
+        $historyParams = [
+            'payment_params' => json_encode($result),
+            'user_id' => Auth::id(),
+            'plan_id' => $userPlan->plan_id,
+            'previous_expiry_date' => $userPlan->plan_expiry_date,
+            'expriy_date' => $expiryData,
+            'price_paid' => $planDetails->price
+        ];
+        PaidPlantHistory::create($historyParams);
     }
 
     public function payWithStripe(Request $request) {
@@ -137,7 +170,7 @@ class PaymentController extends Controller {
         $superAdmin = \App\User::where('id', 2)->first();
 
         $charge = StripeConnect::transaction()
-                ->amount($price*100, 'usd')
+                ->amount($price * 100, 'usd')
                 ->useSavedCustomer()
                 ->from(Auth::user())
                 ->to($superAdmin)
@@ -170,6 +203,79 @@ class PaymentController extends Controller {
         }
         $date = date('Y-m-d', $date);
         return $date;
+    }
+
+    protected function getExpiryWithDate($type, $planDate) {
+        $date = $planDate;
+        $date = strtotime($date);
+        if ($type == 'weekly') {
+
+
+            $date = strtotime("+7 day", $date);
+        } elseif ($type == 'monthly') {
+            $date = strtotime("+30 day", $date);
+        } else {
+            $date = strtotime("+365 day", $date);
+        }
+        $date = date('Y-m-d', $date);
+        return $date;
+    }
+
+    public function renewPlan(Request $request) {
+        $planId = $request->input('plan_id');
+        $planInfo = Plan::where('id', $planId)->first();
+        $superAdmin = \App\User::where('id', 2)->first();
+
+        if (count($planInfo) > 0) {
+
+            $price = $planInfo->price;
+            $charge = StripeConnect::transaction()
+                    ->amount($price * 100, 'usd')
+                    ->useSavedCustomer()
+                    ->from(Auth::user())
+                    ->to($superAdmin)
+                    ->create();
+
+            if ($charge->status == 'succeeded') {
+
+                $this->upgradePlan($charge);
+
+                return 'success';
+            } else {
+                return 'false';
+            }
+        }
+    }
+
+    public function addPaymentMethod(Request $request) {
+        $token = $request->input('stripe');
+        $price = 1;
+        //$customer = new \App\User();
+        // return Auth::user();
+        // $customer->user_id = Auth::id();
+        $clearPrevious = \App\Stripe::where('user_id',Auth::id())->update([
+            'customer_id'=>null,
+            'account_id'=>null
+        ]);
+        $customer = StripeConnect::createCustomer($token['id'], Auth::user());
+        //return $token['id'];
+        $superAdmin = \App\User::where('id', 2)->first();
+
+        $charge = StripeConnect::transaction()
+                ->amount($price * 100, 'usd')
+                ->useSavedCustomer()
+                ->from(Auth::user())
+                ->to($superAdmin)
+                ->create();
+
+
+        $createVendor = StripeConnect::createAccount(Auth::user());
+        if ($charge->status == 'succeeded') {
+         
+            return 'success';
+        } else {
+            return 'false';
+        }
     }
 
 }

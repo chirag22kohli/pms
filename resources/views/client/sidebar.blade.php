@@ -15,16 +15,11 @@
             </a>
         </li>
         
-        <li>
-            <a href="{{url('admin/projects/create')}}">
-                <i class="fab fa-connectdevelop"></i>
-                Create Project
-            </a>
-        </li>
+        
         <li>
             <a href="{{url('admin/projects')}}">
                 <i class="fas fa-th"></i>
-                View Projects
+                Create/View Projects
             </a>
         </li>
         <!--<li class="active">
@@ -55,6 +50,12 @@
                 Plan Info
             </a>
         </li>
+         <li>
+            <a href="{{url('client/reports')}}">
+                <i class="far fa-chart-bar"></i>
+               Reports
+            </a>
+        </li>
         <li>
             <a href="{{url('client/support')}}">
                 <i class="far fa-envelope"></i>
@@ -65,11 +66,11 @@
         
       
        
-        <li>
+       <!-- <li>
             <a href="#">
                 <i class="fas fa-link"></i>
                 Settings
             </a>
-        </li>
+        </li> -->
     </ul>
 </nav>

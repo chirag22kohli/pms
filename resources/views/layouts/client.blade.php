@@ -10,11 +10,10 @@
         <meta name="keywords" content="Chap Augumented Reality" />
         <script>
             addEventListener("load", function () {
-                setTimeout(hideURLbar, 0);
+            setTimeout(hideURLbar, 0);
             }, false);
-
             function hideURLbar() {
-                window.scrollTo(0, 1);
+            window.scrollTo(0, 1);
             }
         </script>
         <!-- //Meta Tags -->
@@ -31,6 +30,7 @@
         <!--// Nav Css -->
         <!-- Fontawesome Css -->
         <link href="{{ asset('css/client/fontawesome-all.css') }} " rel="stylesheet">
+         <link href="{{ asset('css/client/widgets.css') }} " rel="stylesheet">
         <!--// Fontawesome Css -->
         <!--// Style-sheets -->
 
@@ -38,6 +38,8 @@
         <link href="//fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
         <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
         <!--//web-fonts-->
+          <link href="https://cdn.datatables.net/1.10.19/css/dataTables.material.min.css" rel="stylesheet">
+     
     </head>
 
     <body>
@@ -59,9 +61,9 @@
         <!-- Sidebar-nav Js -->
         <script>
                     $(document).ready(function () {
-                $('#sidebarCollapse').on('click', function () {
-                    $('#sidebar').toggleClass('active');
-                });
+            $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+            });
             });
         </script>
         <!--// Sidebar-nav Js -->
@@ -69,16 +71,16 @@
         <!-- dropdown nav -->
         <script>
             $(document).ready(function () {
-                $(".dropdown").hover(
-                        function () {
-                            $('.dropdown-menu', this).stop(true, true).slideDown("fast");
-                            $(this).toggleClass('open');
-                        },
-                        function () {
-                            $('.dropdown-menu', this).stop(true, true).slideUp("fast");
-                            $(this).toggleClass('open');
-                        }
-                );
+            $(".dropdown").hover(
+                    function () {
+                    $('.dropdown-menu', this).stop(true, true).slideDown("fast");
+                    $(this).toggleClass('open');
+                    },
+                    function () {
+                    $('.dropdown-menu', this).stop(true, true).slideUp("fast");
+                    $(this).toggleClass('open');
+                    }
+            );
             });
         </script>
         <!-- //dropdown nav -->
@@ -86,6 +88,13 @@
         <!-- Js for bootstrap working-->
         <script src="{{ asset('js/client/bootstrap.min.js') }}"></script>
         <!-- //Js for bootstrap working -->
+         <script src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js '></script>
+     
+
+        <script src='{{ asset('js/client/script.js') }} '></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+
 
     </body>
 

@@ -7,8 +7,16 @@ use App\Http\Controllers\Controller;
 use App\Tracker;
 use Illuminate\Http\Request;
 use DB;
+use App\object;
+use App\Action;
 
 class TrackersController extends Controller {
+
+    protected $arController;
+
+    public function __construct(ArController $arController) {
+        $this->arController = $arController;
+    }
 
     /**
      * Display a listing of the resource.
@@ -66,7 +74,7 @@ class TrackersController extends Controller {
 
 
         $imagePath = $this->uploadFile($request, 'tracker_path', '/images/trackers');
-      
+
 
 
         $str = substr($imagePath, 1);
@@ -138,6 +146,15 @@ class TrackersController extends Controller {
     public function destroy($id) {
         $selectProjectId = Tracker::where('id', $id)->first();
 
+        $selectObjects = object::where('tracker_id', $id)->get();
+        if (count($selectObjects) > 0) {
+            foreach ($selectObjects as $object) {
+                $deleteActions = \App\Action::where('object_id', '=', $object->id)->delete();
+                $deleteObject = object::where('id', '=', $object->id)->delete();
+            }
+        }
+
+        $this->arController->deleteTarget($selectProjectId->target_id);
         Tracker::destroy($id);
 
         return redirect('admin/trackers?p_id=' . $selectProjectId->project_id . '')->with('flash_message', 'Tracker deleted!');

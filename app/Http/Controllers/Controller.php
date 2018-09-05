@@ -10,12 +10,12 @@ use Image;
 use App\Tracker;
 use Illuminate\Support\Facades\DB;
 use Auth;
+
 class Controller extends BaseController {
 
     use AuthorizesRequests,
         DispatchesJobs,
         ValidatesRequests;
-    
 
     public function uploadFile($request, $fileName, $path) {
         $image = $request->file($fileName);
@@ -51,7 +51,7 @@ class Controller extends BaseController {
     public function uploadMediaFile($request, $fileName, $path) {
         $image = $request->file($fileName);
         //dd($_FILES);
-       
+
         $input['imagename'] = time() . '.' . $image->getClientOriginalExtension();
 
         $destinationPath = public_path($path);
@@ -63,34 +63,41 @@ class Controller extends BaseController {
     public function checkDup($filePath) {
         $filename = $filePath;
         $sha1file = sha1_file($filename);
-        $getSame = Tracker::where('sha',$sha1file)->first();
-        if(count($getSame) > 0){
+        $getSame = Tracker::where('sha', $sha1file)->first();
+        if (count($getSame) > 0) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
-     public static function bytesToHuman($bytes) {
+
+    public static function bytesToHuman($bytes) {
         $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
 
         for ($i = 0; $bytes > 1024; $i++) {
             $bytes /= 1024;
         }
 
-        return round($bytes, 2). ' ' . $units[$i];
+        return round($bytes, 2) . ' ' . $units[$i];
     }
 
-    
-    public static function usageInfo(){
-         $actionSpace = DB::table('actions')
-                    ->where('created_by', '=', Auth::id())
-                     ->sum('size');
+    public static function usageInfo() {
+        $actionSpace = DB::table('actions')
+                ->where('created_by', '=', Auth::id())
+                ->sum('size');
         $objectSpace = DB::table('objects')
-                    ->where('created_by', '=', Auth::id())
-                     ->sum('size');
-        
+                ->where('created_by', '=', Auth::id())
+                ->sum('size');
+
         $finalSpace = $actionSpace + $objectSpace;
         return self::bytesToHuman($finalSpace);
+    }
+
+    public function trackerCount() {
+        $trackerCount = DB::table('trackers')
+                ->where('created_by', '=', Auth::id())
+                ->count();
+        return $trackerCount;
     }
 
 }

@@ -82,12 +82,13 @@
                         </tr>
                         <tr>
                             <th class="text-nowrap" scope="row">Used Trackers</th>
-                            <td colspan="5">5</td>
+                            <td colspan="5">{{ $trackerCount }}</td>
                         </tr>
                        
                         <tr>
-                            <th class="text-nowrap" scope="row">#</th>
-                            <td colspan="5"><button type="button" class="btn btn-lg btn-block btn-outline-primary py-2" data-toggle="modal" data-target="#exampleModal">Renew Plan</button></td>
+                            <th class="text-nowrap" scope="row"><input type="hidden" id ="csr" value="{{ csrf_token() }}"> </th>
+                          
+                            <td colspan="5"><button type="button" onclick ="renewPlan('{{$planInfo->id}}')" class="btn btn-lg btn-block btn-outline-primary py-2" data-toggle="modal" data-target="#exampleModal">Renew Plan</button></td>
                         </tr>
                     </tbody>
                 </table>

@@ -87,6 +87,7 @@ class PaymentController extends Controller {
                     'project_id' => $request->input('project_id'),
                     'project_admin_id' => $projectDetails->created_by,
                     'expriy_date' => $expiryDate,
+                    'paid_price'=>$productPrice,
                     'payment_params' => json_encode($charge),
                 ];
                 $checkPayment = PaidProjectDetail::where('user_id', Auth::id())->where('project_id', $request->input('project_id'))->first();

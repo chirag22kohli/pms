@@ -44,7 +44,7 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => 'Admin'], function (
 });
 
 //Client MiddleWare-------------------------------------------------------------
-Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPayment'], 'roles' => 'Client'], function () {
+Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPayment', 'checkPaymentMethod'], 'roles' => 'Client'], function () {
     Route::get('home', [
         'as' => 'home',
         'uses' => 'ClientController@home'
@@ -54,12 +54,18 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
     });
 
     Route::get('planinfo', 'Admin\PlansController@planinfo');
-    
-    Route::get('profile', 'ClientController@profile');
-    Route::post('updateProfile', 'ClientController@updateProfile');
-});
-Route::post('client/makePayment', 'PaymentController@payWithStripe');
 
+    Route::get('profile', 'ClientController@profile');
+    Route::get('reports', 'ClientController@reports');
+    Route::get("newPaymentMethod", function() {
+        return View::make("client.addPaymentMethod");
+    });
+    Route::post('updateProfile', 'ClientController@updateProfile');
+    Route::post('renewPlan', 'PaymentController@renewPlan');
+});
+
+Route::post('client/makePayment', 'PaymentController@payWithStripe');
+Route::post('client/addPaymentMethod', 'PaymentController@addPaymentMethod');
 
 
 //Common MiddleWare-------------------------------------------------------------
@@ -100,7 +106,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::post('flipUpload', 'Admin\ActionsController@flipUpload');
     Route::post('screenShotUpload', 'Admin\ActionsController@screenShotUpload');
     Route::post('updateHieghtNewObject', 'Admin\ActionsController@updateHieghtNewObject');
-    
+
 
 
 //delete object

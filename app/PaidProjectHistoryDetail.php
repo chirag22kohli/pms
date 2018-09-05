@@ -43,6 +43,12 @@ class PaidProjectHistoryDetail extends Model {
      *
      * @var array
      */
-    protected $fillable = ['project_id', 'user_id', 'project_admin_id', 'expriy_date', 'current_payment_status', 'payment_params', 'reoccuring_trigger', 'created_by'];
+    protected $fillable = ['project_id','paid_price', 'user_id', 'project_admin_id', 'expriy_date', 'current_payment_status', 'payment_params', 'reoccuring_trigger', 'created_by'];
 
+     public function userDetail() {
+        return $this->hasOne(\App\User::class, 'id', 'user_id');
+    }
+    public function projectDetail() {
+        return $this->hasOne(\App\Project::class, 'id', 'project_id');
+    }
 }

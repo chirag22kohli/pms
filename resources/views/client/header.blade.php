@@ -39,10 +39,15 @@
                         <h4>
                             <i class="far fa-question-circle mr-3"></i>Faq</h4>
                     </a>
-                    <a href="{{url('client/support')}}" class="dropdown-item mt-3">
+                    <a href="{{url('client/newPaymentMethod')}}" class="dropdown-item mt-3">
+                        <h4>
+                            <i class="far fa-stripe-s mr-3"></i>Add New Payment Method</h4>
+                    </a>
+                     <a href="{{url('client/support')}}" class="dropdown-item mt-3">
                         <h4>
                             <i class="far fa-thumbs-up mr-3"></i>Support</h4>
                     </a>
+                    
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ url('/logout') }}"
                        onclick="event.preventDefault();
