@@ -154,7 +154,10 @@ class TrackersController extends Controller {
             }
         }
 
-        $this->arController->deleteTarget($selectProjectId->target_id);
+        if($selectProjectId->target_id !== null){
+             $this->arController->deleteTarget($selectProjectId->target_id);
+        }
+       
         Tracker::destroy($id);
 
         return redirect('admin/trackers?p_id=' . $selectProjectId->project_id . '')->with('flash_message', 'Tracker deleted!');

@@ -81,6 +81,31 @@ class Controller extends BaseController {
         return round($bytes, 2) . ' ' . $units[$i];
     }
 
+    public static function convertoMb($bytes) {
+        $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
+
+        for ($i = 0; $bytes > 1024; $i++) {
+            $bytes /= 1024;
+        }
+        if ($units[$i] == 'KiB'):
+            $bytes = $bytes / 1024;
+            $units[$i] = 'Mib';
+        endif;
+        return round($bytes, 2);
+    }
+
+    public static function usageInfoPlan() {
+        $actionSpace = DB::table('actions')
+                ->where('created_by', '=', Auth::id())
+                ->sum('size');
+        $objectSpace = DB::table('objects')
+                ->where('created_by', '=', Auth::id())
+                ->sum('size');
+
+        $finalSpace = $actionSpace + $objectSpace;
+        return self::convertoMb($finalSpace);
+    }
+
     public static function usageInfo() {
         $actionSpace = DB::table('actions')
                 ->where('created_by', '=', Auth::id())
@@ -93,11 +118,49 @@ class Controller extends BaseController {
         return self::bytesToHuman($finalSpace);
     }
 
-    public function trackerCount() {
+    public static function trackerCount() {
         $trackerCount = DB::table('trackers')
                 ->where('created_by', '=', Auth::id())
                 ->count();
         return $trackerCount;
+    }
+
+    public static function checkPlanUsage() {
+        $userId = Auth::id();
+        $getPlanDetails = \App\UserPlan::where('user_id', $userId)->first();
+        $getPlanType = \App\Plan::where('id', $getPlanDetails->plan_id)->first();
+        //for storage type
+        if ($getPlanType->type == 'size') {
+            $allowedStorage = $getPlanType->max_trackers;
+            $usageInfo = self::usageInfoPlan();
+
+            if ($usageInfo > $allowedStorage) {
+                return [
+                    'status' => false,
+                    'message' => 'Storage Full'
+                ];
+            } else {
+                return [
+                    'status' => true,
+                    'message' => 'Allowed'
+                ];
+            }
+        } elseif ($getPlanType->type == 'trackers_count') {
+            $allowedTrackers = $getPlanType->max_trackers;
+            $usageInfo = self::trackerCount();
+
+            if ($usageInfo >= $allowedTrackers) {
+                return [
+                    'status' => false,
+                    'message' => 'All Trackers for this plan is used. '
+                ];
+            } else {
+                return [
+                    'status' => true,
+                    'message' =>$usageInfo
+                ];
+            }
+        }
     }
 
 }
