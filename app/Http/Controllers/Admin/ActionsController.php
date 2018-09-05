@@ -16,83 +16,84 @@ class ActionsController extends Controller {
      * @return \Illuminate\View\View
      */
     public function google(Request $request) {
-        $object_details = $this->getObjectDetails($request->get('object_id'));
+        $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
         return view('actions.google', ['object_id' => $object_details->id, 'objectAction' => $objectActionDetails]);
     }
 
     public function facebook(Request $request) {
-        $object_details = $this->getObjectDetails($request->get('object_id'));
+        $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
         return view('actions.facebook', ['object_id' => $object_details->id, 'objectAction' => $objectActionDetails]);
     }
 
     public function audio(Request $request) {
-        $object_details = $this->getObjectDetails($request->get('object_id'));
+        $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
         return view('actions.audio', ['object_id' => $object_details->id, 'objectAction' => $objectActionDetails]);
     }
 
     public function video(Request $request) {
-        $object_details = $this->getObjectDetails($request->get('object_id'));
+        $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
         return view('actions.video', ['object_id' => $object_details->id, 'objectAction' => $objectActionDetails]);
     }
 
     public function image(Request $request) {
-        $object_details = $this->getObjectDetails($request->get('object_id'));
+        $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
         return view('actions.image', ['object_id' => $object_details->id, 'objectAction' => $object_details->object_image]);
     }
 
     public function email(Request $request) {
-        $object_details = $this->getObjectDetails($request->get('object_id'));
+        $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
         return view('actions.email', ['object_id' => $object_details->id, 'objectImage' => $object_details->object_image, 'objectAction' => $objectActionDetails]);
     }
 
     public function webLink(Request $request) {
-        $object_details = $this->getObjectDetails($request->get('object_id'));
+        $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
         return view('actions.webLink', ['object_id' => $object_details->id, 'objectImage' => $object_details->object_image, 'objectAction' => $objectActionDetails]);
     }
 
     public function event(Request $request) {
-        $object_details = $this->getObjectDetails($request->get('object_id'));
+        $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
         return view('actions.event', ['object_id' => $object_details->id, 'objectImage' => $object_details->object_image, 'objectAction' => $objectActionDetails]);
     }
 
     public function contact(Request $request) {
-        $object_details = $this->getObjectDetails($request->get('object_id'));
+        $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
         return view('actions.contact', ['object_id' => $object_details->id, 'objectImage' => $object_details->object_image, 'objectAction' => $objectActionDetails]);
     }
 
     public function youtube(Request $request) {
-        $object_details = $this->getObjectDetails($request->get('object_id'));
+        $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
         return view('actions.youtube', ['object_id' => $object_details->id, 'objectImage' => $object_details->object_image, 'objectAction' => $objectActionDetails]);
     }
-    
-     public function flip(Request $request) {
-        $object_details = $this->getObjectDetails($request->get('object_id'));
+
+    public function flip(Request $request) {
+        $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
         return view('actions.flip', ['object_id' => $object_details->id, 'objectImage' => $object_details->object_image, 'objectAction' => $objectActionDetails]);
     }
+
     public function screenShot(Request $request) {
-        $object_details = $this->getObjectDetails($request->get('object_id'));
+        $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
         return view('actions.screenShot', ['object_id' => $object_details->id, 'objectImage' => $object_details->object_image, 'objectAction' => $objectActionDetails]);
@@ -127,9 +128,12 @@ class ActionsController extends Controller {
                 'success' => '1',
             ]);
         endif;
+        $size = $request->file('get_social_google')->getClientSize();
         $imagePath = $this->uploadObjectFile($request, 'get_social_google', '/images/actions');
 
-        $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
+
+
+        $updateObjectImage = object::where('id', $object_id)->update(['size' => $size, 'object_image' => url($imagePath)]);
         list($width, $height) = getimagesize(url($imagePath));
         $ratio = $width / $height;
         $targetHeight = 70 / $ratio;
@@ -138,7 +142,8 @@ class ActionsController extends Controller {
             'path' => url($imagePath),
             'width' => $width,
             'height' => $height,
-            'newHeight' => $targetHeight
+            'newHeight' => $targetHeight,
+            'size' => $size
         ]);
     }
 
@@ -152,19 +157,22 @@ class ActionsController extends Controller {
         $object_id = $request->input('object_id');
 
 
-
+        $size = $request->file('imagefile')->getClientSize();
         $imagePath = $this->uploadObjectFile($request, 'imagefile', '/images/actions');
 
-        $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
+        $updateObjectImage = object::where('id', $object_id)->update(['size' => $size, 'object_image' => url($imagePath)]);
         list($width, $height) = getimagesize(url($imagePath));
         $ratio = $width / $height;
         $targetHeight = 70 / $ratio;
+
+        //    $size = parent::bytesToHuman($size);
         return json_encode([
             'success' => '1',
             'path' => url($imagePath),
             'width' => $width,
             'height' => $height,
-            'newHeight' => $targetHeight
+            'newHeight' => $targetHeight,
+            'size' => $size
         ]);
     }
 
@@ -197,19 +205,25 @@ class ActionsController extends Controller {
                 'success' => '1',
             ]);
         endif;
+        $size = $request->file('get_social_facebook')->getClientSize();
+        // $size = parent::bytesToHuman($size);
+
         $imagePath = $this->uploadObjectFile($request, 'get_social_facebook', '/images/actions');
 
-        $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
+
+        $updateObjectImage = object::where('id', $object_id)->update(['size' => $size, 'object_image' => url($imagePath)]);
 
         list($width, $height) = getimagesize(url($imagePath));
         $ratio = $width / $height;
         $targetHeight = 70 / $ratio;
+
         return json_encode([
             'success' => '1',
             'path' => url($imagePath),
             'width' => $width,
             'height' => $height,
-            'newHeight' => $targetHeight
+            'newHeight' => $targetHeight,
+            'size' => $size
         ]);
     }
 
@@ -219,10 +233,14 @@ class ActionsController extends Controller {
         ]);
         $object_id = $request->input('object_id');
 
+        $size = $request->file('audiofile')->getClientSize();
+        //dd($size);
+        //$size = parent::bytesToHuman($size);
         $imagePath = $this->uploadMediaFile($request, 'audiofile', '/images/actions/media/');
         $data = [
             'object_id' => $object_id,
             'url' => url($imagePath),
+            'size' => $size
         ];
 
         $checkObjectAction = Action::where('object_id', $object_id)->first();
@@ -233,6 +251,7 @@ class ActionsController extends Controller {
         endif;
         return json_encode([
             'success' => '1',
+            'size' => $size
         ]);
     }
 
@@ -241,11 +260,14 @@ class ActionsController extends Controller {
             'videofile' => 'required',
         ]);
         $object_id = $request->input('object_id');
-
+        $size = $request->file('videofile')->getClientSize();
         $imagePath = $this->uploadMediaFile($request, 'videofile', '/images/actions/media/');
+        
+        //  $size = parent::bytesToHuman($size);
         $data = [
             'object_id' => $object_id,
             'url' => url($imagePath),
+            'size' => $size
         ];
 
         $checkObjectAction = Action::where('object_id', $object_id)->first();
@@ -281,9 +303,10 @@ class ActionsController extends Controller {
                 'success' => $email,
             ]);
         endif;
+        $size = $request->file('imagefile')->getClientSize();
         $imagePath = $this->uploadObjectFile($request, 'imagefile', '/images/actions');
 
-        $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
+        $updateObjectImage = object::where('id', $object_id)->update(['size'=>$size,'object_image' => url($imagePath)]);
 
         list($width, $height) = getimagesize(url($imagePath));
         $ratio = $width / $height;
@@ -319,9 +342,10 @@ class ActionsController extends Controller {
                 'success' => $webLink,
             ]);
         endif;
+        $size = $request->file('imagefile')->getClientSize();
         $imagePath = $this->uploadObjectFile($request, 'imagefile', '/images/actions');
 
-        $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
+        $updateObjectImage = object::where('id', $object_id)->update(['size'=>$size,'object_image' => url($imagePath)]);
 
         list($width, $height) = getimagesize(url($imagePath));
         $ratio = $width / $height;
@@ -356,9 +380,10 @@ class ActionsController extends Controller {
                 'success' => $eventJson,
             ]);
         endif;
+        $size = $request->file('imagefile')->getClientSize();
         $imagePath = $this->uploadObjectFile($request, 'imagefile', '/images/actions');
 
-        $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
+        $updateObjectImage = object::where('id', $object_id)->update(['size'=>$size,'object_image' => url($imagePath)]);
 
         list($width, $height) = getimagesize(url($imagePath));
         $ratio = $width / $height;
@@ -393,9 +418,10 @@ class ActionsController extends Controller {
                 'success' => $contactJson,
             ]);
         endif;
+        $size = $request->file('imagefile')->getClientSize();
         $imagePath = $this->uploadObjectFile($request, 'imagefile', '/images/actions');
 
-        $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
+        $updateObjectImage = object::where('id', $object_id)->update(['size'=>$size,'object_image' => url($imagePath)]);
 
         list($width, $height) = getimagesize(url($imagePath));
         $ratio = $width / $height;
@@ -434,7 +460,7 @@ class ActionsController extends Controller {
             $targetHeight = 70 / $ratio;
             return json_encode([
                 'success' => '1',
-                'path' =>$image,
+                'path' => $image,
                 'width' => $width,
                 'height' => $height,
                 'newHeight' => $targetHeight
@@ -459,7 +485,7 @@ class ActionsController extends Controller {
     public function flipUpload(Request $request) {
 
         $object_id = $request->input('object_id');
-        
+
 
 
         if ($request->file('imagefile') === null):
@@ -467,9 +493,10 @@ class ActionsController extends Controller {
                 'success' => 0,
             ]);
         endif;
+        $size = $request->file('imagefile')->getClientSize();
         $imagePath = $this->uploadObjectFile($request, 'imagefile', '/images/actions');
 
-        $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
+        $updateObjectImage = object::where('id', $object_id)->update(['size'=>$size,'object_image' => url($imagePath)]);
 
         list($width, $height) = getimagesize(url($imagePath));
         $ratio = $width / $height;
@@ -482,10 +509,11 @@ class ActionsController extends Controller {
             'newHeight' => $targetHeight
         ]);
     }
-     public function screenShotUpload(Request $request) {
+
+    public function screenShotUpload(Request $request) {
 
         $object_id = $request->input('object_id');
-        
+
 
 
         if ($request->file('imagefile') === null):
@@ -493,9 +521,10 @@ class ActionsController extends Controller {
                 'success' => 0,
             ]);
         endif;
+        $size = $request->file('imagefile')->getClientSize();
         $imagePath = $this->uploadObjectFile($request, 'imagefile', '/images/actions');
 
-        $updateObjectImage = object::where('id', $object_id)->update(['object_image' => url($imagePath)]);
+        $updateObjectImage = object::where('id', $object_id)->update(['size'=>$size,'object_image' => url($imagePath)]);
 
         list($width, $height) = getimagesize(url($imagePath));
         $ratio = $width / $height;
@@ -508,6 +537,7 @@ class ActionsController extends Controller {
             'newHeight' => $targetHeight
         ]);
     }
+
     public function getObjectDetails($object_id) {
         return $id = object::where('object_div', $object_id)->first();
     }

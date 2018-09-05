@@ -7,7 +7,8 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Image;
-
+use Carbon;
+use App\RecentProject;
 class Controller {
 
     public static function error($validatorMessage, $errorCode = 422, $messageIndex = false) {
@@ -36,4 +37,30 @@ class Controller {
         return $errors[0];
     }
 
+    protected function getExpiryDate($type) {
+        $date = Carbon\Carbon::now();
+        $date = strtotime($date);
+        if ($type == 'weekly') {
+
+
+            $date = strtotime("+7 day", $date);
+        } elseif ($type == 'monthly') {
+            $date = strtotime("+30 day", $date);
+        } else {
+            $date = strtotime("+365 day", $date);
+        }
+        $date = date('Y-m-d', $date);
+        return $date;
+    }
+
+    public static function recentHistoryProject($user_id = 0,$project_id = 0){
+        $checkRecent = RecentProject::where('user_id',$user_id)->where('project_id',$project_id)->first();
+        if(count($checkRecent) > 0):
+                return true;
+            else:
+                
+                RecentProject::create(['user_id'=>$user_id, 'project_id'=>$project_id]);
+            return true;
+        endif;
+    }
 }

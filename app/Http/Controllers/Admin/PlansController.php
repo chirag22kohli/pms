@@ -126,14 +126,16 @@ class PlansController extends Controller {
         //   return $userPlan;
         $planInfo = Plan::where('id', $userPlan->plan_id)->first();
         $dayDiffrence = $userPlan->plan_expiry_date;
-
+       
+        $usageInfo = parent::usageInfo();
         $created = new Carbon($dayDiffrence);
         $now = Carbon::now();
         $difference = ($created->diff($now)->days < 1) ? 'today' : $created->diffForHumans($now);
         return view('client.planinfo',[
             'userPlan' =>$userPlan,
             'planInfo' => $planInfo,
-            'difference' =>$difference
+            'difference' =>$difference,
+            'usageInfo'=>$usageInfo
         ]);
     }
 

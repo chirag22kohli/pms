@@ -132,6 +132,11 @@ class objectsController extends Controller {
     
     function deleteObject(Request $request){
         $object_div = $request->input('id');
+        
+        $getObject = object::where('object_div', '=', $object_div)->first();
+        if(count($getObject)>0){
+           $deleteActions = \App\Action::where('object_id', '=', $getObject->id)->delete();
+        }
         $deleteObject = object::where('object_div', '=', $object_div)->delete();
         return 'Success';
     }

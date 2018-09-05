@@ -24,6 +24,11 @@ Route::post('validateUid', 'API\ProjectController@validateUid');
 Route::post('createContactEvent', 'API\UserController@createContactEvent');
 Route::post('getContactEvent', 'API\UserController@getContactEvent');
 
+Route::get('checkPaymentMethod', 'API\PaymentController@checkPaymentMethod');
+Route::post('deductPayment', 'API\PaymentController@deductPayment');
+Route::get('myRecentProjects', 'API\ProjectController@myRecentProjects');
+
+
 
 
 

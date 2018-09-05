@@ -3,14 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-class object extends Model {
+use Auth;
+class PaidProjectHistoryDetail extends Model {
 
     public static function boot() {
         static::creating(function ($model) {
 //            echo '<pre>';print_r($model->fillable);die;
             if (in_array('created_by', $model->fillable)):
-                $model->created_by = (!empty(Auth::id())) ? Auth::id() : '1';
+                $model->created_by = (!empty(Auth::id())) ? Auth::id() : '2';
             endif;
 
             //$model->created_at = \Carbon\Carbon::now();
@@ -19,7 +19,7 @@ class object extends Model {
         static::updating(function ($model) {
 
             if (in_array('created_by', $model->fillable)):
-                $model->created_by = (!empty(Auth::id())) ? Auth::id() : '1';
+                $model->created_by = (!empty(Auth::id())) ? Auth::id() : '2';
             endif;
         });
     }
@@ -29,7 +29,7 @@ class object extends Model {
      *
      * @var string
      */
-    protected $table = 'objects';
+    protected $table = 'paid_project_history_details';
 
     /**
      * The database primary key value.
@@ -43,10 +43,6 @@ class object extends Model {
      *
      * @var array
      */
-    protected $fillable = ['xpos', 'ypos', 'height', 'width', 'tracker_id', 'type', 'object_div', 'user_id', 'main_class', 'pos_top', 'pos_left', 'object_image','size', 'created_by'];
-
-    public function actions() {
-        return $this->hasOne(\App\Action::class, 'object_id', 'id');
-    }
+    protected $fillable = ['project_id', 'user_id', 'project_admin_id', 'expriy_date', 'current_payment_status', 'payment_params', 'reoccuring_trigger', 'created_by'];
 
 }

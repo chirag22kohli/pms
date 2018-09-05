@@ -78,7 +78,7 @@
                         </tr>
                         <tr>
                             <th class="text-nowrap" scope="row">Usage</th>
-                            <td colspan="5">0.77mb/∞</td>
+                            <td colspan="5">{{ $usageInfo }}/∞</td>
                         </tr>
                         <tr>
                             <th class="text-nowrap" scope="row">Used Trackers</th>
