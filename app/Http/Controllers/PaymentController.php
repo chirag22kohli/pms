@@ -137,7 +137,7 @@ class PaymentController extends Controller {
         $superAdmin = \App\User::where('id', 2)->first();
 
         $charge = StripeConnect::transaction()
-                ->amount($price, 'usd')
+                ->amount($price*100, 'usd')
                 ->useSavedCustomer()
                 ->from(Auth::user())
                 ->to($superAdmin)
