@@ -79,7 +79,7 @@
   $( function() {
     $( "#start_date" ).datepicker();
     $( "#end_date" ).datepicker();
-    $( "#start_time" ).timepicker();
-    $( "#end_time" ).timepicker();
+    $( "#start_time").timepicker({ 'timeFormat': 'h:i:A' });
+    $( "#end_time" ).timepicker({ 'timeFormat': 'h:i:A' });
   } );
   </script>
