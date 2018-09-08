@@ -121,6 +121,20 @@ class ProjectsController extends Controller {
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy($id) {
+
+        $getTrackers = \App\Tracker::where('project_id', $id)->get();
+        if (count($getTrackers) > 0) {
+            foreach ($getTrackers as $tracker) {
+                $selectObjects = \App\object::where('tracker_id', $tracker->id)->get();
+                if (count($selectObjects) > 0) {
+                    foreach ($selectObjects as $object) {
+                        $deleteActions = \App\Action::where('object_id', '=', $object->id)->delete();
+                        $deleteObject = \App\object::where('id', '=', $object->id)->delete();
+                    }
+                }
+                $deleteTracker =  \App\Tracker::where('id', '=', $tracker->id)->delete();
+            }
+        }
         Project::destroy($id);
 
         return redirect('admin/projects')->with('flash_message', 'Project deleted!');
