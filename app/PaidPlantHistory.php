@@ -44,7 +44,7 @@ class PaidPlantHistory extends Model {
      *
      * @var array
      */
-    protected $fillable = ['plan_id', 'previous_expiry_date', 'user_id', 'price_paid', 'project_admin_id', 'expriy_date', 'current_payment_status', 'payment_params', 'created_by'];
+    protected $fillable = ['plan_id','payment_type', 'previous_expiry_date', 'user_id', 'price_paid', 'project_admin_id', 'expriy_date', 'current_payment_status', 'payment_params', 'created_by'];
 
     public function plan() {
         return $this->hasOne(\App\Plan::class, 'id', 'plan_id');

@@ -102,7 +102,11 @@ class Controller extends BaseController {
                 ->where('created_by', '=', Auth::id())
                 ->sum('size');
 
-        $finalSpace = $actionSpace + $objectSpace;
+        $trackerSpace = DB::table('trackers')
+                ->where('created_by', '=', Auth::id())
+                ->sum('size');
+
+        $finalSpace = $actionSpace + $objectSpace +$trackerSpace;
         return self::convertoMb($finalSpace);
     }
 
@@ -113,8 +117,11 @@ class Controller extends BaseController {
         $objectSpace = DB::table('objects')
                 ->where('created_by', '=', Auth::id())
                 ->sum('size');
+          $trackerSpace = DB::table('trackers')
+                ->where('created_by', '=', Auth::id())
+                ->sum('size');
 
-        $finalSpace = $actionSpace + $objectSpace;
+        $finalSpace = $actionSpace + $objectSpace +$trackerSpace;
         return self::bytesToHuman($finalSpace);
     }
 
@@ -126,6 +133,13 @@ class Controller extends BaseController {
     }
 
     public static function checkPlanUsage() {
+        if (Auth::user()->roles[0]->name == 'Admin') {
+            return [
+                'status' => true,
+                'message' => 'Storage Full, Please delete some objects to continue.',
+                'plan_type' => 'size'
+            ];
+        }
         $userId = Auth::id();
         $getPlanDetails = \App\UserPlan::where('user_id', $userId)->first();
         $getPlanType = \App\Plan::where('id', $getPlanDetails->plan_id)->first();
@@ -137,12 +151,14 @@ class Controller extends BaseController {
             if ($usageInfo > $allowedStorage) {
                 return [
                     'status' => false,
-                    'message' => 'Storage Full, Please delete some objects to continue.'
+                    'message' => 'Storage Full, Please delete some objects to continue.',
+                    'plan_type' => $getPlanType->type
                 ];
             } else {
                 return [
                     'status' => true,
-                    'message' => $usageInfo
+                    'message' => $usageInfo,
+                    'plan_type' => $getPlanType->type
                 ];
             }
         } elseif ($getPlanType->type == 'trackers_count') {
@@ -152,12 +168,14 @@ class Controller extends BaseController {
             if ($usageInfo >= $allowedTrackers) {
                 return [
                     'status' => false,
-                    'message' => 'All Trackers for this plan is used. '
+                    'message' => 'All Trackers for this plan is used. ',
+                    'plan_type' => $getPlanType->type
                 ];
             } else {
                 return [
                     'status' => true,
-                    'message' =>$usageInfo
+                    'message' => $usageInfo,
+                    'plan_type' => $getPlanType->type
                 ];
             }
         }

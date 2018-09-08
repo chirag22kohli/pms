@@ -41,8 +41,8 @@ class TrackersController extends Controller {
         } else {
             $trackers = Tracker::Where('project_id', $project_id)->paginate($perPage);
         }
-
-        return view('admin.trackers.index', compact('trackers'), ['project_id' => $project_id]);
+        $usageInfo = parent::checkPlanUsage();
+        return view('admin.trackers.index', compact('trackers'), ['project_id' => $project_id, 'usageInfo' => $usageInfo]);
     }
 
     /**
@@ -72,7 +72,7 @@ class TrackersController extends Controller {
 
 
 
-
+        $size = $request->file('tracker_path')->getClientSize();
         $imagePath = $this->uploadFile($request, 'tracker_path', '/images/trackers');
 
 
@@ -84,7 +84,8 @@ class TrackersController extends Controller {
             $tracker_id = DB::getPdo()->lastInsertId();
             $update = Tracker::where('id', $tracker_id)->update([
                 'tracker_path' => $imagePath,
-                'sha' => $sha1file
+                'sha' => $sha1file,
+                'size'=>$size
             ]);
             return redirect('admin/trackers?p_id=' . $request->input('project_id') . '')->with('flash_message', 'Tracker added!');
         } else {
@@ -154,10 +155,10 @@ class TrackersController extends Controller {
             }
         }
 
-        if($selectProjectId->target_id !== null){
-             $this->arController->deleteTarget($selectProjectId->target_id);
+        if ($selectProjectId->target_id !== null) {
+            $this->arController->deleteTarget($selectProjectId->target_id);
         }
-       
+
         Tracker::destroy($id);
 
         return redirect('admin/trackers?p_id=' . $selectProjectId->project_id . '')->with('flash_message', 'Tracker deleted!');

@@ -130,6 +130,7 @@ class PaymentController extends Controller {
             'user_id' => Auth::id(),
             'plan_id' => $userPlan->plan_id,
             'expriy_date' => $expiryData,
+            'payment_type'=>'Chap Sign and Plan Selection',
             'price_paid' => $planDetails->price
         ];
         PaidPlantHistory::create($historyParams);
@@ -153,6 +154,7 @@ class PaymentController extends Controller {
             'plan_id' => $userPlan->plan_id,
             'previous_expiry_date' => $userPlan->plan_expiry_date,
             'expriy_date' => $expiryData,
+            'payment_type'=>'Renewed Current Plan',
             'price_paid' => $planDetails->price
         ];
         PaidPlantHistory::create($historyParams);
@@ -253,9 +255,9 @@ class PaymentController extends Controller {
         //$customer = new \App\User();
         // return Auth::user();
         // $customer->user_id = Auth::id();
-        $clearPrevious = \App\Stripe::where('user_id',Auth::id())->update([
-            'customer_id'=>null,
-            'account_id'=>null
+        $clearPrevious = \App\Stripe::where('user_id', Auth::id())->update([
+            'customer_id' => null,
+            'account_id' => null
         ]);
         $customer = StripeConnect::createCustomer($token['id'], Auth::user());
         //return $token['id'];
@@ -271,11 +273,122 @@ class PaymentController extends Controller {
 
         $createVendor = StripeConnect::createAccount(Auth::user());
         if ($charge->status == 'succeeded') {
-         
+
             return 'success';
         } else {
             return 'false';
         }
+    }
+
+    public function upgradePlanView() {
+        $myPlan = UserPlan::where('user_id', Auth::id())->first();
+        $getPlanDetails = Plan::where('id', $myPlan->plan_id)->first();
+        $getSimilarPlans = Plan::where('type', $getPlanDetails->type)->where('price_type', $getPlanDetails->price_type)->where('price', '>', $getPlanDetails->price)->get();
+        return view('client.upgradePlanView', ['planInfo' => $getPlanDetails, 'getSimilarPlans' => $getSimilarPlans]);
+    }
+
+    public function upgradeNow(Request $request) {
+        $planId = base64_decode($request->get('id'));
+        $getNewPlan = Plan::where('id', $planId)->first();
+
+        if (count($getNewPlan) > 0) {
+            $updgradeData = self::getNewPlanPrice($planId);
+            return view('client.upgradeNow', [
+                'planInfo' => $getNewPlan,
+                'newPayment' => $updgradeData['newPayment'],
+                'expiry_date' => $updgradeData['expiry_date']
+            ]);
+        } else {
+            return redirect('client/upgradePlanView');
+        }
+    }
+
+    public static function countTypeDays($type) {
+        if ($type == 'weekly') {
+            return 7;
+        }
+        if ($type == 'monthly') {
+            return 30;
+        }
+        if ($type == 'yearly') {
+            return 365;
+        }
+    }
+
+    public function upgradeNowPlan(Request $request) {
+        $planId = $request->input('plan_id');
+
+        $newChargeDetails = self::getNewPlanPrice($planId);
+
+        $planInfo = Plan::where('id', $planId)->first();
+        $superAdmin = \App\User::where('id', 2)->first();
+
+        if (count($planInfo) > 0) {
+
+            $price = $planInfo->price;
+            $charge = StripeConnect::transaction()
+                    ->amount($newChargeDetails['newPayment'] * 100, 'usd')
+                    ->useSavedCustomer()
+                    ->from(Auth::user())
+                    ->to($superAdmin)
+                    ->create();
+
+            if ($charge->status == 'succeeded') {
+
+                $this->upgradePlanNew($request->input('plan_id'), $charge, $newChargeDetails['newPayment']);
+
+                return 'success';
+            } else {
+                return 'false';
+            }
+        }
+    }
+
+    protected function upgradePlanNew($planId, $charge, $price) {
+        $updatePlan = UserPlan::where('user_id', Auth::id())->update([
+            'plan_id' => $planId,
+            'payment_params' => json_encode($charge)
+        ]);
+        $newPlan = UserPlan::where('user_id', Auth::id())->where('plan_id', $planId)->first();
+        $historyParams = [
+            'payment_params' => json_encode($charge),
+            'user_id' => Auth::id(),
+            'plan_id' => $planId,
+            'expriy_date' => $newPlan->plan_expiry_date,
+            'payment_type' => 'Upgraded to a New Plan',
+            'price_paid' => $price
+        ];
+        PaidPlantHistory::create($historyParams);
+    }
+
+    public static function getNewPlanPrice($newPlanId) {
+        $getNewPlan = Plan::where('id', $newPlanId)->first();
+        $myPlan = UserPlan::where('user_id', Auth::id())->first();
+        $getPlanDetails = Plan::where('id', $myPlan->plan_id)->first();
+        $dayDiffrence = $myPlan->plan_expiry_date;
+        $created = new Carbon\Carbon($dayDiffrence);
+        $now = Carbon\Carbon::now();
+        $difference = $created->diff($now)->days;
+        $getPlanTypeDaysCount = self::countTypeDays($getPlanDetails->price_type);
+        $perdaycostofcurrent = $getPlanDetails->price / $getPlanTypeDaysCount;
+        $totalAlreadyPaidByUser = $perdaycostofcurrent * $difference;
+
+
+
+
+        //New Plan Price till expiry date
+
+        $newPlanPrice = $getNewPlan->price;
+        $getNewPlanTypeDaysCount = self::countTypeDays($getNewPlan->price_type);
+        $newPlanPerDayCost = $newPlanPrice / $getNewPlanTypeDaysCount;
+        $newPayment = $newPlanPerDayCost * $difference;
+        $newPayment = $newPayment - $totalAlreadyPaidByUser;
+        return [
+            'planInfo' => $getNewPlan,
+            'newPlanId' => $getNewPlan->id,
+            'newPayment' => round($newPayment, 2),
+            'expiry_date' => $dayDiffrence
+        ];
     }
 
 }

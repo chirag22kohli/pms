@@ -62,6 +62,9 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
     });
     Route::post('updateProfile', 'ClientController@updateProfile');
     Route::post('renewPlan', 'PaymentController@renewPlan');
+    Route::get('upgradePlanView', 'PaymentController@upgradePlanView');
+    Route::get('upgradeNow', 'PaymentController@upgradeNow');
+    Route::post('upgradeNowPlan', 'PaymentController@upgradeNowPlan');
 });
 
 Route::post('client/makePayment', 'PaymentController@payWithStripe');
@@ -123,6 +126,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     // Route::get('/', 'ImportController@getImport')->name('import');
     Route::post('/import_parse', 'Admin\RestrictedUidController@parseImport')->name('import_parse');
     Route::post('/import_process', 'RestrictedUidController@processImport')->name('import_process');
+    Route::get('checkPlanUsage', 'ClientController@checkPlanUsage');
 });
 
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Auth;
 use DB;
+
 class ClientController extends Controller {
 
     public function home() {
@@ -31,14 +32,18 @@ class ClientController extends Controller {
         $totalPaid = DB::table('paid_project_history_details')
                 ->where('project_admin_id', '=', Auth::id())
                 ->sum('paid_price');
-        $myTransactions = \App\PaidPlantHistory::where('user_id',Auth::id())->with('plan')->get();
-      
+        $myTransactions = \App\PaidPlantHistory::where('user_id', Auth::id())->with('plan')->get();
+
         return view('client.reports', [
             'userDetails' => $userDetails,
             'paidInfo' => $paidInfo,
-            'totalPaid' =>$totalPaid,
-            'myTransactions' =>$myTransactions
+            'totalPaid' => $totalPaid,
+            'myTransactions' => $myTransactions
         ]);
+    }
+
+    public static function checkPlanUsage() {
+        return parent::checkPlanUsage();
     }
 
 }

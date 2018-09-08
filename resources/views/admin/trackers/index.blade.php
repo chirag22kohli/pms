@@ -11,10 +11,16 @@
             <div class="card">
                 <div class="card-header">Trackers</div>
                 <div class="card-body">
-                    <a href="{{ url('/admin/trackers/create?p_id='.$project_id) }}" class="btn btn-success btn-sm" title="Add New Tracker">
-                        <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                    </a>
 
+                    <?php if ($usageInfo['status']) { ?>
+                        <a href="{{ url('/admin/trackers/create?p_id='.$project_id) }}" class="btn btn-success btn-sm" title="Add New Tracker">
+                            <i class="fa fa-plus" aria-hidden="true"></i> Add New
+                        </a>
+                    <?php } else { ?>
+                        <div class="alert alert-danger">
+                            <strong><?= $usageInfo['message'];?></strong>
+                        </div>
+                    <?php } ?>
                     {!! Form::open(['method' => 'GET', 'url' => '/admin/trackers', 'class' => 'form-inline my-2 my-lg-0 float-right', 'role' => 'search'])  !!}
                     <div class="input-group">
                         <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request('search') }}">
@@ -42,12 +48,12 @@
 
                                     <td>{{ $item->tracker_name }}</td>
                                     <td><img style ="width:30%" src = "{{{ isset($item->tracker_path) ? url($item->tracker_path) : url('images/No_Image_Available.png') }}}"><?php if (!isset($item->tracker_path)) { ?>
-                                        <button onclick ="uploadTracker()" class = "btn btn-success trackerButton">Upload Tracker</button>
+                                            <button onclick ="uploadTracker()" class = "btn btn-success trackerButton">Upload Tracker</button>
 
-                                        <form  style ="display: none" enctype="multipart/form-data" name ="imageUploadForm" id =  "imageUploadForm" method = "post" action = "trackerUpload">
-                                            <input type="file"  id ="trackerImage" name = "trackerImage" onchange="upload()">
-                                            <input type ="hidden" name ="tracker_id" value = "{{$item->id}}">
-                                        </form>
+                                            <form  style ="display: none" enctype="multipart/form-data" name ="imageUploadForm" id =  "imageUploadForm" method = "post" action = "trackerUpload">
+                                                <input type="file"  id ="trackerImage" name = "trackerImage" onchange="upload()">
+                                                <input type ="hidden" name ="tracker_id" value = "{{$item->id}}">
+                                            </form>
 
                                         <?php } ?>
                                     </td><td>745px</td><td>550px</td>

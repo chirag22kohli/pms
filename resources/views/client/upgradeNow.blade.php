@@ -3,7 +3,7 @@
 @section('content')
 
 <!-- main-heading -->
-<h2 class="main-title-w3layouts mb-2 text-center">Your Plan Info</h2>
+<h2 class="main-title-w3layouts mb-2 text-center">Upgrade Plan</h2>
 <!--// main-heading -->
 
 <!-- Error Page Content -->
@@ -37,58 +37,35 @@
                         <li class="py-2 border-bottom"><i class="fa fa-check" aria-hidden="true"></i>True AR Experience</li>
                         <li class="py-2 border-bottom"><i class="fa fa-check" aria-hidden="true"></i>Reports</li>
                     </ul>
-                    <button type="button" onclick ="location.href = 'upgradePlanView'" class="btn btn-lg btn-block btn-outline-primary py-2" data-toggle="modal" data-target="#exampleModal">Upgrade</button>
+                   
                 </div>
             </div>
             <div class="outer-w3-agile mt-3  col-xl-8">
-                <h4 class="tittle-w3-agileits mb-4">Usage Stats and Expiry Information</h4>
+                <h4 class="tittle-w3-agileits mb-4">Upgrade Price and Expiry Information</h4>
                 <table class="table table-bordered table-striped">
                     <thead>
 
                     </thead>
                     <tbody>
-                        <?php if ($planInfo->type == 'size') { ?>
-                            <tr>
-                                <th class="text-nowrap" scope="row">Storage</th>
 
-                                <td>{{ $planInfo->max_trackers }} MB Storage</td>
-                            </tr>
-                        <?php } else { ?>
-                            <tr>
-                                <th class="text-nowrap" scope="row">Total Trackers</th>
-                                <td>
-                                    <code>{{ $planInfo->max_trackers }} Trackers</code>
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <th class="text-nowrap" scope="row">Storage</th>
-                                <td>
-                                    <code>Unlimited Storage</code>
-                                </td>
-                                
-                            </tr>
-                        <?php } ?>
                         <tr>
-                            <th class="text-nowrap" scope="row">Expiry Date</th>
+                            <th class="text-nowrap" scope="row">Upgrade Price</th>
                             <td>
-                                <code>{{ $userPlan->plan_expiry_date }} ({{ $difference }})</code>
+                                <p>${{$newPayment}}</p>
                             </td>
-                           
+
                         </tr>
                         <tr>
-                            <th class="text-nowrap" scope="row">Usage</th>
-                            <td colspan="5">{{ $usageInfo }}/∞</td>
+                            <th class="text-nowrap" scope="row">Next Payment Due Date </th>
+                            <td>
+                                <p>{{$expiry_date}}</p>
+                            </td>
+
                         </tr>
-                        <tr>
-                            <th class="text-nowrap" scope="row">Used Trackers</th>
-                            <td colspan="5">{{ $trackerCount }}</td>
-                        </tr>
-                       
                         <tr>
                             <th class="text-nowrap" scope="row"><input type="hidden" id ="csr" value="{{ csrf_token() }}"> </th>
-                          
-                            <td colspan="5"><button type="button" onclick ="renewPlan('{{$planInfo->id}}')" class="btn btn-lg btn-block btn-outline-primary py-2" data-toggle="modal" data-target="#exampleModal">Renew Plan</button></td>
+
+                            <td colspan="5"><button type="button" onclick ="upgradeNowPlan('{{$planInfo->id}}')" class="btn btn-lg btn-block btn-outline-primary py-2" data-toggle="modal" data-target="#exampleModal">Upgrade Now</button></td>
                         </tr>
                     </tbody>
                 </table>
