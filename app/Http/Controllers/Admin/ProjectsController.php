@@ -10,6 +10,12 @@ use Auth;
 
 class ProjectsController extends Controller {
 
+    protected $arController;
+
+    public function __construct(ArController $arController) {
+        $this->arController = $arController;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -132,7 +138,10 @@ class ProjectsController extends Controller {
                         $deleteObject = \App\object::where('id', '=', $object->id)->delete();
                     }
                 }
-                $deleteTracker =  \App\Tracker::where('id', '=', $tracker->id)->delete();
+                if ($tracker->target_id !== null) {
+                    $this->arController->deleteTarget($tracker->target_id);
+                }
+                $deleteTracker = \App\Tracker::where('id', '=', $tracker->id)->delete();
             }
         }
         Project::destroy($id);
