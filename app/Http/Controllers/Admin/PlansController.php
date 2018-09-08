@@ -131,7 +131,7 @@ class PlansController extends Controller {
         $created = new Carbon($dayDiffrence);
         $now = Carbon::now();
         $trackerCount = parent::trackerCount();
-        return parent::checkPlanUsage();
+        //return parent::checkPlanUsage();
         $difference = ($created->diff($now)->days < 1) ? 'today' : $created->diffForHumans($now);
         return view('client.planinfo',[
             'userPlan' =>$userPlan,

@@ -1,3 +1,9 @@
+<style>
+  .ui-timepicker-wrapper {
+    z-index: 105000000000000 !important;
+}
+    
+</style>
 <form  method="post" name="eventUpload" id="eventUpload" enctype="multipart/form-data">
     <div class="form-group style_border">
         <input type="hidden" id = "object_id" name = "object_id" value = "<?php echo $object_id ?>">
@@ -43,11 +49,23 @@
           echo $eventDetails->start_date;
         } ?>" class="form-control" id="start_date">
             </div>
+         <div class="form-group">
+                <label for="pwd">Start Time</label>
+                <input type="text" name = "start_time" value ="<?php if (isset($eventDetails->start_time) && !empty($eventDetails->start_time)) {
+          echo $eventDetails->start_time;
+        } ?>" class="form-control" id="start_time">
+            </div>
             <div class="form-group">
                 <label for="pwd">End Date</label>
                 <input type="text" value ="<?php if (isset($eventDetails->end_date) && !empty($eventDetails->end_date)) {
           echo $eventDetails->end_date;
         } ?>" name = "end_date" class="form-control" id="end_date">
+            </div>
+        <div class="form-group">
+                <label for="pwd">End Time</label>
+                <input type="text" value ="<?php if (isset($eventDetails->end_time) && !empty($eventDetails->end_time)) {
+          echo $eventDetails->end_time;
+        } ?>" name = "end_time" class="form-control" id="end_time">
             </div>
             
         <input type="file" name="imagefile" id="imagefile"  accept="image/*" required/>
@@ -61,5 +79,7 @@
   $( function() {
     $( "#start_date" ).datepicker();
     $( "#end_date" ).datepicker();
+    $( "#start_time" ).timepicker();
+    $( "#end_time" ).timepicker();
   } );
   </script>

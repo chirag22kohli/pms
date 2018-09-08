@@ -137,12 +137,12 @@ class Controller extends BaseController {
             if ($usageInfo > $allowedStorage) {
                 return [
                     'status' => false,
-                    'message' => 'Storage Full'
+                    'message' => 'Storage Full, Please delete some objects to continue.'
                 ];
             } else {
                 return [
                     'status' => true,
-                    'message' => 'Allowed'
+                    'message' => $usageInfo
                 ];
             }
         } elseif ($getPlanType->type == 'trackers_count') {

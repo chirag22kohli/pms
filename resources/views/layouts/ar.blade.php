@@ -26,6 +26,12 @@ var $j = jQuery.noConflict(true);
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+        <!-- Updated stylesheet url -->
+        <link rel="stylesheet" href="//jonthornton.github.io/jquery-timepicker/jquery.timepicker.css">
+
+        <!-- Updated JavaScript url -->
+        <script src="//jonthornton.github.io/jquery-timepicker/jquery.timepicker.js"></script>
+
     </head>
     <body>
         <div id="app">

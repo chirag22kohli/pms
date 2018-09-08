@@ -114,5 +114,50 @@ class UserController extends Controller {
 
        
     }
+    
+      public function updateContactEvent(Request $request) {
+        $validator = Validator::make($request->all(), [
+                   
+                    'type' => 'required',
+                    'id' => 'required',
+                    'json_info' => 'required'
+                    
+                    
+        ]);
+        if ($validator->fails()) {
+          $errors =   self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+        
+        $details = Contactandevents::where('type', $request->input('type'))->where('id',$request->input('id'))->update([
+            'json_info'=>$request->input('json_info')
+        ]);
+     
+         return parent::success('Updated Successfully.', $this->successStatus);
+       
+
+       
+    }
+    
+     public function deleteContactEvent(Request $request) {
+        $validator = Validator::make($request->all(), [
+                   
+                    'type' => 'required',
+                    'id' => 'required',
+                
+                    
+        ]);
+        if ($validator->fails()) {
+          $errors =   self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+        
+        $details = Contactandevents::where('type', $request->input('type'))->where('id',$request->input('id'))->delete();
+     
+         return parent::success('Deleted Successfully.', $this->successStatus);
+       
+
+       
+    }
 
 }
