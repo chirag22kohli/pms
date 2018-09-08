@@ -106,7 +106,8 @@
                                             <div class="sl-item border-left  <?= $classname ?>">
                                                 <div class="sl-content">
                                                     <small class="text-muted">Plan : <?= $transaction['plan']->name ?></small> ||
-                                                    <small class="text-muted">Transaction Date : <?= $transaction->created_at ?></small>
+                                                    <small class="text-muted">Transaction Date : <?= $transaction->created_at ?></small> ||
+                                                    <small class="text-muted">Payment Type: <?= $transaction->payment_type ?></small>
                                                     <p>Amount Paid: $<?= $transaction->price_paid ?></p>
 
                                                     <p>Stripe Charge ID: <?= $stripInfoPlan->id ?> </p>

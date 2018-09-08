@@ -130,7 +130,7 @@ class PaymentController extends Controller {
             'user_id' => Auth::id(),
             'plan_id' => $userPlan->plan_id,
             'expriy_date' => $expiryData,
-            'payment_type'=>'Chap Sign and Plan Selection',
+            'payment_type'=>'Chap Signup and Plan Selection',
             'price_paid' => $planDetails->price
         ];
         PaidPlantHistory::create($historyParams);
