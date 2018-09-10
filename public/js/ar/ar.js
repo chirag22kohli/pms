@@ -124,7 +124,7 @@ function initActions() {
             }
 
         }
-        s
+        
         //  $('#fbModal').modal('show');
         $.confirm({
             theme: 'supervan', // 'material', 'bootstrap'
