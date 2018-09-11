@@ -183,6 +183,9 @@ class Controller extends BaseController {
     }
 
     public static function checkClientConnectedAccount(){
+        if (Auth::user()->roles[0]->name == 'Admin') {
+            return true;
+        }
         $checkClientStripeConnect = Stripe::where('user_id',Auth::id())->where('account_id','!=',null)->first();
         if(count($checkClientStripeConnect)>0):
             return true;
