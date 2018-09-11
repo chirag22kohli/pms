@@ -19,7 +19,9 @@
         <select name = "project_type" class = "form-control" onchange = "changeType(this.value)">
             <option value ="public">Public</option>
             <option value ="restricted">Restricted</option>
+              <?php if ($connectStatus) { ?>
             <option value ="paid">Paid</option>
+              <?php } ?>
         </select>
     </div>
 </div>

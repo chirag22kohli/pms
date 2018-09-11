@@ -4,6 +4,22 @@
 
 <!-- main-heading -->
 <h2 class="main-title-w3layouts mb-2 text-center">Your Plan Info</h2>
+
+<?php if (!$connectStatus) { ?>
+    <p>Note: <i>To create Paid projects and recieve payouts please connect your stripe account with Chap.</i></p></br>
+    <a href ="https://dashboard.stripe.com/oauth/authorize?response_type=code&client_id=ca_DQvWyAbvuDzrDKxERln43Pyujo9Usj3j&scope=read_write">
+        <img src="{{ url('images/stripe.png')}}"></a> 
+<?php } ?>
+
+<div class="flash-message">
+    </br>
+    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+    @if(Session::has('alert-' . $msg))
+
+    <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+    @endif
+    @endforeach
+</div> <!-- end .flash-message -->
 <!--// main-heading -->
 
 <!-- Error Page Content -->
@@ -22,6 +38,7 @@
                         <span class="align-top">$</span><?= $planInfo->price; ?>
                         <small class="text-muted">/ <?= $planInfo->price_type; ?></small>
                     </h5>
+
                     <ul class="list-unstyled mt-3 mb-4">
 
                         <?php if ($planInfo->type == 'size') { ?>
@@ -59,14 +76,14 @@
                                 <td>
                                     <code>{{ $planInfo->max_trackers }} Trackers</code>
                                 </td>
-                                
+
                             </tr>
                             <tr>
                                 <th class="text-nowrap" scope="row">Storage</th>
                                 <td>
                                     <code>Unlimited Storage</code>
                                 </td>
-                                
+
                             </tr>
                         <?php } ?>
                         <tr>
@@ -74,7 +91,7 @@
                             <td>
                                 <code>{{ $userPlan->plan_expiry_date }} ({{ $difference }})</code>
                             </td>
-                           
+
                         </tr>
                         <tr>
                             <th class="text-nowrap" scope="row">Usage</th>
@@ -84,10 +101,10 @@
                             <th class="text-nowrap" scope="row">Used Trackers</th>
                             <td colspan="5">{{ $trackerCount }}</td>
                         </tr>
-                       
+
                         <tr>
                             <th class="text-nowrap" scope="row"><input type="hidden" id ="csr" value="{{ csrf_token() }}"> </th>
-                          
+
                             <td colspan="5"><button type="button" onclick ="renewPlan('{{$planInfo->id}}')" class="btn btn-lg btn-block btn-outline-primary py-2" data-toggle="modal" data-target="#exampleModal">Renew Plan</button></td>
                         </tr>
                     </tbody>

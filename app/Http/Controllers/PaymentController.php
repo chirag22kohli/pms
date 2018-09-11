@@ -179,7 +179,7 @@ class PaymentController extends Controller {
                 ->create();
 
 
-        $createVendor = StripeConnect::createAccount(Auth::user());
+        //$createVendor = StripeConnect::createAccount(Auth::user());
         if ($charge->status == 'succeeded') {
             $this->assignPlan($charge);
 
@@ -271,7 +271,7 @@ class PaymentController extends Controller {
                 ->create();
 
 
-        $createVendor = StripeConnect::createAccount(Auth::user());
+       // $createVendor = StripeConnect::createAccount(Auth::user());
         if ($charge->status == 'succeeded') {
 
             return 'success';

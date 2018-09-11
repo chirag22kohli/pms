@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\UserPlan;
 use Auth;
 use Carbon\Carbon;
+use App\Stripe;
 
 class PlansController extends Controller {
 
@@ -122,24 +123,66 @@ class PlansController extends Controller {
 
     public function planinfo(Request $request) {
 
+        if ($request->get('code') && $request->get('code') != ''):
+
+
+            $data = [
+                'client_secret' => 'sk_test_wiIiy3M1MEWiNL3kbOhYldDz',
+                'code' => $request->get('code'),
+                'grant_type' => 'authorization_code'
+            ];
+
+            $strieResposnes = json_decode(self::getStripeConnectAccount($data));
+            if (!empty($strieResposnes->error)):
+                $request->session()->flash('alert-danger', 'There was some issue while conneting your stripe account. Please try again.');
+            else:
+                $updateAccountStripe = Stripe::where('user_id', Auth::id())->update([
+                    'account_id' => $strieResposnes->stripe_user_id
+                ]);
+            $request->session()->flash('alert-success', 'Your stripe account is successfully connected.');
+            endif;
+
+
+        endif;
         $userPlan = UserPlan::where('user_id', Auth::id())->first();
         //   return $userPlan;
         $planInfo = Plan::where('id', $userPlan->plan_id)->first();
         $dayDiffrence = $userPlan->plan_expiry_date;
-       
+
         $usageInfo = parent::usageInfo();
         $created = new Carbon($dayDiffrence);
         $now = Carbon::now();
         $trackerCount = parent::trackerCount();
         //return parent::checkPlanUsage();
+        
         $difference = ($created->diff($now)->days < 1) ? 'today' : $created->diffForHumans($now);
-        return view('client.planinfo',[
-            'userPlan' =>$userPlan,
+        return view('client.planinfo', [
+            'userPlan' => $userPlan,
             'planInfo' => $planInfo,
-            'difference' =>$difference,
-            'usageInfo'=>$usageInfo,
-            'trackerCount'=>$trackerCount
+            'difference' => $difference,
+            'usageInfo' => $usageInfo,
+            'trackerCount' => $trackerCount,
+            'connectStatus'=> parent::checkClientConnectedAccount()
         ]);
+    }
+
+    protected static function getStripeConnectAccount($data) {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, "https://connect.stripe.com/oauth/token ");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+// In real life you should use something like:
+// curl_setopt($ch, CURLOPT_POSTFIELDS, 
+//          http_build_query(array('postvar1' => 'value1')));
+// Receive server response ...
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $server_output = curl_exec($ch);
+
+        curl_close($ch);
+        return $server_output;
     }
 
 }

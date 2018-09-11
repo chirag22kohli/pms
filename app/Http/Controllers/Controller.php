@@ -10,6 +10,7 @@ use Image;
 use App\Tracker;
 use Illuminate\Support\Facades\DB;
 use Auth;
+use App\Stripe;
 
 class Controller extends BaseController {
 
@@ -181,4 +182,12 @@ class Controller extends BaseController {
         }
     }
 
+    public static function checkClientConnectedAccount(){
+        $checkClientStripeConnect = Stripe::where('user_id',Auth::id())->where('account_id','!=',null)->first();
+        if(count($checkClientStripeConnect)>0):
+            return true;
+        else:
+            return false;
+        endif;
+    }
 }

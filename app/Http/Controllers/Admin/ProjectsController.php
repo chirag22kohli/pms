@@ -56,7 +56,10 @@ class ProjectsController extends Controller {
      * @return \Illuminate\View\View
      */
     public function create() {
-        return view('projects.projects.create');
+       
+        return view('projects.projects.create',[
+            'connectStatus' => parent::checkClientConnectedAccount()
+        ]);
     }
 
     /**
