@@ -7,7 +7,7 @@
 
 <?php if (!$connectStatus) { ?>
     <p>Note: <i>To create Paid projects and recieve payouts please connect your stripe account with Chap.</i></p></br>
-    <a href ="https://dashboard.stripe.com/oauth/authorize?response_type=code&client_id=ca_DQvWyAbvuDzrDKxERln43Pyujo9Usj3j&scope=read_write">
+    <a href ="https://dashboard.stripe.com/oauth/authorize?response_type=code&client_id=ca_DQvWyAbvuDzrDKxERln43Pyujo9Usj3j&scope=read_write&redirect_uri={{ env('STRIPE_REDIRECT_URI') }}">
         <img src="{{ url('images/stripe.png')}}"></a> 
 <?php } ?>
 
