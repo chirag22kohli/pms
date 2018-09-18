@@ -37,6 +37,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::post('generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@postGenerator']);
     Route::resource('user-plans', 'admin\\UserPlansController');
     Route::resource('plans', 'admin\\PlansController');
+    Route::resource('support', 'Admin\\SupportController');
+    
 });
 
 Route::group(['middleware' => ['auth', 'roles'], 'roles' => 'Admin'], function () {
@@ -66,6 +68,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
     Route::get('upgradePlanView', 'PaymentController@upgradePlanView');
     Route::get('upgradeNow', 'PaymentController@upgradeNow');
     Route::post('upgradeNowPlan', 'PaymentController@upgradeNowPlan');
+    Route::post('createSupport', 'admin\SupportController@createSupport');
 });
 
 Route::post('client/makePayment', 'PaymentController@payWithStripe');
@@ -134,5 +137,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
 
 
