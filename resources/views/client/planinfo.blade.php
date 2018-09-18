@@ -23,6 +23,7 @@
 <!--// main-heading -->
 
 <!-- Error Page Content -->
+
 <div class="blank-page-content">
 
     <!-- Error Page Info -->
@@ -57,7 +58,24 @@
                     <button type="button" onclick ="location.href = 'upgradePlanView'" class="btn btn-lg btn-block btn-outline-primary py-2" data-toggle="modal" data-target="#exampleModal">Upgrade</button>
                 </div>
             </div>
+
             <div class="outer-w3-agile mt-3  col-xl-8">
+                <div class = "row">
+                     <div class = "col-md-6">
+                        
+                    </div>
+                    <div class = "col-md-4">
+                        <h4> Reoccurring Payment</h4>
+                    </div>
+                    <div class = "col-md-2">
+                        <label class="switch">
+                            <input onchange = "manageReoccurring()" type="checkbox" <?php if($userPlan->reoccuring_status){ echo  'checked'; } ?>>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+
+
                 <h4 class="tittle-w3-agileits mb-4">Usage Stats and Expiry Information</h4>
                 <table class="table table-bordered table-striped">
                     <thead>
@@ -116,4 +134,6 @@
     <!--// Error Page Info -->
 
 </div>
+
+
 @endsection

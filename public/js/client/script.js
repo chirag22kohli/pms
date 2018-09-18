@@ -51,6 +51,26 @@ function renewPlan(project_info) {
         }
     });
 }
+
+function manageReoccurring() {
+    $.ajax({
+        url: "manageReoccurring",
+        method: 'post',
+        headers: {
+            'X-CSRF-TOKEN': $('#csr').val()
+        },
+        
+        cache: false,
+
+        success: function (data) {
+            $.alert({
+                theme: 'supervan',
+                title: '',
+                content: data
+            });
+        }
+    });
+}
 function upgradeNowPlan(id) {
     $.ajax({
         url: "upgradeNowPlan",

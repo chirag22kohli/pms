@@ -286,6 +286,22 @@ class PaymentController extends Controller {
         $getSimilarPlans = Plan::where('type', $getPlanDetails->type)->where('price_type', $getPlanDetails->price_type)->where('price', '>', $getPlanDetails->price)->get();
         return view('client.upgradePlanView', ['planInfo' => $getPlanDetails, 'getSimilarPlans' => $getSimilarPlans]);
     }
+    public function manageReoccurring(){
+        $newStatus = 1;
+        $userPlan = UserPlan::where('user_id',Auth::id())->first();
+         $message  = 'Thankyou for turning on the Re-occuring payments with us. We ensure you to provide the best AR Experience.';
+        if($userPlan->reoccuring_status == '1'){
+            $newStatus = 0;
+            $message = 'We have stopped your Re-occurring payments for this plan, However you can continue anytime.';
+        }else{
+            $newStatus = 1;
+        }
+        
+        UserPlan::where('user_id',Auth::id())->update([
+            'reoccuring_status'=>$newStatus
+        ]);
+        return  $message ;
+    }
 
     public function upgradeNow(Request $request) {
         $planId = base64_decode($request->get('id'));

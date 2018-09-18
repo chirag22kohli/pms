@@ -11,6 +11,8 @@ use App\Project;
 use App\RestrictedUid;
 use App\RecentProject;
 use App\PaidProjectDetail;
+use DB;
+use Carbon\Carbon;
 class ProjectController extends Controller {
 
     public $successStatus = 200;
@@ -86,6 +88,24 @@ class ProjectController extends Controller {
         } else {
             return parent::error('No Recent Projects Found', 200);
         }
+    }
+
+    public function trackerSupport(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'project_id' => 'required',
+                    'tracker_id' => 'required',
+                    'reason' => 'required'
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+
+        DB::insert('insert into tracker_support (user_id, tracker_id, project_id, reason, created_at) values (?, ?, ? ,?, ?)', [Auth::id(),
+            $request->input('tracker_id'), $request->input('project_id'), $request->input('reason'), Carbon::now()]);
+
+
+        return parent::success('Successfully sent your feedback.', $this->successStatus);
     }
 
 }
