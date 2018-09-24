@@ -13,6 +13,8 @@ use App\RecentProject;
 use App\PaidProjectDetail;
 use DB;
 use Carbon\Carbon;
+use App\UserUid;
+
 class ProjectController extends Controller {
 
     public $successStatus = 200;
@@ -37,6 +39,15 @@ class ProjectController extends Controller {
             if ($projectDetails->project_type == 'paid') {
                 $paidDetails = parent::checkProjectPaidStatus($request->input('project_id'));
                 $projectDetails->paid_status = $paidDetails;
+            }
+            if ($projectDetails->project_type == 'restricted') {
+                $uidDetails = UserUid::where('user_id', Auth::id())->where('project_id', $request->input('project_id'))->first();
+                if (count($uidDetails) > 0) {
+                    $uidStatus = true;
+                } else {
+                    $uidStatus = false;
+                }
+                $projectDetails->uid_status = $uidStatus;
             }
             return parent::success($projectDetails, $this->successStatus);
         } else {
@@ -67,12 +78,28 @@ class ProjectController extends Controller {
                     'uid' => 'required',
         ]);
         if ($validator->fails()) {
-            return parent::error($validator->errors(), 200);
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
         }
         $projectDetails = RestrictedUid::where('project_id', $request->input('project_id'))->where('uid', $request->input('uid'))->first();
 
         if (count($projectDetails) > 0) {
-            return parent::success($projectDetails, $this->successStatus);
+
+            $checkPreviousUsedUid = UserUid::where('uid', $request->input('uid'))->where('project_id', $request->input('project_id'))->first();
+            if (count($checkPreviousUsedUid) > 0) {
+                if ($checkPreviousUsedUid->user_id == Auth::id()) {
+                    return parent::success($projectDetails, $this->successStatus);
+                } else {
+                    return parent::error('UID Already Used. Please contact project owner.', 200);
+                }
+            } else {
+                UserUid::create([
+                    'user_id' => Auth::id(),
+                    'uid' => $request->input('uid'),
+                    'project_id' => $request->input('project_id')
+                ]);
+                return parent::success($projectDetails, $this->successStatus);
+            }
         } else {
             return parent::error('No UID Found', 200);
         }

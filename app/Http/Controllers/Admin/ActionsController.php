@@ -439,8 +439,10 @@ class ActionsController extends Controller {
 
         $object_id = $request->input('object_id');
         $youtubeLink = $request->input('youtube');
-        $videoId = $this->youtubeID($youtubeLink);
-        $image = "https://img.youtube.com/vi/" . $videoId . "/0.jpg";
+        //$videoId = $this->youtubeID($youtubeLink);
+        $videoId = explode('=',$youtubeLink);
+        
+        $image = "https://img.youtube.com/vi/" . $videoId[1] . "/0.jpg";
         $data = [
             'object_id' => $object_id,
             'message' => $youtubeLink,
