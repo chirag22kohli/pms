@@ -709,7 +709,7 @@ function actionUpload(formName) {
             finalizeTracker();
             if (obj.success == '1') {
                 // $j('#frame').css("background-image", "url(" + obj.path + ")");
-
+                
             }
         }
     };
@@ -731,7 +731,7 @@ function actionUploadImage(formName, ids) {
             var obj = JSON.parse(this.responseText);
             // console.log(obj);
             $j("body").removeClass("loading");
-
+            finalizeTracker();
             if (obj.success == '1') {
                 console.log(obj.newHeight);
                 $j('#' + ids).css("background-image", "url(" + obj.path + ")");
@@ -739,6 +739,7 @@ function actionUploadImage(formName, ids) {
                 //  $j('#' + ids).css("background-size", "cover");
                 var height = obj.newHeight + "px";
                 updateHieghtNewObject(ids, height);
+               
 
             }
         }
