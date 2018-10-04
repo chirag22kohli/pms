@@ -124,7 +124,7 @@ function initActions() {
             }
 
         }
-        
+
         //  $('#fbModal').modal('show');
         $.confirm({
             theme: 'supervan', // 'material', 'bootstrap'
@@ -276,6 +276,13 @@ function initActions() {
                             $.alert('Please enter Email.');
                             return false;
                         }
+
+                       
+                        if (!isEmail(name)) {
+                            $.alert('Please enter a valid Email.');
+                            return false;
+
+                        }
                         actionUploadImage('emailUpload', ids);
 
                     }
@@ -325,7 +332,7 @@ function initActions() {
                             $.alert('Please enter web link.');
                             return false;
                         }
-                        console.log(ValidURL(name));
+                      
                         if (!ValidURL(name)) {
                             $.alert('Please enter a proper Url.');
                             return false;
@@ -439,6 +446,11 @@ function initActions() {
                         if (!name || !email || !number || !address || !company) {
                             $.alert('Please enter all the fields.');
                             return false;
+                        }
+                        if (!isEmail(email)) {
+                            $.alert('Please enter a valid Email.');
+                            return false;
+
                         }
                         actionUploadImage('contactUpload', ids);
 
@@ -756,5 +768,10 @@ function checkPlanUsage() {
         }
     }).responseJSON;
     return ss;
+}
+
+function isEmail(email) {
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email);
 }
 ;

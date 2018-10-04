@@ -157,13 +157,14 @@
             data: {type: type, width: width, height: height, xpos: xpos, ypos: ypos, main_class: main_class, tracker_id: tracker_id, object_div: objName, pos_top: top_tracker, pos_left: left_tracker, object_image: bg},
 
             success: function (msg) {
-
+                finalizeTracker();
             }
         });
 
     }
     function finalizeTracker() {
         var tracker_id = '<?php echo $tracker_id ?>';
+        
         // return false;
         $.ajax({
             type: "POST",
@@ -187,7 +188,7 @@
     <div id="wrapper">
         <div class = "row">
             <div class = "col-md-9">
-                <button class = "btn btn-warning" onclick="finalizeTracker()" >Finalize Tracker</button>
+                <button class = "btn btn-warning" style = "display:none" onclick="finalizeTracker()" >Finalize Tracker</button>
             </div>
             <div class = "col-md-3"> <button onclick ="uploadTracker()" class = "btn btn-success trackerButton">Upload Tracker</button></div>
             <form  style ="display: none" enctype="multipart/form-data" name ="imageUploadForm" id =  "imageUploadForm" method = "post" action = "trackerUpload">

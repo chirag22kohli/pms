@@ -29,7 +29,7 @@
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="emailcontact"  value ="<?php
+            <input type="email"  value ="<?php
             if (isset($eventDetails->emailcontact) && !empty($eventDetails->emailcontact)) {
                 echo $eventDetails->emailcontact;
             }
@@ -37,7 +37,7 @@
         </div>
         <div class="form-group">
             <label for="Number">Number</label>
-            <input type="text"  value ="<?php
+            <input type="number"  value ="<?php
             if (isset($eventDetails->number) && !empty($eventDetails->number)) {
                 echo $eventDetails->number;
             }
