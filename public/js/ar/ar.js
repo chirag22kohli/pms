@@ -277,7 +277,7 @@ function initActions() {
                             return false;
                         }
 
-                       
+
                         if (!isEmail(name)) {
                             $.alert('Please enter a valid Email.');
                             return false;
@@ -332,7 +332,7 @@ function initActions() {
                             $.alert('Please enter web link.');
                             return false;
                         }
-                      
+
                         if (!ValidURL(name)) {
                             $.alert('Please enter a proper Url.');
                             return false;
@@ -667,6 +667,7 @@ function deleteObject(id) {
                     success: function (msg) {
                         $("#" + id.id).remove();
                         $.alert('Object has been deleted.');
+                           finalizeTracker();
                     }
                 });
 
@@ -688,6 +689,8 @@ function updateHieghtNewObject(id, height) {
 
         success: function (msg) {
             console.log('Done');
+
+            finalizeTracker();
         }
     });
 }
@@ -703,7 +706,7 @@ function actionUpload(formName) {
             var obj = JSON.parse(this.responseText);
             // console.log(obj);
             $j("body").removeClass("loading");
-
+            finalizeTracker();
             if (obj.success == '1') {
                 // $j('#frame').css("background-image", "url(" + obj.path + ")");
 
