@@ -137,7 +137,7 @@ class Controller extends BaseController {
         if (Auth::user()->roles[0]->name == 'Admin') {
             return [
                 'status' => true,
-                'message' => 'Storage Full, Please delete some objects to continue.',
+                'message' => 'Storage Full, Please delete some objects to continue. You may upgrade to a new plan to continue adding more trackers',
                 'plan_type' => 'size'
             ];
         }
@@ -152,7 +152,7 @@ class Controller extends BaseController {
             if ($usageInfo > $allowedStorage) {
                 return [
                     'status' => false,
-                    'message' => 'Storage Full, Please delete some objects to continue.',
+                    'message' => 'Storage Full, Please delete some objects to continue. You may upgrade to a new plan to continue get more storage.',
                     'plan_type' => $getPlanType->type
                 ];
             } else {
@@ -169,7 +169,7 @@ class Controller extends BaseController {
             if ($usageInfo >= $allowedTrackers) {
                 return [
                     'status' => false,
-                    'message' => 'All Trackers for this plan is used. ',
+                    'message' => 'All Trackers for this plan is used. You may upgrade to a new plan to continue adding more trackers.',
                     'plan_type' => $getPlanType->type
                 ];
             } else {

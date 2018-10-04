@@ -2,7 +2,7 @@
 <nav id="sidebar">
     <div class="sidebar-header">
         <h1>
-            <a href="index.html">Chap   <i class="fab fa-connectdevelop"></i></a>
+            <a href="{{url('homepage')}}">Chap   <i class="fab fa-connectdevelop"></i></a>
         </h1>
         <span>C</span>
     </div>

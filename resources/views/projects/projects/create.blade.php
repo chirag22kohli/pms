@@ -12,8 +12,8 @@
                 <div class="card-body">
 
                     <?php if (!$connectStatus) { ?>
-                        <p>Note: <i>To create Paid projects and recieve payouts please connect your stripe account with Chap.</i></p></br>
-                        
+                        <p style ="color:red"><b>Note:</b> <i>To create Paid projects and recieve payouts please connect your stripe account with Chap.</i></p></br>
+                        <button type="button" class="btn btn-info btn-xs" onclick = "stripeInfo()">Connect with Stripe</button>  </br> </br>
                     <?php } ?>
                     <a href="{{ url('/admin/projects') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                     <br />
@@ -38,4 +38,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    function stripeInfo() {
+        $.alert({
+            title: 'Connect with Stripe',
+            content: 'To create and recieve payments for payed projects you need to add your stripe account. Please add it on <a style = "color:red" href ="{{url("client/planinfo")}}">Plan Info.</a>',
+            draggable: true,
+            dragWindowBorder: false,
+        });
+    }
+</script>
 @endsection

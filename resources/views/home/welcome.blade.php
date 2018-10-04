@@ -98,7 +98,7 @@
                                 </div>
                                 <div class="feature--content">
                                     <h3>Secure Data</h3>
-                                    <p>Your data with is secure and encrypted.</p>
+                                    <p>Your data with us is secure and encrypted.</p>
                                 </div>
                             </div>
                             <!-- .feature-panel end -->

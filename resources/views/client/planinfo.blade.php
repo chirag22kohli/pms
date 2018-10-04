@@ -1,7 +1,6 @@
 @extends('layouts.client')
 
 @section('content')
-<a href="#lang-en" onclick="window.lang.change('en'); return false;">Switch to English</a> | <a href="#lang-en" onclick="window.lang.change('th'); return false;">Switch to Thai</a>
 <!-- main-heading -->
 <h2 class="main-title-w3layouts mb-2 text-center" lang="en">Your Plan Info</h2>
 

@@ -182,5 +182,10 @@ class RestrictedUidController extends Controller {
             }
         }
     }
+    
+    public function deleteMultipleUid(Request $request){
+     
+        return RestrictedUid::destroy($request->input('uid'));
+    }
 
 }

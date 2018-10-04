@@ -32,7 +32,7 @@
                     @if (Route::has('login'))
                    
                         @auth
-                        <li><a data-scroll="scrollTo" href="{{ url('/home') }}">Dashboard</a></li>
+                        <li><a data-scroll="scrollTo" href="{{ url('homepage') }}">Dashboard</a></li>
 
                         @else
                         <li><a data-scroll="scrollTo" href="{{ route('login') }}">Login</a></li>

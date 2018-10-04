@@ -25,7 +25,7 @@ Route::get('status', [
 
 Route::get('uploadDataVuforia', 'Admin\ArController@uploadDataVuforia');
 Route::get('deleteAllTargets', 'Admin\ArController@deleteAllTargets');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('homepage', 'HomeController@index');
 
 
 // Admin MiddleWare-------------------------------------------------------------
@@ -132,6 +132,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::post('/import_parse', 'Admin\RestrictedUidController@parseImport')->name('import_parse');
     Route::post('/import_process', 'RestrictedUidController@processImport')->name('import_process');
     Route::get('checkPlanUsage', 'ClientController@checkPlanUsage');
+    Route::post('deleteMultipleUid', 'Admin\RestrictedUidController@deleteMultipleUid');
+    
 });
 
 
