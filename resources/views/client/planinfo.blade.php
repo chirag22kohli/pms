@@ -1,9 +1,9 @@
 @extends('layouts.client')
 
 @section('content')
-
+<a href="#lang-en" onclick="window.lang.change('en'); return false;">Switch to English</a> | <a href="#lang-en" onclick="window.lang.change('th'); return false;">Switch to Thai</a>
 <!-- main-heading -->
-<h2 class="main-title-w3layouts mb-2 text-center">Your Plan Info</h2>
+<h2 class="main-title-w3layouts mb-2 text-center" lang="en">Your Plan Info</h2>
 
 <?php if (!$connectStatus) { ?>
     <p>Note: <i>To create Paid projects and recieve payouts please connect your stripe account with Chap.</i></p></br>
@@ -76,7 +76,7 @@
                 </div>
 
 
-                <h4 class="tittle-w3-agileits mb-4">Usage Stats and Expiry Information</h4>
+                <h4 class="tittle-w3-agileits mb-4" lang="en" data-lang-token="Dashboard"> Usage Stats and Expiry Information</h4>
                 <table class="table table-bordered table-striped">
                     <thead>
 
@@ -84,7 +84,7 @@
                     <tbody>
                         <?php if ($planInfo->type == 'size') { ?>
                             <tr>
-                                <th class="text-nowrap" scope="row">Storage</th>
+                                <th class="text-nowrap"  lang="en" data-lang-token="Storage_thai" scope="row">Storage</th>
 
                                 <td>{{ $planInfo->max_trackers }} MB Storage</td>
                             </tr>
