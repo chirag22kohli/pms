@@ -172,7 +172,7 @@ class PaymentController extends Controller {
         $superAdmin = \App\User::where('id', 2)->first();
 
         $charge = StripeConnect::transaction()
-                ->amount($price * 100, 'usd')
+                ->amount($price * 100, 'sgd')
                 ->useSavedCustomer()
                 ->from(Auth::user())
                 ->to($superAdmin)
@@ -232,7 +232,7 @@ class PaymentController extends Controller {
 
             $price = $planInfo->price;
             $charge = StripeConnect::transaction()
-                    ->amount($price * 100, 'usd')
+                    ->amount($price * 100, 'sgd')
                     ->useSavedCustomer()
                     ->from(Auth::user())
                     ->to($superAdmin)
@@ -264,7 +264,7 @@ class PaymentController extends Controller {
         $superAdmin = \App\User::where('id', 2)->first();
 
         $charge = StripeConnect::transaction()
-                ->amount($price * 100, 'usd')
+                ->amount($price * 100, 'sgd')
                 ->useSavedCustomer()
                 ->from(Auth::user())
                 ->to($superAdmin)
@@ -343,7 +343,7 @@ class PaymentController extends Controller {
 
             $price = $planInfo->price;
             $charge = StripeConnect::transaction()
-                    ->amount($newChargeDetails['newPayment'] * 100, 'usd')
+                    ->amount($newChargeDetails['newPayment'] * 100, 'sgd')
                     ->useSavedCustomer()
                     ->from(Auth::user())
                     ->to($superAdmin)
