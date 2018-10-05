@@ -46,7 +46,7 @@
                     $("#clonediv" + counter).removeClass("tempclass");
                     //Get the dynamically item id
                     draggedId = ui.helper.attr('id').match(/\d+$/);
-                  //  console.log(draggedId);
+                    //  console.log(draggedId);
                     draggedNumber = ui.helper.attr('id').search(/drag([0-9])/)
                     itemDragged = "dragCommon dragged" + draggedId
 
@@ -164,7 +164,7 @@
     }
     function finalizeTracker() {
         var tracker_id = '<?php echo $tracker_id ?>';
-        
+
         // return false;
         $.ajax({
             type: "POST",
@@ -199,7 +199,7 @@
         </div>
         </br>
         <div id="options">
-            <div class="card-header">Objects</div>
+         
             <div id="drag1" main_class ="dragged1" type ="google" class="drag dragCommon"></div> <!-- end of drag1 -->
             <div id="drag2" main_class ="dragged2" type ="facebook" class="drag dragCommon"></div> <!-- end of drag2 -->
             <div id="drag3" main_class ="dragged3" type ="audio" class="drag dragCommon"></div> <!-- end of drag3 -->
@@ -212,9 +212,11 @@
             <div id="drag10" main_class ="dragged10" type ="youtube" class="drag dragCommon"></div> <!-- end of drag6 -->
             <div id="drag11" main_class ="dragged11" type ="flip" class="drag dragCommon"></div> <!-- end of drag6 -->
             <div id="drag12" main_class ="dragged12" type ="screenshot" class="drag dragCommon"></div> <!-- end of drag6 -->
-  
+            <div id="drag13" main_class ="dragged13" type ="tapaudio" class="drag dragCommon"></div> <!-- end of drag6 -->
+            <div id="drag14" main_class ="dragged14" type ="tapvideo" class="drag dragCommon"></div> <!-- end of drag6 -->
+
         </div><!-- end of options -->
-        
+
         <div id="frame" <?php if (!empty($tracker)) { ?> style="background-image: url(<?php echo url($tracker); ?>); background-size: contain;;" <?php } ?>>
             <div class="card-header">Drop Here</div>
             <?php

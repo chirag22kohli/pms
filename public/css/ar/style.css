@@ -11,7 +11,7 @@ body {
 
 #options{
     width: 19%;
-    height:550px;
+    height:560px;
     border:1px solid black;
     float:left;
 }
@@ -121,6 +121,16 @@ body {
     background-image: url("../../images/screenshot.png");
 
 }
+#drag13 {
+
+    background-image: url("../../images/tapaudio.png");
+
+}
+#drag14 {
+
+    background-image: url("../../images/tapvideo.png");
+
+}
 
 
 .ui-draggable-helperMoving {
@@ -205,6 +215,16 @@ body {
 .dragged12 {
     position:absolute; 
     background-image: url("../../images/screenshot.png");
+
+}
+.dragged13{
+    position:absolute; 
+    background-image: url("../../images/tapaudio.png");
+
+}
+.dragged14 {
+    position:absolute; 
+    background-image: url("../../images/tapvideo.png");
 
 }
 

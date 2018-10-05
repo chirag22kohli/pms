@@ -39,7 +39,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::resource('user-plans', 'admin\\UserPlansController');
     Route::resource('plans', 'admin\\PlansController');
     Route::resource('support', 'Admin\\SupportController');
-    
 });
 
 Route::group(['middleware' => ['auth', 'roles'], 'roles' => 'Admin'], function () {
@@ -100,6 +99,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::get('youtube', 'Admin\ActionsController@youtube');
     Route::get('flip', 'Admin\ActionsController@flip');
     Route::get('screenShot', 'Admin\ActionsController@screenShot');
+    Route::get('tapAudio', 'Admin\ActionsController@tapAudio');
+    Route::get('tapVideo', 'Admin\ActionsController@tapVideo');
 
     Route::post('googleUpload', 'Admin\ActionsController@googleUpload');
     Route::post('facebookUpload', 'Admin\ActionsController@facebookUpload');
@@ -114,6 +115,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::post('flipUpload', 'Admin\ActionsController@flipUpload');
     Route::post('screenShotUpload', 'Admin\ActionsController@screenShotUpload');
     Route::post('updateHieghtNewObject', 'Admin\ActionsController@updateHieghtNewObject');
+    Route::post('tapAudioUpload', 'Admin\ActionsController@tapAudioUpload');
+    Route::post('tapVideoUpload', 'Admin\ActionsController@tapVideoUpload');
 
 
 
@@ -133,7 +136,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::post('/import_process', 'RestrictedUidController@processImport')->name('import_process');
     Route::get('checkPlanUsage', 'ClientController@checkPlanUsage');
     Route::post('deleteMultipleUid', 'Admin\RestrictedUidController@deleteMultipleUid');
-    
 });
 
 

@@ -9,6 +9,14 @@ function initActions() {
     $(".dragged4").off("dblclick");
     $(".dragged5").off("dblclick");
     $(".dragged6").off("dblclick");
+    $(".dragged7").off("dblclick");
+    $(".dragged8").off("dblclick");
+    $(".dragged9").off("dblclick");
+    $(".dragged10").off("dblclick");
+    $(".dragged11").off("dblclick");
+    $(".dragged12").off("dblclick");
+    $(".dragged13").off("dblclick");
+    $(".dragged14").off("dblclick");
 
 
     $(".dragged1").dblclick(function () {
@@ -174,7 +182,7 @@ function initActions() {
         $.confirm({
             theme: 'supervan', // 'material', 'bootstrap'
             animation: 'rotate',
-            title: 'Add an Audio file',
+            title: 'Add an Video file',
             content: 'url:video?object_id=' + this.id,
             buttons: {
                 formSubmit: {
@@ -613,6 +621,99 @@ function initActions() {
 
 
 
+    //tapAudio
+    $(".dragged13").dblclick(function () {
+        if (!checkPlanUsage().status) {
+            if (checkPlanUsage().plan_type == 'size') {
+                $.alert(checkPlanUsage().message);
+                return false;
+            }
+
+        }
+
+        //  $('#fbModal').modal('show');
+        $.confirm({
+            theme: 'supervan', // 'material', 'bootstrap'
+            animation: 'rotate',
+            title: 'Tap to Play Audio',
+            content: 'url:tapAudio?object_id=' + this.id,
+            buttons: {
+                formSubmit: {
+                    text: 'Submit',
+                    btnClass: 'btn-blue',
+                    action: function () {
+                        var name = this.$content.find('#audiofile').val();
+                        if (!name) {
+                            $.alert('Please Select File.');
+                            return false;
+                        }
+
+                        actionUpload('tapAudioUpload');
+                    }
+                },
+                cancel: function () {
+                    //close
+                },
+            },
+            onContentReady: function () {
+                // bind to events
+                var jc = this;
+                this.$content.find('form').on('submit', function (e) {
+                    // if the user submits the form by pressing enter in the field.
+                    e.preventDefault();
+                    jc.$$formSubmit.trigger('click'); // reference the button and click it
+                });
+            }
+        });
+    });
+
+
+  //Video
+    $(".dragged14").dblclick(function () {
+        if (!checkPlanUsage().status) {
+            if (checkPlanUsage().plan_type == 'size') {
+                $.alert(checkPlanUsage().message);
+                return false;
+            }
+
+        }
+        //  $('#fbModal').modal('show');
+        $.confirm({
+            theme: 'supervan', // 'material', 'bootstrap'
+            animation: 'rotate',
+            title: 'Tap to Play Video',
+            content: 'url:tapVideo?object_id=' + this.id,
+            buttons: {
+                formSubmit: {
+                    text: 'Submit',
+                    btnClass: 'btn-blue',
+                    action: function () {
+                        var name = this.$content.find('#videofile').val();
+                        if (!name) {
+                            $.alert('Please Select File.');
+                            return false;
+                        }
+
+                        actionUpload('tapVideoUpload');
+                    }
+                },
+                cancel: function () {
+                    //close
+                },
+            },
+            onContentReady: function () {
+                // bind to events
+                var jc = this;
+                this.$content.find('form').on('submit', function (e) {
+                    // if the user submits the form by pressing enter in the field.
+                    e.preventDefault();
+                    jc.$$formSubmit.trigger('click'); // reference the button and click it
+                });
+            }
+        });
+    });
+
+
 
 
     // for selection and remove
@@ -667,7 +768,7 @@ function deleteObject(id) {
                     success: function (msg) {
                         $("#" + id.id).remove();
                         $.alert('Object has been deleted.');
-                           finalizeTracker();
+                        finalizeTracker();
                     }
                 });
 
@@ -709,7 +810,7 @@ function actionUpload(formName) {
             finalizeTracker();
             if (obj.success == '1') {
                 // $j('#frame').css("background-image", "url(" + obj.path + ")");
-                
+
             }
         }
     };
@@ -739,7 +840,7 @@ function actionUploadImage(formName, ids) {
                 //  $j('#' + ids).css("background-size", "cover");
                 var height = obj.newHeight + "px";
                 updateHieghtNewObject(ids, height);
-               
+
 
             }
         }
