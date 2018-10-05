@@ -11,6 +11,13 @@
 
         </br>
         </br>
+        <?php
+        if (isset($objectImage) && !empty($objectImage)) {
+            echo '<img src = "'.$objectImage.'" style = "width: 90px">';
+        }
+        ?>
+        </br>
+        </br>
         </br>
         <?php
         if (isset($objectAction->url) && !empty($objectAction->url)) {

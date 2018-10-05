@@ -10,6 +10,7 @@ use Validator;
 use DB;
 use App\Role;
 use App\Contactandevents;
+use App\Metum;
 
 class UserController extends Controller {
 
@@ -43,7 +44,7 @@ class UserController extends Controller {
                     'c_password' => 'required|same:password',
         ]);
         if ($validator->fails()) {
-          $errors =   self::formatValidator($validator);
+            $errors = self::formatValidator($validator);
             return parent::error($errors, 200);
         }
         $input = $request->all();
@@ -70,94 +71,90 @@ class UserController extends Controller {
         $user = Auth::user();
         return parent::success($user, $this->successStatus);
     }
-    
-    
+
     public function createContactEvent(Request $request) {
         $validator = Validator::make($request->all(), [
-                   
                     'type' => 'required',
                     'json_info' => 'required',
-                    
         ]);
         if ($validator->fails()) {
-          $errors =   self::formatValidator($validator);
+            $errors = self::formatValidator($validator);
             return parent::error($errors, 200);
         }
         $input = $request->all();
-        
+
         $user = Contactandevents::create(array_merge($request->all(), ['user_id' => Auth::id()]));
-     
+
         $success['message'] = 'Saved Successfully';
 
         return parent::success($success, $this->successStatus);
     }
-    
+
     public function getContactEvent(Request $request) {
         $validator = Validator::make($request->all(), [
-                   
                     'type' => 'required',
-                    
-                    
         ]);
         if ($validator->fails()) {
-          $errors =   self::formatValidator($validator);
+            $errors = self::formatValidator($validator);
             return parent::error($errors, 200);
         }
-        
+
         $details = Contactandevents::where('type', $request->input('type'))->where('user_id', Auth::id())->get();
-     
+
         if (count($details) > 0) {
             return parent::success($details, $this->successStatus);
-        }else{
-             return parent::error('No '. $request->input('type').' Found', 200);
+        } else {
+            return parent::error('No ' . $request->input('type') . ' Found', 200);
         }
-
-       
     }
-    
-      public function updateContactEvent(Request $request) {
+
+    public function updateContactEvent(Request $request) {
         $validator = Validator::make($request->all(), [
-                   
                     'type' => 'required',
                     'id' => 'required',
                     'json_info' => 'required'
-                    
-                    
         ]);
         if ($validator->fails()) {
-          $errors =   self::formatValidator($validator);
+            $errors = self::formatValidator($validator);
             return parent::error($errors, 200);
         }
-        
-        $details = Contactandevents::where('type', $request->input('type'))->where('id',$request->input('id'))->update([
-            'json_info'=>$request->input('json_info')
-        ]);
-     
-         return parent::success('Updated Successfully.', $this->successStatus);
-       
 
-       
+        $details = Contactandevents::where('type', $request->input('type'))->where('id', $request->input('id'))->update([
+            'json_info' => $request->input('json_info')
+        ]);
+
+        return parent::success('Updated Successfully.', $this->successStatus);
     }
-    
-     public function deleteContactEvent(Request $request) {
+
+    public function deleteContactEvent(Request $request) {
         $validator = Validator::make($request->all(), [
-                   
                     'type' => 'required',
                     'id' => 'required',
-                
-                    
         ]);
         if ($validator->fails()) {
-          $errors =   self::formatValidator($validator);
+            $errors = self::formatValidator($validator);
             return parent::error($errors, 200);
         }
-        
-        $details = Contactandevents::where('type', $request->input('type'))->where('id',$request->input('id'))->delete();
-     
-         return parent::success('Deleted Successfully.', $this->successStatus);
-       
 
-       
+        $details = Contactandevents::where('type', $request->input('type'))->where('id', $request->input('id'))->delete();
+
+        return parent::success('Deleted Successfully.', $this->successStatus);
+    }
+
+    public function getMeta(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'meta_name' => 'required',
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+        $details = Metum::where('meta_name', $request->input('meta_name'))->first();
+        if (count($details) > 0) {
+            return parent::success($details, $this->successStatus);
+        } else {
+            return parent::error('No ' . $request->input('meta_name') . ' Found', 200);
+        }
     }
 
 }

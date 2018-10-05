@@ -6,7 +6,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Support;
 use Illuminate\Http\Request;
-
+use DB;
 class SupportController extends Controller {
 
     /**
@@ -119,6 +119,12 @@ class SupportController extends Controller {
 
         $request->session()->flash('alert-success', 'Support Ticket has been Raised Successfully.');
         return redirect('client/support');
+    }
+    
+    public function trackerSupport() {
+        $trackerSupport = DB::table('tracker_support')->select('tracker_support.*','projects.name as projectName','trackers.tracker_name','trackers.tracker_path','users.email')->join('projects', 'projects.id', '=', 'tracker_support.project_id')->join('trackers', 'trackers.id', '=', 'tracker_support.tracker_id')->join('users', 'users.id', '=', 'tracker_support.user_id')->get();
+       //dd($trackerSupport); 
+        return view('admin.support.trackerSupport', ['trackerSupport'=>$trackerSupport]);
     }
 
 }

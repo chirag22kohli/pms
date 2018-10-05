@@ -39,6 +39,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::resource('user-plans', 'admin\\UserPlansController');
     Route::resource('plans', 'admin\\PlansController');
     Route::resource('support', 'Admin\\SupportController');
+    Route::get('trackerSupport', 'Admin\SupportController@trackerSupport');
+    Route::resource('meta', 'Admin\\MetaController');
 });
 
 Route::group(['middleware' => ['auth', 'roles'], 'roles' => 'Admin'], function () {
@@ -142,6 +144,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
 
 
 
