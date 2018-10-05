@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth:api', 'roles'], 'roles' => ['Api', 'Client'
     Route::post('deleteContactEvent', 'API\UserController@deleteContactEvent');
     Route::post('trackerSupport', 'API\ProjectController@trackerSupport');
     Route::post('getMeta', 'API\UserController@getMeta');
+     Route::post('getProjectOwner', 'API\UserController@getProjectOwner');
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

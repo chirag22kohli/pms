@@ -83,6 +83,11 @@ class UserController extends Controller {
         }
         $input = $request->all();
 
+        $checkContact = Contactandevents::where('user_id',Auth::id())->where('type',$request->input('type'))->where('json_info',$request->input('json_info'))-first();
+        
+        if(count($checkContact)>0){
+            return   parent::error($request->input('type').' already exist.', 200);
+        }
         $user = Contactandevents::create(array_merge($request->all(), ['user_id' => Auth::id()]));
 
         $success['message'] = 'Saved Successfully';
@@ -118,7 +123,7 @@ class UserController extends Controller {
             $errors = self::formatValidator($validator);
             return parent::error($errors, 200);
         }
-
+        
         $details = Contactandevents::where('type', $request->input('type'))->where('id', $request->input('id'))->update([
             'json_info' => $request->input('json_info')
         ]);
@@ -154,6 +159,27 @@ class UserController extends Controller {
             return parent::success($details, $this->successStatus);
         } else {
             return parent::error('No ' . $request->input('meta_name') . ' Found', 200);
+        }
+    }
+    public function getProjectOwner(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'project_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+        
+        $project = \App\Project::where('id', $request->input('project_id'))->first();
+        if(count($project)>0){
+            $userDetails = User::where('id',$project->created_by)->first();
+            if(count($userDetails)>0){
+                return  parent::success($userDetails, $this->successStatus);
+            }else{
+                return parent::error(' Project Owner Not Found', 200);
+            }
+        }else{
+            return parent::error(' Project Not Found', 200);
         }
     }
 
