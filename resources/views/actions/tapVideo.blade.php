@@ -5,7 +5,12 @@
         <input type="file" name="videofile" id="videofile"  accept="video/mp4,video/x-m4v,video/*" required/>
         </br>
         <!--Loop <input type="checkbox" name="audio_loop" id ="audio_loop" value="true"></br>-->
+        </br>
+        <p style = "text-align:left"><b>Choose Custom Image:</b></p>
+        <input type="file" name="imagefile" id="imagefile"  accept="image/*" required/>
 
+        </br>
+        </br>
         </br>
         <?php
         if (isset($objectAction->url) && !empty($objectAction->url)) {

@@ -105,6 +105,7 @@ class ActionsController extends Controller {
 
         return view('actions.tapAudio', ['object_id' => $object_details->id, 'objectImage' => $object_details->object_image, 'objectAction' => $objectActionDetails]);
     }
+
     public function tapVideo(Request $request) {
         $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
@@ -575,12 +576,32 @@ class ActionsController extends Controller {
         else:
             $addAction = Action::create($data);
         endif;
+        if ($request->file('imagefile') === null):
+            return json_encode([
+                'success' => '1',
+                'size' => $size
+            ]);
+        endif;
+
+
+        $size = $request->file('imagefile')->getClientSize();
+        $imagePath_new = $this->uploadObjectFile($request, 'imagefile', '/images/actions');
+
+        $updateObjectImage = object::where('id', $object_id)->update(['size' => $size, 'object_image' => url($imagePath_new)]);
+
+        list($width, $height) = getimagesize(url($imagePath_new));
+        $ratio = $width / $height;
+        $targetHeight = 70 / $ratio;
         return json_encode([
             'success' => '1',
-            'size' => $size
+            'path' => url($imagePath_new),
+            'width' => $width,
+            'height' => $height,
+            'newHeight' => $targetHeight
         ]);
     }
-     public function tapVideoUpload(Request $request) {
+
+    public function tapVideoUpload(Request $request) {
         $this->validate($request, [
             'videofile' => 'required',
         ]);
@@ -601,8 +622,28 @@ class ActionsController extends Controller {
         else:
             $addAction = Action::create($data);
         endif;
+        if ($request->file('imagefile') === null):
+            return json_encode([
+                'success' => '1',
+                'size' => $size
+            ]);
+        endif;
+
+
+        $size = $request->file('imagefile')->getClientSize();
+        $imagePath_new = $this->uploadObjectFile($request, 'imagefile', '/images/actions');
+
+        $updateObjectImage = object::where('id', $object_id)->update(['size' => $size, 'object_image' => url($imagePath_new)]);
+
+        list($width, $height) = getimagesize(url($imagePath_new));
+        $ratio = $width / $height;
+        $targetHeight = 70 / $ratio;
         return json_encode([
             'success' => '1',
+            'path' => url($imagePath_new),
+            'width' => $width,
+            'height' => $height,
+            'newHeight' => $targetHeight
         ]);
     }
 

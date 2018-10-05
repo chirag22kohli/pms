@@ -631,6 +631,7 @@ function initActions() {
 
         }
 
+        var ids = this.id;
         //  $('#fbModal').modal('show');
         $.confirm({
             theme: 'supervan', // 'material', 'bootstrap'
@@ -648,7 +649,7 @@ function initActions() {
                             return false;
                         }
 
-                        actionUpload('tapAudioUpload');
+                        actionUploadImage('tapAudioUpload', ids);
                     }
                 },
                 cancel: function () {
@@ -668,7 +669,7 @@ function initActions() {
     });
 
 
-  //Video
+    //Video
     $(".dragged14").dblclick(function () {
         if (!checkPlanUsage().status) {
             if (checkPlanUsage().plan_type == 'size') {
@@ -677,6 +678,7 @@ function initActions() {
             }
 
         }
+        var ids = this.id;
         //  $('#fbModal').modal('show');
         $.confirm({
             theme: 'supervan', // 'material', 'bootstrap'
@@ -694,7 +696,7 @@ function initActions() {
                             return false;
                         }
 
-                        actionUpload('tapVideoUpload');
+                        actionUploadImage('tapVideoUpload', ids);
                     }
                 },
                 cancel: function () {
@@ -830,11 +832,11 @@ function actionUploadImage(formName, ids) {
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var obj = JSON.parse(this.responseText);
-            // console.log(obj);
+            console.log(obj);
             $j("body").removeClass("loading");
             finalizeTracker();
             if (obj.success == '1') {
-                console.log(obj.newHeight);
+                console.log(ids);
                 $j('#' + ids).css("background-image", "url(" + obj.path + ")");
                 $j('#' + ids).css("height", "" + obj.newHeight + "px");
                 //  $j('#' + ids).css("background-size", "cover");
