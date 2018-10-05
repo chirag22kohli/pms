@@ -70,7 +70,7 @@ class PaymentController extends Controller {
             try {
 
                 $charge = StripeConnect::transaction()
-                        ->amount($productPrice * 100, 'usd')
+                        ->amount($productPrice * 100, 'sgd')
                         ->useSavedCustomer()
                         ->from(Auth::user())
                         ->to($projectAdmin)
