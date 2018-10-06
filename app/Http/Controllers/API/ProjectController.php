@@ -49,6 +49,8 @@ class ProjectController extends Controller {
                 }
                 $projectDetails->uid_status = $uidStatus;
             }
+            $userDetails = User::where('id', $projectDetails->created_by)->first();
+            $projectDetails->project_owner  = $userDetails;
             return parent::success($projectDetails, $this->successStatus);
         } else {
             return parent::error('Project Not Found', 200);
