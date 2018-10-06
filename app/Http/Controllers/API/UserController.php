@@ -90,7 +90,7 @@ class UserController extends Controller {
         }
         $user = Contactandevents::create(array_merge($request->all(), ['user_id' => Auth::id()]));
 
-        $success['message'] = 'Saved Successfully';
+        $success['message'] = 'You may access saved '.$request->input('type').' under the '.$request->input('type').'s Section of the Navigation Bar';
 
         return parent::success($success, $this->successStatus);
     }

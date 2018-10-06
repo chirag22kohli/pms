@@ -193,4 +193,22 @@ class Controller extends BaseController {
             return false;
         endif;
     }
+    
+    public static function error($validatorMessage, $errorCode = 422, $messageIndex = false) {
+        if ($messageIndex === true):
+            $validatorMessage = ['message' => [$validatorMessage]];
+        else:
+            $validatorMessage = ['message' => $validatorMessage];
+        endif;
+        return response()->json(['status' => false, 'data' => (object) [], 'error' => ['code' => $errorCode, 'error_message' => $validatorMessage]], $errorCode);
+    }
+
+    public static function success($data, $code = 200) {
+//        print_r($data);die;
+        return response()->json(['status' => true, 'code' => $code, 'data' => (object) $data], $code);
+    }
+
+    public static function successCreated($data, $code = 201) {
+        return response()->json(['status' => true, 'code' => $code, 'data' => (object) $data], $code);
+    }
 }

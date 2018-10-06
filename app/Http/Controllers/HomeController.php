@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-
+use Illuminate\Validation\Validator;
 class HomeController extends Controller {
 
     /**
@@ -29,6 +29,7 @@ class HomeController extends Controller {
             return redirect('client/home');
         }
     }
-
     
+
+     
 }

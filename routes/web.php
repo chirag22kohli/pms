@@ -144,6 +144,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('getMetas', 'WelcomeController@getMetas');
+
+
 
 
 
