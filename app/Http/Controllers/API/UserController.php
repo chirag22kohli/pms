@@ -83,7 +83,7 @@ class UserController extends Controller {
         }
         $input = $request->all();
 
-        $checkContact = Contactandevents::where('user_id',Auth::id())->where('type',$request->input('type'))->where('json_info',$request->input('json_info'))-first();
+        $checkContact = Contactandevents::where('user_id',Auth::id())->where('type',$request->input('type'))->where('json_info',$request->input('json_info'))->first();
         
         if(count($checkContact)>0){
             return   parent::error($request->input('type').' already exist.', 200);
