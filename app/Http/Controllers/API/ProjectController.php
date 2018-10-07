@@ -39,6 +39,12 @@ class ProjectController extends Controller {
             if ($projectDetails->project_type == 'paid') {
                 $paidDetails = parent::checkProjectPaidStatus($request->input('project_id'));
                 $projectDetails->paid_status = $paidDetails;
+                $reoccurDetails = PaidProjectDetail::where('project_id', $request->input('project_id'))->where('user_id', Auth::id())->first();
+                if (count($reoccurDetails) > 0) {
+                    $projectDetails->reoccuring_trigger = $reoccurDetails->reoccuring_trigger;
+                }else{
+                    $projectDetails->reoccuring_trigger = 0;
+                }
             }
             if ($projectDetails->project_type == 'restricted') {
                 $uidDetails = UserUid::where('user_id', Auth::id())->where('project_id', $request->input('project_id'))->first();
@@ -50,7 +56,7 @@ class ProjectController extends Controller {
                 $projectDetails->uid_status = $uidStatus;
             }
             $userDetails = User::where('id', $projectDetails->created_by)->first();
-            $projectDetails->project_owner  = $userDetails;
+            $projectDetails->project_owner = $userDetails;
             return parent::success($projectDetails, $this->successStatus);
         } else {
             return parent::error('Project Not Found', 200);
@@ -135,6 +141,34 @@ class ProjectController extends Controller {
 
 
         return parent::success('Successfully sent your feedback.', $this->successStatus);
+    }
+
+    public function projectReoccuring(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'project_id' => 'required'
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+            //  return parent::error($validator->errors(), 200);
+        }
+        $projectDetails = PaidProjectDetail::where('project_id', $request->input('project_id'))->where('user_id', Auth::id())->first();
+
+        if (count($projectDetails) > 0) {
+            if ($projectDetails->reoccuring_trigger == 1) {
+                $reoccuringSwitch = 0;
+                $message['message'] = 'You have successfully turned off reoccuring payment for this project';
+            } else {
+                $reoccuringSwitch = 1;
+                $message['message'] = 'You have successfully turned on reoccuring payment for this project';
+            }
+            $updateReoccuringStatus = PaidProjectDetail::where('project_id', $request->input('project_id'))->where('user_id', Auth::id())->update([
+                'reoccuring_trigger' => $reoccuringSwitch
+            ]);
+            return parent::success($message, $this->successStatus);
+        } else {
+            return parent::error('You are not subscribed to this project', 200);
+        }
     }
 
 }
