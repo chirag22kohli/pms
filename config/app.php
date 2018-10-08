@@ -163,6 +163,7 @@ return [
          SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         PhpJunior\LaravelHtmlEncrypt\LaravelHtmlEncryptServiceProvider::class,
+        Pawlox\VideoThumbnail\VideoThumbnailServiceProvider::class
 
     ],
 
@@ -213,7 +214,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'SWAL' => Softon\SweetAlert\Facades\SWAL::class,
-        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'VideoThumbnail' => Pawlox\VideoThumbnail\Facade\VideoThumbnail::class
 
     ],
 
