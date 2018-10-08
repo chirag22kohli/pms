@@ -278,7 +278,7 @@ class ActionsController extends Controller {
         $imagePath = $this->uploadMediaFile($request, 'videofile', '/images/actions/media/');
         $thumb = new VideoThumbnail;
         $thumbname = time().'.jpg';
-        $thumPath = '/images/thumbnails';
+        $thumPath = '/images/thumbnails/';
         $datas = $thumb->createThumbnail( url($imagePath), public_path($thumPath).$thumbname, 2, 400, 200);
         //  $size = parent::bytesToHuman($size);
         $updateObjectImage = object::where('id', $object_id)->update(['size' => $size, 'object_image' => url($thumPath.$thumbname)]);
