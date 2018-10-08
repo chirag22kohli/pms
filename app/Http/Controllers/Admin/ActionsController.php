@@ -8,6 +8,7 @@ use App\Action;
 use Illuminate\Http\Request;
 use App\object;
 use Pawlox\VideoThumbnail\VideoThumbnail;
+
 class ActionsController extends Controller {
 
     /**
@@ -277,10 +278,10 @@ class ActionsController extends Controller {
         $size = $request->file('videofile')->getClientSize();
         $imagePath = $this->uploadMediaFile($request, 'videofile', '/images/actions/media/');
         $thumb = new VideoThumbnail;
-        $iname = time().'.jpg';
+        $iname = time() . '.jpg';
         $thumPath = '/images/thumbnails/';
-        $datas = $thumb->createThumbnail( url($imagePath), public_path('/images/thumbnails/'), $iname, 2, 400, 200);
-        $updateObjectImage = object::where('id', $object_id)->update(['size' => $size, 'object_image' => url('/images/thumbnails/'.$iname)]);
+        $datas = $thumb->createThumbnail(url($imagePath), public_path('/images/thumbnails/'), $iname, 2, 400, 200);
+        $updateObjectImage = object::where('id', $object_id)->update(['size' => $size, 'object_image' => url('/images/thumbnails/' . $iname)]);
 
         //  $size = parent::bytesToHuman($size);
         $data = [
@@ -295,17 +296,13 @@ class ActionsController extends Controller {
         else:
             $addAction = Action::create($data);
         endif;
-        
+
         return json_encode([
             'success' => '1',
-            'path' => url($thumPath.$iname),
-            'width' => 100,
+            'path' => url($thumPath . $iname),
+            'width' => 140,
             'height' => 80,
-            'newHeight' =>80
-        ]);
-        return json_encode([
-            'success' => '1',
-            'datas'=>$datas
+            'newHeight' => 80
         ]);
     }
 
@@ -630,6 +627,12 @@ class ActionsController extends Controller {
             'size' => $size
         ];
 
+        $iname = time() . '.jpg';
+        $thumPath = '/images/thumbnails/';
+        $datas = $thumb->createThumbnail(url($imagePath), public_path('/images/thumbnails/'), $iname, 2, 400, 200);
+        $updateObjectImage = object::where('id', $object_id)->update(['size' => $size, 'object_image' => url('/images/thumbnails/' . $iname)]);
+
+
         $checkObjectAction = Action::where('object_id', $object_id)->first();
         if (count($checkObjectAction) > 0):
             $addAction = Action::where('object_id', $object_id)->update($data);
@@ -639,7 +642,10 @@ class ActionsController extends Controller {
         if ($request->file('imagefile') === null):
             return json_encode([
                 'success' => '1',
-                'size' => $size
+                'path' => url($thumPath . $iname),
+                'width' => 140,
+                'height' => 80,
+                'newHeight' => 80
             ]);
         endif;
 
