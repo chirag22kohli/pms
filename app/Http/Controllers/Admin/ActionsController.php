@@ -277,7 +277,7 @@ class ActionsController extends Controller {
         $size = $request->file('videofile')->getClientSize();
         $imagePath = $this->uploadMediaFile($request, 'videofile', '/images/actions/media/');
         $thumb = new VideoThumbnail;
-        $imagePath = '/images/thumbnails/';
+        $imagePath = '/images/';
         $imageN = time().'.jpg';
         $fullPath = $imagePath.$imageN;
         $datas = $thumb->createThumbnail( url($imagePath), public_path($imagePath), $imageN, 2, 400, 200);
