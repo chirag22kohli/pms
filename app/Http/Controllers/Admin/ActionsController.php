@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Action;
 use Illuminate\Http\Request;
 use App\object;
-use VideoThumbnail;
+use Pawlox\VideoThumbnail\VideoThumbnail;
 class ActionsController extends Controller {
 
     /**
@@ -276,7 +276,8 @@ class ActionsController extends Controller {
         $object_id = $request->input('object_id');
         $size = $request->file('videofile')->getClientSize();
         $imagePath = $this->uploadMediaFile($request, 'videofile', '/images/actions/media/');
-        $datas = VideoThumbnail::createThumbnail($imagePath, public_path('/'), 'movie.jpg', 2, 400, 200);
+        $thumb = new VideoThumbnail;
+        $datas = $thumb->createThumbnail($imagePath, public_path('/'), 'movie.jpg', 2, 400, 200);
         //  $size = parent::bytesToHuman($size);
         $data = [
             'object_id' => $object_id,
