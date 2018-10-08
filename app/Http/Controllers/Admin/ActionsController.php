@@ -298,7 +298,7 @@ class ActionsController extends Controller {
         endif;
         return json_encode([
             'success' => '1',
-            'datas'=>public_path($imagePath)
+            'datas'=>$datas
         ]);
     }
 
