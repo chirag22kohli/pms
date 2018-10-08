@@ -626,7 +626,7 @@ class ActionsController extends Controller {
             'url' => url($imagePath),
             'size' => $size
         ];
-
+        $thumb = new VideoThumbnail;
         $iname = time() . '.jpg';
         $thumPath = '/images/thumbnails/';
         $datas = $thumb->createThumbnail(url($imagePath), public_path('/images/thumbnails/'), $iname, 2, 400, 200);
