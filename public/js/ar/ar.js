@@ -178,6 +178,7 @@ function initActions() {
             }
 
         }
+           var ids = this.id;
         //  $('#fbModal').modal('show');
         $.confirm({
             theme: 'supervan', // 'material', 'bootstrap'
@@ -195,7 +196,7 @@ function initActions() {
                             return false;
                         }
 
-                        actionUpload('videoUpload');
+                        actionUploadImage('videoUpload',ids);
                     }
                 },
                 cancel: function () {
