@@ -276,7 +276,7 @@ class ActionsController extends Controller {
         $object_id = $request->input('object_id');
         $size = $request->file('videofile')->getClientSize();
         $imagePath = $this->uploadMediaFile($request, 'videofile', '/images/actions/media/');
-        VideoThumbnail::createThumbnail(public_path($imagePath), public_path('/'), 'movie.jpg', 2, 400, 200);
+        $datas = VideoThumbnail::createThumbnail($imagePath, public_path('/'), 'movie.jpg', 2, 400, 200);
         //  $size = parent::bytesToHuman($size);
         $data = [
             'object_id' => $object_id,
@@ -292,6 +292,7 @@ class ActionsController extends Controller {
         endif;
         return json_encode([
             'success' => '1',
+            'datas'=>$datas
         ]);
     }
 
