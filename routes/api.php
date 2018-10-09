@@ -33,9 +33,10 @@ Route::group(['middleware' => ['auth:api', 'roles'], 'roles' => ['Api', 'Client'
     Route::post('deleteContactEvent', 'API\UserController@deleteContactEvent');
     Route::post('trackerSupport', 'API\ProjectController@trackerSupport');
     Route::post('getMeta', 'API\UserController@getMeta');
-     Route::post('getProjectOwner', 'API\UserController@getProjectOwner');
-     Route::post('projectReoccuring', 'API\ProjectController@projectReoccuring');
-     
+    Route::post('getProjectOwner', 'API\UserController@getProjectOwner');
+    Route::post('projectReoccuring', 'API\ProjectController@projectReoccuring');
+    Route::get('getProfile', 'API\UserController@getProfile');
+    Route::post('updateProfile', 'API\UserController@updateProfile');
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

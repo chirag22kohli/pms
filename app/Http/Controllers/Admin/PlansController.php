@@ -139,7 +139,7 @@ class PlansController extends Controller {
                 $updateAccountStripe = Stripe::where('user_id', Auth::id())->update([
                     'account_id' => $strieResposnes->stripe_user_id
                 ]);
-            $request->session()->flash('alert-success', 'Your stripe account is successfully connected.');
+                $request->session()->flash('alert-success', 'Your stripe account is successfully connected.');
             endif;
 
 
@@ -154,7 +154,7 @@ class PlansController extends Controller {
         $now = Carbon::now();
         $trackerCount = parent::trackerCount();
         //return parent::checkPlanUsage();
-      
+
         $difference = ($created->diff($now)->days < 1) ? 'today' : $created->diffForHumans($now);
         return view('client.planinfo', [
             'userPlan' => $userPlan,
@@ -162,7 +162,7 @@ class PlansController extends Controller {
             'difference' => $difference,
             'usageInfo' => $usageInfo,
             'trackerCount' => $trackerCount,
-            'connectStatus'=> parent::checkClientConnectedAccount()
+            'connectStatus' => parent::checkClientConnectedAccount()
         ]);
     }
 
@@ -183,6 +183,17 @@ class PlansController extends Controller {
 
         curl_close($ch);
         return $server_output;
+    }
+
+    public function choosePlan(Request $request) {
+        $planId = $request->input('plan_id');
+        UserPlan::create([
+            'user_id' => Auth::id(),
+            'plan_id' => $planId,
+            'payment_status' => 0,
+            'created_by' => $planId
+        ]);
+        return "success";
     }
 
 }

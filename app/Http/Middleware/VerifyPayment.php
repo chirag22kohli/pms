@@ -7,8 +7,9 @@ use Auth;
 use App\UserPlan;
 use Illuminate\Http\Response;
 use App\Plan;
-class VerifyPayment
-{
+
+class VerifyPayment {
+
     /**
      * Handle an incoming request.
      *
@@ -17,18 +18,19 @@ class VerifyPayment
      *
      * @return mixed
      */
-    public function handle($request, Closure $next)
-    {
-        
-        $getUserPlan = UserPlan::where('user_id',Auth::id())->first();
-        
+    public function handle($request, Closure $next) {
+
+        $getUserPlan = UserPlan::where('user_id', Auth::id())->first();
+        if (count($getUserPlan) == 0) {
+            $plans = Plan::all();
+            return new Response(view('home.choosePlan', ['plans' => $plans]));
+        }
         if ($getUserPlan->payment_status == 1) {
             return $next($request);
         }
-        $getPlanDetails = Plan::where('id',$getUserPlan->plan_id)->first();
-       
-       return new Response(view('clientSignup.payment',['plan'=>$getPlanDetails]));
+        $getPlanDetails = Plan::where('id', $getUserPlan->plan_id)->first();
+
+        return new Response(view('clientSignup.payment', ['plan' => $getPlanDetails]));
     }
 
-   
 }

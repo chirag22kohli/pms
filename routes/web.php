@@ -48,7 +48,7 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => 'Admin'], function (
 });
 
 //Client MiddleWare-------------------------------------------------------------
-Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPayment', 'checkPaymentMethod'], 'roles' => 'Client'], function () {
+Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPayment', 'checkPaymentMethod'], 'roles' => ['Api', 'Client']], function () {
     Route::get('home', [
         'as' => 'home',
         'uses' => 'ClientController@home'
@@ -145,6 +145,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('getMetas', 'WelcomeController@getMetas');
+Route::post('client/choosePlan', 'admin\PlansController@choosePlan');
 
 
 
