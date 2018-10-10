@@ -590,7 +590,8 @@ class ActionsController extends Controller {
         if ($request->file('imagefile') === null):
             return json_encode([
                 'success' => '1',
-                'size' => $size
+                'size' => $size,
+                'newHeight' => 0
             ]);
         endif;
 

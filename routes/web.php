@@ -78,7 +78,7 @@ Route::post('client/addPaymentMethod', 'PaymentController@addPaymentMethod');
 
 
 //Common MiddleWare-------------------------------------------------------------
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => ['Admin', 'Client']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => ['Admin', 'Client','Api']], function () {
     Route::resource('admin/projects', 'Admin\\ProjectsController');
     Route::get('arDashboard', 'Admin\ArController@index');
     Route::post('trackerUpload', 'Admin\ArController@trackerUpload');

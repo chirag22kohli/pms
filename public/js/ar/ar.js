@@ -178,7 +178,7 @@ function initActions() {
             }
 
         }
-           var ids = this.id;
+        var ids = this.id;
         //  $('#fbModal').modal('show');
         $.confirm({
             theme: 'supervan', // 'material', 'bootstrap'
@@ -196,7 +196,7 @@ function initActions() {
                             return false;
                         }
 
-                        actionUploadImage('videoUpload',ids);
+                        actionUploadImage('videoUpload', ids);
                     }
                 },
                 cancel: function () {
@@ -837,12 +837,18 @@ function actionUploadImage(formName, ids) {
             $j("body").removeClass("loading");
             finalizeTracker();
             if (obj.success == '1') {
-                console.log(ids);
-                $j('#' + ids).css("background-image", "url(" + obj.path + ")");
-                $j('#' + ids).css("height", "" + obj.newHeight + "px");
+                
+                
+                
                 //  $j('#' + ids).css("background-size", "cover");
-                var height = obj.newHeight + "px";
-                updateHieghtNewObject(ids, height);
+                if (obj.newHeight != '0') {
+                    
+                    $j('#' + ids).css("height", "" + obj.newHeight + "px");
+                    $j('#' + ids).css("background-image", "url(" + obj.path + ")");
+                    var height = obj.newHeight + "px";
+                    updateHieghtNewObject(ids, height);
+                }
+
 
 
             }
