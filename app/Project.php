@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
-{
+class Project extends Model {
+
     /**
      * The database table used by the model.
      *
@@ -14,10 +14,10 @@ class Project extends Model
     protected $table = 'projects';
 
     /**
-    * The database primary key value.
-    *
-    * @var string
-    */
+     * The database primary key value.
+     *
+     * @var string
+     */
     protected $primaryKey = 'id';
 
     /**
@@ -25,7 +25,10 @@ class Project extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'tracker_path','project_type','price','billing_cycle', 'created_by'];
+    protected $fillable = ['name', 'tracker_path', 'project_type', 'price', 'billing_cycle', 'created_by'];
 
-    
+    public function project_owner() {
+        return $this->hasOne(\App\User::class, 'id', 'created_by');
+    }
+
 }

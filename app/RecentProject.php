@@ -28,7 +28,7 @@ class RecentProject extends Model
     protected $fillable = ['user_id','project_id'];
 
      public function project() {
-        return $this->hasOne(\App\Project::class, 'id', 'project_id');
+        return $this->hasOne(\App\Project::class, 'id', 'project_id')->with('project_owner');
     }
     
 }
