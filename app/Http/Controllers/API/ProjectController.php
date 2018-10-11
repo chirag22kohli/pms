@@ -123,15 +123,18 @@ class ProjectController extends Controller {
             foreach ($recentProjects as $project) {
                 $reoccurDetails = PaidProjectDetail::where('project_id', $project->project_id)->where('user_id', Auth::id())->first();
                 $projectRecent['projectDetails'] = $project;
+                
+                $userDetails = User::where('id', $project->project['created_by'])->first();
+                $projectRecent['projectDetails']['project_owner'] = $userDetails;
                 if (count($reoccurDetails) > 0) {
                     $projectRecent['projectinfo']['reoccuring_trigger'] = $reoccurDetails->reoccuring_trigger;
                 } else {
-                    $projectRecent['projectinfo']['reoccuring_trigger']  = 0;
+                    $projectRecent['projectinfo']['reoccuring_trigger'] = 0;
                 }
-            
+
                 $allProjects['projects'][] = $projectRecent;
-                }
-            
+            }
+
             return parent::success($allProjects, $this->successStatus);
         } else {
             return parent::error('No Recent Projects Found', 200);
