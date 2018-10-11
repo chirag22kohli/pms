@@ -123,8 +123,15 @@ class ProjectController extends Controller {
             foreach ($recentProjects as $project) {
                 $reoccurDetails = PaidProjectDetail::where('project_id', $project->project_id)->where('user_id', Auth::id())->first();
                 $projectRecent['projectDetails'] = $project;
-                
-                
+
+                if ($projectRecent['projectDetails']->project['project_type'] == 'paid') {
+                    $paidDetails = parent::checkProjectPaidStatus($project->project_id);
+                    $projectRecent['projectDetails']->project['paid_status'] = $paidDetails;
+                }
+
+
+
+
                 if (count($reoccurDetails) > 0) {
                     $projectRecent['projectinfo']['reoccuring_trigger'] = $reoccurDetails->reoccuring_trigger;
                 } else {
