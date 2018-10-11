@@ -10,7 +10,7 @@ use App\UserPlan;
 use Auth;
 use Carbon\Carbon;
 use App\Stripe;
-
+use App\Role;
 class PlansController extends Controller {
 
     /**
