@@ -11,6 +11,7 @@ use Auth;
 use Carbon\Carbon;
 use App\Stripe;
 use App\Role;
+use DB;
 class PlansController extends Controller {
 
     /**
