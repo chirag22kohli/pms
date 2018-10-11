@@ -190,8 +190,8 @@ class PlansController extends Controller {
         $planId = $request->input('plan_id');
 
         $selectClientRole = Role::where('name', 'Client')->first();
-        $assignRole = DB::table('role_user')->update(
-                ['user_id' => Auth::id(), 'role_id' => $selectClientRole->id]
+        $assignRole = DB::table('role_user')->where('user_id', Auth::id())->update(
+                [ 'role_id' => $selectClientRole->id]
         );
         UserPlan::create([
             'user_id' => Auth::id(),
