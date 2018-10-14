@@ -794,7 +794,7 @@ function updateHieghtNewObject(id, height) {
         success: function (msg) {
             console.log('Done');
 
-            finalizeTracker();
+           
         }
     });
 }
@@ -810,7 +810,7 @@ function actionUpload(formName) {
             var obj = JSON.parse(this.responseText);
             // console.log(obj);
             $j("body").removeClass("loading");
-            finalizeTracker();
+            
             if (obj.success == '1') {
                 // $j('#frame').css("background-image", "url(" + obj.path + ")");
 
