@@ -78,7 +78,7 @@ class ArController extends Controller {
             $sha1file = sha1_file($str);
             $update = Tracker::where('id', $tracker_id)->update([
                 'tracker_path' => $imagePath,
-                'sha'=>$sha1file
+                'sha' => $sha1file
             ]);
 
             return json_encode([
@@ -110,11 +110,11 @@ class ArController extends Controller {
                 $trackerVuforia = json_decode($trackerDetails->parm);
                 $vuforiaParams = $this->updateVuforia($trackerDetails->project_id, $trackerVuforia->target_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
                 $updateTracker = Tracker::where('id', $tracker_id)->update(['updated_vuforia' => $vuforiaParams]);
-                
+                return $vuforiaParams;
             } else {
                 $vuforiaParams = $this->uploadDataVuforia($trackerDetails->project_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
                 $trackerVuforia = json_decode($vuforiaParams);
-                $updateTracker = Tracker::where('id', $tracker_id)->update(['target_id'=>$trackerVuforia->target_id,'parm' => $vuforiaParams]);
+                $updateTracker = Tracker::where('id', $tracker_id)->update(['target_id' => $trackerVuforia->target_id, 'parm' => $vuforiaParams]);
                 return $vuforiaParams;
             }
         } else {

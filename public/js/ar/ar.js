@@ -835,7 +835,7 @@ function actionUploadImage(formName, ids) {
             var obj = JSON.parse(this.responseText);
             console.log(obj);
             $j("body").removeClass("loading");
-            finalizeTracker();
+            
             if (obj.success == '1') {
                 
                 
