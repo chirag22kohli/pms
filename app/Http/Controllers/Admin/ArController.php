@@ -110,7 +110,10 @@ class ArController extends Controller {
                 $trackerVuforia = json_decode($trackerDetails->parm);
                 $vuforiaParams = $this->updateVuforia($trackerDetails->project_id, $trackerVuforia->target_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
                 $updateTracker = Tracker::where('id', $tracker_id)->update(['updated_vuforia' => $vuforiaParams]);
-                return $vuforiaParams;
+                return [
+                    'obj' =>$trackerDetails['objects'],
+                    'parms'=>$vuforiaParams
+                ];
             } else {
                 $vuforiaParams = $this->uploadDataVuforia($trackerDetails->project_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
                 $trackerVuforia = json_decode($vuforiaParams);
