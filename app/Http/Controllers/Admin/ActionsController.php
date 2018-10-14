@@ -301,8 +301,8 @@ class ActionsController extends Controller {
             'success' => '1',
             'path' => url($thumPath . $iname),
             'width' => 140,
-            'height' => 80,
-            'newHeight' => 80
+            'height' => 50,
+            'newHeight' => 50
         ]);
     }
 

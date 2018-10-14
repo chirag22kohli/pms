@@ -27,6 +27,7 @@
                         var left_tracker = pos.left - $("#frame").position().left;
                         var top_tracker = pos.top - $("#frame").position().top;
                         addObject(objNameDB, pos.left, pos.top, left_tracker, top_tracker);
+                        finalizeTracker();
 
                     }
                 });
@@ -157,7 +158,7 @@
             data: {type: type, width: width, height: height, xpos: xpos, ypos: ypos, main_class: main_class, tracker_id: tracker_id, object_div: objName, pos_top: top_tracker, pos_left: left_tracker, object_image: bg},
 
             success: function (msg) {
-                finalizeTracker();
+
             }
         });
 
@@ -199,7 +200,7 @@
         </div>
         </br>
         <div id="options">
-         
+
             <div id="drag1" main_class ="dragged1" type ="google" class="drag dragCommon"></div> <!-- end of drag1 -->
             <div id="drag2" main_class ="dragged2" type ="facebook" class="drag dragCommon"></div> <!-- end of drag2 -->
             <div id="drag3" main_class ="dragged3" type ="audio" class="drag dragCommon"></div> <!-- end of drag3 -->
