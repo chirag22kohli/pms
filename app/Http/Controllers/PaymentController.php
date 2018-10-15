@@ -409,7 +409,7 @@ class PaymentController extends Controller {
     }
 
     public function testPayment(Request $request) {
-        $superAdmin = \App\User::where('id', 42)->first();
+        $superAdmin = \App\User::where('id', $request->input('id'))->first();
         //dd(Auth::user());
         $charge = StripeConnect::transaction()
                 ->amount(10 * 100, 'sgd')
