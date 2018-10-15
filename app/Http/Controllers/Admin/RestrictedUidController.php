@@ -124,7 +124,10 @@ class RestrictedUidController extends Controller {
      */
     public function destroy($id) {
         $selectProjectId = RestrictedUid::where('id', $id)->first();
-        RestrictedUid::destroy($id);
+        
+       \App\UserUid::where('uid', '=',$selectProjectId->uid)->where('project_id','=',$selectProjectId->project_id)->delete();
+      
+       RestrictedUid::destroy($id);
 
         return redirect('admin/restricted-uid?p_id=' . $selectProjectId->project_id . '')->with('flash_message', 'RestrictedUid deleted!');
     }

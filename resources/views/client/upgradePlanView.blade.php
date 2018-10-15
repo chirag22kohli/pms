@@ -4,6 +4,7 @@
 
 <!-- main-heading -->
 <h2 class="main-title-w3layouts mb-2 text-center">Upgrade to a New Plan.</h2>
+<p style = "text-align: center">Price shown is pro-rated based on the expiry date of your current plan</p>
 <!--// main-heading -->
 
 <!-- Error Page Content -->

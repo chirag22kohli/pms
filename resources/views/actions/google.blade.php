@@ -5,7 +5,7 @@
     <div class="info padding_15"><div class="one_half_2">
             <div class="form-group  cls-file">
                 <div class="Radio " style="width:100%;">
-                    <label class="cls-file">
+                    <label class="cls-file"  style="display:none">
                         <input type="radio" name="g_default" id="g_default" value ="default" <?php if (!isset($objectAction->trigger) || empty($objectAction->trigger) || $objectAction->trigger == 'default') {
     echo 'checked';
 } ?>>
@@ -30,7 +30,7 @@
             </div>
             <div class="form-group">
                 <input type="hidden" id = "object_id" name = "object_id" value = "<?php echo $object_id ?>">
-                <label for="Message" style="width:100%">Message</label>
+                <label for="Message" style="width:100%">Link to be shared </label>
                 <input type="text"  value ="<?php if (isset($objectAction->message) && !empty($objectAction->message)) {
     echo $objectAction->message;
 } ?>" id="google_msg" name="google_msg" class="form-control" required/>

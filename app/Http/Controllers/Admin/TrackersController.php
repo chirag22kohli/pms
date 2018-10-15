@@ -27,6 +27,9 @@ class TrackersController extends Controller {
         $keyword = $request->get('search');
         $perPage = 25;
         $project_id = $request->get('p_id');
+        $projectDetails = \App\Project::where('id', $project_id)->first();
+        $var = ['id' => base64_encode($projectDetails->id), 'name' => base64_encode($projectDetails->name)];
+        $details = json_encode($var);
         if (empty($request->get('p_id'))) {
             return response('Internal Server Error', 500);
         }
@@ -42,7 +45,7 @@ class TrackersController extends Controller {
             $trackers = Tracker::Where('project_id', $project_id)->paginate($perPage);
         }
         $usageInfo = parent::checkPlanUsage();
-        return view('admin.trackers.index', compact('trackers'), ['project_id' => $project_id, 'usageInfo' => $usageInfo]);
+        return view('admin.trackers.index', compact('trackers'), ['project_id' => $project_id, 'usageInfo' => $usageInfo, 'details' => $details]);
     }
 
     /**
@@ -85,7 +88,7 @@ class TrackersController extends Controller {
             $update = Tracker::where('id', $tracker_id)->update([
                 'tracker_path' => $imagePath,
                 'sha' => $sha1file,
-                'size'=>$size
+                'size' => $size
             ]);
             return redirect('admin/trackers?p_id=' . $request->input('project_id') . '')->with('flash_message', 'Tracker added!');
         } else {
