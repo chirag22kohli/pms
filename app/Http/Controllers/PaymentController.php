@@ -130,7 +130,7 @@ class PaymentController extends Controller {
             'user_id' => Auth::id(),
             'plan_id' => $userPlan->plan_id,
             'expriy_date' => $expiryData,
-            'payment_type'=>'Chap Signup and Plan Selection',
+            'payment_type' => 'Chap Signup and Plan Selection',
             'price_paid' => $planDetails->price
         ];
         PaidPlantHistory::create($historyParams);
@@ -154,7 +154,7 @@ class PaymentController extends Controller {
             'plan_id' => $userPlan->plan_id,
             'previous_expiry_date' => $userPlan->plan_expiry_date,
             'expriy_date' => $expiryData,
-            'payment_type'=>'Renewed Current Plan',
+            'payment_type' => 'Renewed Current Plan',
             'price_paid' => $planDetails->price
         ];
         PaidPlantHistory::create($historyParams);
@@ -271,7 +271,7 @@ class PaymentController extends Controller {
                 ->create();
 
 
-       // $createVendor = StripeConnect::createAccount(Auth::user());
+        // $createVendor = StripeConnect::createAccount(Auth::user());
         if ($charge->status == 'succeeded') {
 
             return 'success';
@@ -286,21 +286,22 @@ class PaymentController extends Controller {
         $getSimilarPlans = Plan::where('type', $getPlanDetails->type)->where('price_type', $getPlanDetails->price_type)->where('price', '>', $getPlanDetails->price)->get();
         return view('client.upgradePlanView', ['planInfo' => $getPlanDetails, 'getSimilarPlans' => $getSimilarPlans]);
     }
-    public function manageReoccurring(){
+
+    public function manageReoccurring() {
         $newStatus = 1;
-        $userPlan = UserPlan::where('user_id',Auth::id())->first();
-         $message  = 'Thankyou for turning on the Re-occuring payments with us. We ensure you to provide the best AR Experience.';
-        if($userPlan->reoccuring_status == '1'){
+        $userPlan = UserPlan::where('user_id', Auth::id())->first();
+        $message = 'Thankyou for turning on the Re-occuring payments with us. We ensure you to provide the best AR Experience.';
+        if ($userPlan->reoccuring_status == '1') {
             $newStatus = 0;
             $message = 'We have stopped your Re-occurring payments for this plan, However you can continue anytime.';
-        }else{
+        } else {
             $newStatus = 1;
         }
-        
-        UserPlan::where('user_id',Auth::id())->update([
-            'reoccuring_status'=>$newStatus
+
+        UserPlan::where('user_id', Auth::id())->update([
+            'reoccuring_status' => $newStatus
         ]);
-        return  $message ;
+        return $message;
     }
 
     public function upgradeNow(Request $request) {
@@ -405,6 +406,18 @@ class PaymentController extends Controller {
             'newPayment' => round($newPayment, 2),
             'expiry_date' => $dayDiffrence
         ];
+    }
+
+    public function testPayment(Request $request) {
+        $superAdmin = \App\User::where('id', 42)->first();
+        //dd(Auth::user());
+        $charge = StripeConnect::transaction()
+                ->amount(10 * 100, 'sgd')
+                ->useSavedCustomer()
+                ->from(Auth::user())
+                ->to($superAdmin)
+                ->create();
+        return $charge;
     }
 
 }

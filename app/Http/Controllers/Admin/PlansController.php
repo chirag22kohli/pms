@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use App\Stripe;
 use App\Role;
 use DB;
+
 class PlansController extends Controller {
 
     /**
@@ -128,14 +129,16 @@ class PlansController extends Controller {
 
 
             $data = [
-                'client_secret' => 'sk_test_wiIiy3M1MEWiNL3kbOhYldDz',
+                'client_secret' =>  env("STRIPE_SECRET"),
                 'code' => $request->get('code'),
                 'grant_type' => 'authorization_code'
             ];
 
             $strieResposnes = json_decode(self::getStripeConnectAccount($data));
             if (!empty($strieResposnes->error)):
-                $request->session()->flash('alert-danger', 'There was some issue while conneting your stripe account. Please try again.');
+                //$request->session()->flash('alert-danger', 'There was some issue while conneting your stripe account. Please try again.');
+                $request->session()->flash('alert-danger', $strieResposnes->error_description);
+
             else:
                 $updateAccountStripe = Stripe::where('user_id', Auth::id())->update([
                     'account_id' => $strieResposnes->stripe_user_id
@@ -191,7 +194,7 @@ class PlansController extends Controller {
 
         $selectClientRole = Role::where('name', 'Client')->first();
         $assignRole = DB::table('role_user')->where('user_id', Auth::id())->update(
-                [ 'role_id' => $selectClientRole->id]
+                ['role_id' => $selectClientRole->id]
         );
         UserPlan::create([
             'user_id' => Auth::id(),
