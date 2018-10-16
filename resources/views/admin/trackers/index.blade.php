@@ -16,6 +16,8 @@
                         <a href="{{ url('/admin/trackers/create?p_id='.$project_id) }}" class="btn btn-success btn-sm" title="Add New Tracker">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New
                         </a>
+                     <a  href="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->generate($details)) !!} " download>Download QR Code</a>
+             
                     <?php } else { ?>
                         <div class="alert alert-danger">
                             <strong><?= $usageInfo['message'];?></strong>
