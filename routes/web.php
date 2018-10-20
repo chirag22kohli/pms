@@ -145,6 +145,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('getMetas', 'WelcomeController@getMetas');
+Route::post('forgotPassword', 'WelcomeController@forgotPassword');
 Route::post('client/choosePlan', 'admin\PlansController@choosePlan');
 Route::get('/testPayment', 'PaymentController@testPayment');
 

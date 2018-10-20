@@ -37,6 +37,8 @@ Route::group(['middleware' => ['auth:api', 'roles'], 'roles' => ['Api', 'Client'
     Route::post('projectReoccuring', 'API\ProjectController@projectReoccuring');
     Route::get('getProfile', 'API\UserController@getProfile');
     Route::post('updateProfile', 'API\UserController@updateProfile');
+    Route::post('changePassword', 'API\UserController@changePassword');
+    
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

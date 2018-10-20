@@ -12,6 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'admin/trackerUpload','renewPlan' ,'admin/tapAudioUpload','getMetas','admin/tapVideoUpload' ,'admin/addUpdateObject','admin/finalizeTracker','admin/googleUpload','admin/flipUpload','admin/screenShotUpload','admin/youtubeUpload','admin/contactUpload','admin/facebookUpload','admin/webLinkUpload','admin/eventUpload','admin/audioUpload','admin/videoUpload','admin/emailUpload','admin/deleteObject','admin/imageUpload', 'admin/updateHieghtNewObject'
+        'admin/trackerUpload','renewPlan' ,'admin/tapAudioUpload','getMetas','forgotPassword','admin/tapVideoUpload' ,'admin/addUpdateObject','admin/finalizeTracker','admin/googleUpload','admin/flipUpload','admin/screenShotUpload','admin/youtubeUpload','admin/contactUpload','admin/facebookUpload','admin/webLinkUpload','admin/eventUpload','admin/audioUpload','admin/videoUpload','admin/emailUpload','admin/deleteObject','admin/imageUpload', 'admin/updateHieghtNewObject'
     ];
 }

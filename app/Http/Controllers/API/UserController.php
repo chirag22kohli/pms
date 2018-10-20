@@ -11,6 +11,7 @@ use DB;
 use App\Role;
 use App\Contactandevents;
 use App\Metum;
+use Hash;
 
 class UserController extends Controller {
 
@@ -206,6 +207,30 @@ class UserController extends Controller {
                 $request->all()
         );
         return parent::success('Profile Updated Successfully', $this->successStatus);
+    }
+
+    public function changePassword(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+                    'current-password' => 'required',
+                    'password' => 'required',
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+
+        $current_password = Auth::User()->password;
+        if (Hash::check($request->input('current-password'), $current_password)) {
+            $user_id = Auth::User()->id;
+            $obj_user = User::find($user_id);
+            $obj_user->password = Hash::make($request->input('password'));
+            ;
+            $obj_user->save();
+            return parent::success('Password Changed Successfully', $this->successStatus);
+        } else {
+            return parent::error('Please enter correct current password', 200);
+        }
     }
 
 }
