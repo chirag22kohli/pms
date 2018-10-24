@@ -84,5 +84,15 @@ class Controller {
             return "false";
         }
     }
+    
+       public static function checkProjectExpiryDate($project_id = 0) {
+        $paidDetail = PaidProjectDetail::where('user_id', Auth::id())->where('project_id', $project_id)->first();
+
+        if (count($paidDetail) > 0) {
+            return $paidDetail->expriy_date;
+        } else {
+            return "0";
+        }
+    }
 
 }

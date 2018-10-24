@@ -127,6 +127,10 @@ class ProjectController extends Controller {
                 if ($projectRecent['projectDetails']->project['project_type'] == 'paid') {
                     $paidDetails = parent::checkProjectPaidStatus($project->project_id);
                     $projectRecent['projectDetails']->project['paid_status'] = $paidDetails;
+                    if ($paidDetails == 'true') {
+                        $expiryDate = parent::checkProjectExpiryDate($project->project_id);
+                        $projectRecent['projectDetails']->project['expiryDate'] = $expiryDate;
+                    }
                 }
 
 
