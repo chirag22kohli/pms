@@ -49,8 +49,10 @@ class Controller {
             $date = strtotime("+7 day", $date);
         } elseif ($type == 'monthly') {
             $date = strtotime("+30 day", $date);
-        } else {
+        } elseif($type == 'yearly') {
             $date = strtotime("+365 day", $date);
+        }elseif($type == 'daily'){
+             $date = strtotime("+1 day", $date);
         }
         $date = date('Y-m-d', $date);
         return $date;
