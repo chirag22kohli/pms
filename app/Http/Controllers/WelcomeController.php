@@ -20,6 +20,12 @@ class WelcomeController extends Controller {
 
         return view('home.welcome', ['plans' => $plans]);
     }
+    
+     public function viewPlans() {
+        $plans = Plan::all();
+
+        return view('home.plans', ['plans' => $plans]);
+    }
 
     public function register($plan_id) {
 

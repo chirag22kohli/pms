@@ -378,7 +378,7 @@
                             <div class="testimonial-panel wow fadeInUp" data-wow-duration="1s">
                                 <div class="testimonial-body">
                                     <div class="testimonial--body">
-                                        <p>We have worked with appify.As we have grown and evolved, appfiy has created all of our profit.What I value most about our relationship is that appfiy knows us and our business.</p>
+                                        <p>We have worked with Chap.As we have grown and evolved, appfiy has created all of our profit.What I value most about our relationship is that appfiy knows us and our business.</p>
                                     </div>
                                     <div class="testimonial--meta">
                                         <div class="testimonial--author pull-left">

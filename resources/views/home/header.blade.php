@@ -17,7 +17,7 @@
                 <ul class="nav navbar-nav nav-pos-right navbar-left nav-split">
                     <li class="active"><a data-scroll="scrollTo" href="{{ url('/') }}">home</a>
                     </li>
-                    <li><a data-scroll="scrollTo" href="#feature2">feature</a>
+                    <li><a data-scroll="scrollTo" href="#feature2">features</a>
                     </li>
                     <li><a data-scroll="scrollTo" href="#video">video</a>
                     </li>
@@ -25,7 +25,7 @@
                     </li>
                     <li><a data-scroll="scrollTo" href="#reviews">reviews</a>
                     </li>
-                    <li><a data-scroll="scrollTo" href="#pricing">pricing</a>
+                    <li><a data-scroll="scrollTo" href="{{ url('/viewPlans') }}">pricing</a>
                     </li>
                     <li><a data-scroll="scrollTo" href="#cta">download</a>
                     </li>
