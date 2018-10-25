@@ -278,27 +278,32 @@
                             <div class="carousel" data-slide="5" data-slide-res="2" data-autoplay="true" data-nav="false" data-dots="false" data-space="30" data-loop="true" data-speed="1000">
                                 <!-- screenshot #1 -->
                                 <div class="screenshot">
-                                    <img class="center-block" src="{{ asset('home/images/screenshots/1.png') }} " alt="client">
+                                    <img class="center-block" src="{{ asset('home/images/screenshots/1.jpg') }} " alt="client">
                                 </div>
 
                                 <!-- screenshot #2 -->
                                 <div class="screenshot">
-                                    <img class="center-block" src="{{ asset('home/images/screenshots/2.png') }}"  alt="client">
+                                    <img class="center-block" src="{{ asset('home/images/screenshots/2.jpg') }}"  alt="client">
                                 </div>
 
                                 <!-- screenshot #3 -->
                                 <div class="screenshot">
-                                    <img class="center-block" src="{{ asset('home/images/screenshots/3.png') }}"  alt="client">
+                                    <img class="center-block" src="{{ asset('home/images/screenshots/3.jpg') }}"  alt="client">
                                 </div>
 
                                 <!-- screenshot #4 -->
                                 <div class="screenshot">
-                                    <img class="center-block" src="{{ asset('home/images/screenshots/4.png') }} " alt="client">
+                                    <img class="center-block" src="{{ asset('home/images/screenshots/4.jpg') }} " alt="client">
                                 </div>
                                  <div class="screenshot">
-                                    <img class="center-block" src="{{ asset('home/images/screenshots/5.png') }} " alt="client">
+                                    <img class="center-block" src="{{ asset('home/images/screenshots/5.jpg') }} " alt="client">
                                 </div>
-
+                                 <div class="screenshot">
+                                    <img class="center-block" src="{{ asset('home/images/screenshots/6.jpg') }} " alt="client">
+                                </div>
+                                 <div class="screenshot">
+                                    <img class="center-block" src="{{ asset('home/images/screenshots/7.jpg') }} " alt="client">
+                                </div>
                             </div>
                         </div>
                         <!-- .col-md-12 end -->
