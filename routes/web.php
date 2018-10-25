@@ -70,7 +70,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
     Route::get('upgradePlanView', 'PaymentController@upgradePlanView');
     Route::get('upgradeNow', 'PaymentController@upgradeNow');
     Route::post('upgradeNowPlan', 'PaymentController@upgradeNowPlan');
-    Route::post('createSupport', 'admin\SupportController@createSupport');
+    Route::post('createSupport', 'Admin\SupportController@createSupport');
 });
 
 Route::post('client/makePayment', 'PaymentController@payWithStripe');
