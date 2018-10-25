@@ -330,6 +330,10 @@ class PaymentController extends Controller {
         if ($type == 'yearly') {
             return 365;
         }
+        
+        if($type == 'daily'){
+            return 1;
+        }
     }
 
     public function upgradeNowPlan(Request $request) {
