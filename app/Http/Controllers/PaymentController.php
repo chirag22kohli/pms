@@ -332,7 +332,7 @@ class PaymentController extends Controller {
         }
         
         if($type == 'daily'){
-            return 1;
+            return 2;
         }
     }
 
