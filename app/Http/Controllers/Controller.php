@@ -30,7 +30,7 @@ class Controller extends BaseController {
         $thumb_img = Image::make($image->getRealPath())->resize(745, 550);
         $thumb_img->save($destinationPath . '/cropped/' . 'thu-' . $input['imagename'], 80);
         $image->move($destinationPath, $input['imagename']);
-        return $path . '/cropped/' . 'thu-' . $input['imagename'];
+        return $path . '/'  . $input['imagename'];
     }
 
     public function uploadObjectFile($request, $fileName, $path) {

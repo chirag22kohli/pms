@@ -85,10 +85,16 @@ class TrackersController extends Controller {
         if ($this->checkDup($str)) {
             Tracker::create($requestData);
             $tracker_id = DB::getPdo()->lastInsertId();
+            list($width, $height) = getimagesize(url($imagePath));
+            $ratio = $width / $height;
+          
+            $targetHeight = 745 / $ratio;
             $update = Tracker::where('id', $tracker_id)->update([
                 'tracker_path' => $imagePath,
                 'sha' => $sha1file,
-                'size' => $size
+                'size' => $size,
+                'height' => $targetHeight,
+                'width' => 745
             ]);
             return redirect('admin/trackers?p_id=' . $request->input('project_id') . '')->with('flash_message', 'Tracker added!');
         } else {

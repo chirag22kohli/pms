@@ -218,7 +218,7 @@
 
         </div><!-- end of options -->
 
-        <div id="frame" <?php if (!empty($tracker)) { ?> style="background-image: url(<?php echo url($tracker); ?>); background-size: contain;;" <?php } ?>>
+        <div id="frame" <?php if (!empty($tracker)) { ?> style="background-image: url(<?php echo url($tracker); ?>); background-size: contain;width:<?=$trackerDetails->width ?>px;height:<?=$trackerDetails->height ?>px" <?php } ?>>
             <div class="card-header">Drop Here</div>
             <?php
             if (count($objects) > 0) {

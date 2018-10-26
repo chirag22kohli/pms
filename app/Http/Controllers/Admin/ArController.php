@@ -54,7 +54,7 @@ class ArController extends Controller {
 
         endif;
         if (count($trackerDetails) > 0):
-            return view('ar.dashboard', ['tracker_id' => $trackerId, 'tracker' => $trackerDetails->tracker_path, 'cloneId' => $cloneId, 'objects' => $objects]);
+            return view('ar.dashboard', ['trackerDetails' => $trackerDetails, 'tracker_id' => $trackerId, 'tracker' => $trackerDetails->tracker_path, 'cloneId' => $cloneId, 'objects' => $objects]);
         else:
             return 'Tracker Not Found';
         endif;
@@ -105,17 +105,21 @@ class ArController extends Controller {
 
         $trackerDetails = Tracker::where('id', $tracker_id)->with('objects')->first();
         if (count($trackerDetails) > 0) {
-
+            $trackerDimensions = [
+                'height' => $trackerDetails->height,
+                'width' => $trackerDetails->width
+            ];
             if ($trackerDetails->parm != '') {
                 $trackerVuforia = json_decode($trackerDetails->parm);
-                $vuforiaParams = $this->updateVuforia($trackerDetails->project_id, $trackerVuforia->target_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
+
+                $vuforiaParams = $this->updateVuforia($trackerDimensions, $trackerDetails->project_id, $trackerVuforia->target_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
                 $updateTracker = Tracker::where('id', $tracker_id)->update(['updated_vuforia' => $vuforiaParams]);
                 return [
-                    'obj' =>$trackerDetails['objects'],
-                    'parms'=>$vuforiaParams
+                    'obj' => $trackerDetails['objects'],
+                    'parms' => $vuforiaParams
                 ];
             } else {
-                $vuforiaParams = $this->uploadDataVuforia($trackerDetails->project_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
+                $vuforiaParams = $this->uploadDataVuforia($trackerDimensions,$trackerDetails->project_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
                 $trackerVuforia = json_decode($vuforiaParams);
                 $updateTracker = Tracker::where('id', $tracker_id)->update(['target_id' => $trackerVuforia->target_id, 'parm' => $vuforiaParams]);
                 return $vuforiaParams;
@@ -125,7 +129,7 @@ class ArController extends Controller {
         }
     }
 
-    public function updateVuforia($project_id, $id, $trackerUrl, $objectData) {
+    public function updateVuforia($trackerDimensions,$project_id, $id, $trackerUrl, $objectData) {
 
         $imagePath = '';
         $imageName = public_path($trackerUrl);
@@ -143,7 +147,7 @@ class ArController extends Controller {
             'name' => $filename . "_" . $dateTime . "." . $fileextension,
             'width' => 74.5,
             'image' => $image_base64,
-            'application_metadata' => $this->createMetadata($project_id, $objectData),
+            'application_metadata' => $this->createMetadata($trackerDimensions,$project_id, $objectData),
             'active_flag' => 1
         );
 
@@ -160,7 +164,7 @@ class ArController extends Controller {
         return $response;
     }
 
-    public function uploadDataVuforia($project_id, $trackerUrl, $objectData) {
+    public function uploadDataVuforia($trackerDimensions, $project_id, $trackerUrl, $objectData) {
         $imagePath = '';
         $imageName = public_path($trackerUrl);
         $this->imagePath = '/';
@@ -181,7 +185,7 @@ class ArController extends Controller {
             'name' => $filename . "_" . $dateTime . "." . $fileextension,
             'width' => 74.5,
             'image' => $image_base64,
-            'application_metadata' => $this->createMetadata($project_id, $objectData),
+            'application_metadata' => $this->createMetadata($trackerDimensions,$project_id, $objectData),
             'active_flag' => 1
         );
         $body = json_encode($post_data);
@@ -316,12 +320,12 @@ class ArController extends Controller {
      * Create a metadata for request. You can write any information into the metadata array you want to store.
      * @return [Array] Metadata for request.
      */
-    private function createMetadata($project_id, $objects) {
+    private function createMetadata($trackerDimensions, $project_id, $objects) {
         $metadata = array(
             'id' => 1,
             'image_url' => $this->imagePath . $this->imageName,
-            'width' => 745,
-            'height' => 550,
+            'width' => $trackerDimensions['width'],
+            'height' => $trackerDimensions['height'],
             'project_id' => $project_id,
             'objects' => $objects
         );
