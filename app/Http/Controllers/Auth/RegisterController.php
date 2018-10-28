@@ -73,6 +73,7 @@ use RegistersUsers;
         $user = User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
+                    'phone'=>$data['phone'],
                     'password' => Hash::make($data['password']),
         ]);
         $lastId = DB::getPdo()->lastInsertId();

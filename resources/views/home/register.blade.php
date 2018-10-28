@@ -45,6 +45,15 @@
                                         </span>
                                         @endif
                                     </div>
+                                    <div class="form-group col-lg-12">
+                                        <label>Phone</label>
+                                        <input type="number" id="phone" placeholder="(123) 456-789" title="Please enter a phone" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') }}" required required="">
+                                        @if ($errors->has('phone'))
+                                        <span class="invalid-feedback">
+                                            <strong>{{ $errors->first('phone') }}</strong>
+                                        </span>
+                                        @endif
+                                    </div>
                                     <input type="hidden" value="{{$plan_id}}" id = "planId" name = "planId">
                                     <div class="form-group col-lg-6">
                                         <label>Password</label>
