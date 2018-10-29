@@ -40,12 +40,12 @@ class ArController extends Controller {
         $trackerId = $request->input('id');
 
         $trackerDetails = Tracker::where('id', $trackerId)->first();
-        $objectLastId = Object::where('tracker_id', $trackerDetails->id)->orderBy('id', 'desc')->first();
-        $objects = Object::where('tracker_id', $trackerId)->get();
+        $objectLastId = object::where('tracker_id', $trackerDetails->id)->orderBy('id', 'desc')->first();
+        $objects = object::where('tracker_id', $trackerId)->get();
         if (count($objectLastId) > 0):
             $cloneId = $objectLastId->id + 1;
         else:
-            $lastId = Object::orderBy('id', 'desc')->first();
+            $lastId = object::orderBy('id', 'desc')->first();
             if (count($lastId) > 0):
                 $cloneId = $lastId->id + 1;
             else:

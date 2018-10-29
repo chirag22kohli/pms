@@ -50,7 +50,7 @@ class Tracker extends Model {
     }
 
     public function objects() {
-        return $this->hasMany(\App\Object::class, 'tracker_id', 'id')->with('actions');
+        return $this->hasMany(\App\object::class, 'tracker_id', 'id')->with('actions');
     }
 
 }
