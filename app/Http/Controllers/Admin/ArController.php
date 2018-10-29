@@ -9,7 +9,7 @@ use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
 use App\Project;
-use App\object;
+use App\Object;
 use App\Tracker;
 use Image;
 use Illuminate\Support\Facades\Input;
@@ -40,12 +40,12 @@ class ArController extends Controller {
         $trackerId = $request->input('id');
 
         $trackerDetails = Tracker::where('id', $trackerId)->first();
-        $objectLastId = object::where('tracker_id', $trackerDetails->id)->orderBy('id', 'desc')->first();
-        $objects = object::where('tracker_id', $trackerId)->get();
+        $objectLastId = Object::where('tracker_id', $trackerDetails->id)->orderBy('id', 'desc')->first();
+        $objects = Object::where('tracker_id', $trackerId)->get();
         if (count($objectLastId) > 0):
             $cloneId = $objectLastId->id + 1;
         else:
-            $lastId = object::orderBy('id', 'desc')->first();
+            $lastId = Object::orderBy('id', 'desc')->first();
             if (count($lastId) > 0):
                 $cloneId = $lastId->id + 1;
             else:

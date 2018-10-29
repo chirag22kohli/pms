@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-class object extends Model {
+class Object extends Model {
 
     public static function boot() {
         static::creating(function ($model) {
