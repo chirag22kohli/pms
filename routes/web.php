@@ -150,6 +150,9 @@ Route::post('client/choosePlan', 'admin\PlansController@choosePlan');
 Route::get('/testPayment', 'PaymentController@testPayment');
 
 
+Route::get('finalize', 'admin\ArController@finalize');
+
+
 
 
 

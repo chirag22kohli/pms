@@ -119,7 +119,7 @@ class ArController extends Controller {
                     'parms' => $vuforiaParams
                 ];
             } else {
-                $vuforiaParams = $this->uploadDataVuforia($trackerDimensions,$trackerDetails->project_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
+                $vuforiaParams = $this->uploadDataVuforia($trackerDimensions, $trackerDetails->project_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
                 $trackerVuforia = json_decode($vuforiaParams);
                 $updateTracker = Tracker::where('id', $tracker_id)->update(['target_id' => $trackerVuforia->target_id, 'parm' => $vuforiaParams]);
                 return $vuforiaParams;
@@ -129,7 +129,7 @@ class ArController extends Controller {
         }
     }
 
-    public function updateVuforia($trackerDimensions,$project_id, $id, $trackerUrl, $objectData) {
+    public function updateVuforia($trackerDimensions, $project_id, $id, $trackerUrl, $objectData) {
 
         $imagePath = '';
         $imageName = public_path($trackerUrl);
@@ -147,7 +147,7 @@ class ArController extends Controller {
             'name' => $filename . "_" . $dateTime . "." . $fileextension,
             'width' => 74.5,
             'image' => $image_base64,
-            'application_metadata' => $this->createMetadata($trackerDimensions,$project_id, $objectData),
+            'application_metadata' => $this->createMetadata($trackerDimensions, $project_id, $objectData),
             'active_flag' => 1
         );
 
@@ -185,7 +185,7 @@ class ArController extends Controller {
             'name' => $filename . "_" . $dateTime . "." . $fileextension,
             'width' => 74.5,
             'image' => $image_base64,
-            'application_metadata' => $this->createMetadata($trackerDimensions,$project_id, $objectData),
+            'application_metadata' => $this->createMetadata($trackerDimensions, $project_id, $objectData),
             'active_flag' => 1
         );
         $body = json_encode($post_data);
@@ -330,6 +330,13 @@ class ArController extends Controller {
             'objects' => $objects
         );
         return base64_encode(json_encode($metadata));
+    }
+
+    public function finalize(Request $request) {
+        $tracker_id = $request->input('tracker_id');
+
+        $trackerDetails = Tracker::where('id', $tracker_id)->with('objects')->first();
+        echo json_encode($trackerDetails);
     }
 
 }
