@@ -9,7 +9,7 @@ use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
 use App\Project;
-use App\Object;
+use App\object;
 use App\Tracker;
 use Image;
 use Illuminate\Support\Facades\Input;
