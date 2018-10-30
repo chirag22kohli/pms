@@ -33,7 +33,7 @@ class ProjectController extends Controller {
             return parent::error($errors, 200);
             //return parent::error($validator->errors(), 200);
         }
-        $projectDetails = Project::where('id', $request->input('project_id'))->first();
+        $projectDetails = Project::where('id', $request->input('project_id'))->where('status',1)->first();
         if (count($projectDetails) > 0) {
             $createRecentHistory = parent::recentHistoryProject(Auth::id(), $request->input('project_id'));
             if ($projectDetails->project_type == 'paid') {

@@ -13,6 +13,7 @@ use App\object;
 use App\Tracker;
 use Image;
 use Illuminate\Support\Facades\Input;
+use Auth;
 
 class ArController extends Controller {
 
@@ -40,7 +41,11 @@ class ArController extends Controller {
         $trackerId = $request->input('id');
 
         $trackerDetails = Tracker::where('id', $trackerId)->first();
+        if (count($trackerDetails) < 1):
+            return view('client.mayDay');
+        endif;
         $objectLastId = object::where('tracker_id', $trackerDetails->id)->orderBy('id', 'desc')->first();
+
         $objects = object::where('tracker_id', $trackerId)->get();
         if (count($objectLastId) > 0):
             $cloneId = $objectLastId->id + 1;
@@ -52,6 +57,12 @@ class ArController extends Controller {
                 $cloneId = 1;
             endif;
 
+        endif;
+        if (!Auth::user()->hasRole('Admin')):
+            $projectOwnerCheck = Tracker::where('id', $trackerId)->where('created_by', Auth::id())->first();
+            if (count($projectOwnerCheck) < 1):
+                return view('client.mayDay');
+            endif;
         endif;
         if (count($trackerDetails) > 0):
             return view('ar.dashboard', ['trackerDetails' => $trackerDetails, 'tracker_id' => $trackerId, 'tracker' => $trackerDetails->tracker_path, 'cloneId' => $cloneId, 'objects' => $objects]);

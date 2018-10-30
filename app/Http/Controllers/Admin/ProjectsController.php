@@ -31,19 +31,21 @@ class ProjectsController extends Controller {
                 $projects = Project::where('name', 'LIKE', "%$keyword%")
                         ->orWhere('tracker_path', 'LIKE', "%$keyword%")
                         ->orWhere('created_by', 'LIKE', "%$keyword%")
+                        ->where('status', 1)
                         ->paginate($perPage);
             else:
                 $projects = Project::where('name', 'LIKE', "%$keyword%")
                         ->orWhere('tracker_path', 'LIKE', "%$keyword%")
                         ->orWhere('created_by', 'LIKE', "%$keyword%")
                         ->where('created_by', Auth::id())
+                        ->where('status', 1)
                         ->paginate($perPage);
             endif;
         } else {
             if (Auth::user()->hasRole('Admin')):
                 $projects = Project::paginate($perPage);
             else:
-                $projects = Project::where('created_by', Auth::id())->paginate($perPage);
+                $projects = Project::where('created_by', Auth::id())->where('status', 1)->paginate($perPage);
             endif;
         }
 
@@ -56,8 +58,8 @@ class ProjectsController extends Controller {
      * @return \Illuminate\View\View
      */
     public function create() {
-       
-        return view('projects.projects.create',[
+
+        return view('projects.projects.create', [
             'connectStatus' => parent::checkClientConnectedAccount()
         ]);
     }
@@ -87,7 +89,13 @@ class ProjectsController extends Controller {
      */
     public function show($id) {
         $project = Project::findOrFail($id);
-
+        if (!Auth::user()->hasRole('Admin')):
+            $projectOwnerCheck = Project::where('id', $id)->where('created_by', Auth::id())->first();
+            if (count($projectOwnerCheck) < 1):
+                return "Paji GaltGall";
+            endif;
+        endif;
+        // $projectOwnerCheck = Project::where('id',$id)->where()->first();
         return view('projects.projects.show', compact('project'));
     }
 
@@ -147,7 +155,9 @@ class ProjectsController extends Controller {
                 $deleteTracker = \App\Tracker::where('id', '=', $tracker->id)->delete();
             }
         }
-        Project::destroy($id);
+        Project::where('id', $id)->update([
+            'status' => 0
+        ]);
 
         return redirect('admin/projects')->with('flash_message', 'Project deleted!');
     }

@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 use DB;
 use App\object;
 use App\Action;
-
+use App\Project;
+use Auth;
 class TrackersController extends Controller {
 
     protected $arController;
@@ -27,6 +28,13 @@ class TrackersController extends Controller {
         $keyword = $request->get('search');
         $perPage = 25;
         $project_id = $request->get('p_id');
+        
+        if (!Auth::user()->hasRole('Admin')):
+            $projectOwnerCheck = Project::where('id', $project_id)->where('created_by', Auth::id())->first();
+            if (count($projectOwnerCheck) < 1):
+                return view('client.mayDay');
+            endif;
+        endif;
         $projectDetails = \App\Project::where('id', $project_id)->first();
         $var = ['id' => base64_encode($projectDetails->id), 'name' => base64_encode($projectDetails->name)];
         $details = json_encode($var);
