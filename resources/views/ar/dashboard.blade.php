@@ -27,7 +27,7 @@
                         var left_tracker = pos.left - $("#frame").position().left;
                         var top_tracker = pos.top - $("#frame").position().top;
                         addObject(objNameDB, pos.left, pos.top, left_tracker, top_tracker);
-                        
+
 
                     }
                 });
@@ -158,7 +158,7 @@
             data: {type: type, width: width, height: height, xpos: xpos, ypos: ypos, main_class: main_class, tracker_id: tracker_id, object_div: objName, pos_top: top_tracker, pos_left: left_tracker, object_image: bg},
 
             success: function (msg) {
-              console.log(msg);
+                console.log(msg);
             }
         });
 
@@ -218,7 +218,7 @@
 
         </div><!-- end of options -->
 
-        <div id="frame" <?php if (!empty($tracker)) { ?> style="background-image: url(<?php echo url($tracker); ?>); background-size: contain;width:<?=$trackerDetails->width ?>px;height:<?=$trackerDetails->height ?>px" <?php } ?>>
+        <div id="frame" <?php if (!empty($tracker)) { ?> style="background-image: url(<?php echo url($tracker); ?>); background-size: contain;width:<?= $trackerDetails->width ?>px;height:<?= $trackerDetails->height ?>px" <?php } ?>>
             <div class="card-header">Drop Here</div>
             <?php
             if (count($objects) > 0) {
@@ -234,5 +234,9 @@
     </div>
 
 </div>
-
+<script type="text/javascript">
+    $(window).on('beforeunload', function () {
+        return "Good Bye";
+    });
+</script>
 @endsection

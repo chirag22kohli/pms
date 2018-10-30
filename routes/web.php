@@ -41,6 +41,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::resource('support', 'Admin\\SupportController');
     Route::get('trackerSupport', 'Admin\SupportController@trackerSupport');
     Route::resource('meta', 'Admin\\MetaController');
+    Route::resource('cron', 'Admin\\CronController');
 });
 
 Route::group(['middleware' => ['auth', 'roles'], 'roles' => 'Admin'], function () {
@@ -152,6 +153,9 @@ Route::get('/testPayment', 'PaymentController@testPayment');
 
 Route::get('finalize', 'Admin\ArController@finalize');
 
+
+Route::get('planCron', 'CronController@planCron');
+Route::get('projectCron', 'CronController@projectCron');
 
 
 

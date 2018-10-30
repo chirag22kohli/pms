@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -11,56 +9,42 @@ use App\Tracker;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use App\Stripe;
-
+use Carbon;
 class Controller extends BaseController {
-
     use AuthorizesRequests,
         DispatchesJobs,
         ValidatesRequests;
-
     public function uploadFile($request, $fileName, $path) {
         $image = $request->file($fileName);
         //dd($_FILES);
         $input['imagename'] = time() . '.' . $image->getClientOriginalExtension();
-
         $destinationPath = public_path($path);
-
         //
-
         $thumb_img = Image::make($image->getRealPath())->resize(745, 550);
         $thumb_img->save($destinationPath . '/cropped/' . 'thu-' . $input['imagename'], 80);
         $image->move($destinationPath, $input['imagename']);
         return $path . '/'  . $input['imagename'];
     }
-
     public function uploadObjectFile($request, $fileName, $path) {
         $image = $request->file($fileName);
         //dd($_FILES);
         $input['imagename'] = time() . '.' . $image->getClientOriginalExtension();
-
         $destinationPath = public_path($path);
-
         //
-
         $thumb_img = Image::make($image->getRealPath())->resize(400, 400);
         $thumb_img->save($destinationPath . '/cropped/' . 'thu-' . $input['imagename'], 80);
         $image->move($destinationPath, $input['imagename']);
         //return $path . '/cropped/' .'thu-'. $input['imagename'];
         return $path . '/' . $input['imagename'];
     }
-
     public function uploadMediaFile($request, $fileName, $path) {
         $image = $request->file($fileName);
         //dd($_FILES);
-
         $input['imagename'] = time() . '.' . $image->getClientOriginalExtension();
-
         $destinationPath = public_path($path);
-
         $image->move($destinationPath, $input['imagename']);
         return $path . $input['imagename'];
     }
-
     public function checkDup($filePath) {
         $filename = $filePath;
         $sha1file = sha1_file($filename);
@@ -71,20 +55,15 @@ class Controller extends BaseController {
             return true;
         }
     }
-
     public static function bytesToHuman($bytes) {
         $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
-
         for ($i = 0; $bytes > 1024; $i++) {
             $bytes /= 1024;
         }
-
         return round($bytes, 2) . ' ' . $units[$i];
     }
-
     public static function convertoMb($bytes) {
         $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
-
         for ($i = 0; $bytes > 1024; $i++) {
             $bytes /= 1024;
         }
@@ -94,7 +73,6 @@ class Controller extends BaseController {
         endif;
         return round($bytes, 2);
     }
-
     public static function usageInfoPlan() {
         $actionSpace = DB::table('actions')
                 ->where('created_by', '=', Auth::id())
@@ -102,15 +80,12 @@ class Controller extends BaseController {
         $objectSpace = DB::table('objects')
                 ->where('created_by', '=', Auth::id())
                 ->sum('size');
-
         $trackerSpace = DB::table('trackers')
                 ->where('created_by', '=', Auth::id())
                 ->sum('size');
-
         $finalSpace = $actionSpace + $objectSpace +$trackerSpace;
         return self::convertoMb($finalSpace);
     }
-
     public static function usageInfo() {
         $actionSpace = DB::table('actions')
                 ->where('created_by', '=', Auth::id())
@@ -121,18 +96,15 @@ class Controller extends BaseController {
           $trackerSpace = DB::table('trackers')
                 ->where('created_by', '=', Auth::id())
                 ->sum('size');
-
         $finalSpace = $actionSpace + $objectSpace +$trackerSpace;
         return self::bytesToHuman($finalSpace);
     }
-
     public static function trackerCount() {
         $trackerCount = DB::table('trackers')
                 ->where('created_by', '=', Auth::id())
                 ->count();
         return $trackerCount;
     }
-
     public static function checkPlanUsage() {
         if (Auth::user()->roles[0]->name == 'Admin') {
             return [
@@ -148,7 +120,6 @@ class Controller extends BaseController {
         if ($getPlanType->type == 'size') {
             $allowedStorage = $getPlanType->max_trackers;
             $usageInfo = self::usageInfoPlan();
-
             if ($usageInfo > $allowedStorage) {
                 return [
                     'status' => false,
@@ -165,7 +136,6 @@ class Controller extends BaseController {
         } elseif ($getPlanType->type == 'trackers_count') {
             $allowedTrackers = $getPlanType->max_trackers;
             $usageInfo = self::trackerCount();
-
             if ($usageInfo >= $allowedTrackers) {
                 return [
                     'status' => false,
@@ -181,7 +151,6 @@ class Controller extends BaseController {
             }
         }
     }
-
     public static function checkClientConnectedAccount(){
         if (Auth::user()->roles[0]->name == 'Admin') {
             return true;
@@ -202,13 +171,29 @@ class Controller extends BaseController {
         endif;
         return response()->json(['status' => false, 'data' => (object) [], 'error' => ['code' => $errorCode, 'error_message' => $validatorMessage]], $errorCode);
     }
-
     public static function success($data, $code = 200) {
 //        print_r($data);die;
         return response()->json(['status' => true, 'code' => $code, 'data' => (object) $data], $code);
     }
-
     public static function successCreated($data, $code = 201) {
         return response()->json(['status' => true, 'code' => $code, 'data' => (object) $data], $code);
+    }
+    
+      protected function getExpiryDate($type) {
+        $date = Carbon\Carbon::now();
+        $date = strtotime($date);
+        if ($type == 'weekly') {
+
+
+            $date = strtotime("+7 day", $date);
+        } elseif ($type == 'monthly') {
+            $date = strtotime("+30 day", $date);
+        } elseif($type == 'yearly') {
+            $date = strtotime("+365 day", $date);
+        }elseif($type == 'daily'){
+             $date = strtotime("+1 day", $date);
+        }
+        $date = date('Y-m-d', $date);
+        return $date;
     }
 }
