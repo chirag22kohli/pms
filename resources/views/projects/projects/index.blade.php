@@ -37,6 +37,7 @@
                                     <th>QR Code</th>
                                     <th>Project Details</th>
                                     <th>Created By</th>
+                                    <th>New Subscribers Trigger</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -53,22 +54,29 @@
                                     <td> {!! QrCode::encoding('UTF-8')->size(100)->generate($details); !!}</br><a href="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(300)->generate($details)) !!} " download>Download QR Code</a></td>
                                     <td>
                                         <?php if ($item->project_type != '') { ?>
-                                        <b><p><?= ucfirst($item->project_type) ?></p></b>
-                                        <?php }else{ ?>
+                                            <b><p><?= ucfirst($item->project_type) ?></p></b>
+                                        <?php } else { ?>
                                             Not Found
                                         <?php } ?>
-                                        <?php
-                                        if ($item->project_type == 'restricted') { ?>
+                                        <?php if ($item->project_type == 'restricted') { ?>
                                             <a class = "btn btn-sm btn-info" href = "{{ url('/admin/restricted-uid?p_id=' . $item->id) }}">View/Add UID</a>
-                                       <?php } elseif ($item->project_type == 'paid') { ?>
+                                        <?php } elseif ($item->project_type == 'paid') { ?>
                                             <b><p>Price: $<?= $item->price ?> </p></b>
-                                             <b><p>Blling: <?= ucfirst($item->billing_cycle) ?></p></b>
-                                        <?php } else {
+                                            <b><p>Blling: <?= ucfirst($item->billing_cycle) ?></p></b>
+                                        <?php
+                                        } else {
                                             
                                         }
                                         ?>
                                     </td>
-                                    <td>{{ $item->created_by }}</td>                                        
+                                    <td>{{ $item->created_by }}</td>    
+                                    <td>
+                                        <label class="switch">
+                                            <input type="hidden" id ="csr" value="{{ csrf_token() }}">
+                                            <input onchange = "newSubscribeTrigger('<?= $item->id ?>')" type="checkbox"  <?php if($item->newSubscribeTrigger){ echo  'checked'; } ?>>
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </td>
                                     <td>
                                         <a href="{{ url('/admin/trackers?p_id=' . $item->id) }}" title="View Trackers"><button class="btn btn-warning btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> Manage Trackers</button></a>
                                       <!--  <a href="{{ url('/admin/projects/' . $item->id) }}" title="View Project"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>-->

@@ -68,6 +68,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
     Route::post('updateProfile', 'ClientController@updateProfile');
     Route::post('renewPlan', 'PaymentController@renewPlan');
     Route::post('manageReoccurring', 'PaymentController@manageReoccurring');
+   
     Route::get('upgradePlanView', 'PaymentController@upgradePlanView');
     Route::get('upgradeNow', 'PaymentController@upgradeNow');
     Route::post('upgradeNowPlan', 'PaymentController@upgradeNowPlan');
@@ -87,6 +88,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::post('finalizeTracker', 'Admin\ArController@finalizeTracker');
     Route::get('qrcode', 'Admin\ArController@qrCode');
     Route::resource('actions', 'Admin\\ActionsController');
+     Route::post('newSubscribeTrigger', 'PaymentController@newSubscribeTrigger');
 
 //OBJECTS
 

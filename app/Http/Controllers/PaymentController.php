@@ -24,6 +24,7 @@ use stdClass;
 use App\Plan;
 use Carbon;
 use App\PaidPlantHistory;
+use App\Project;
 
 class PaymentController extends Controller {
 
@@ -304,6 +305,24 @@ class PaymentController extends Controller {
         return $message;
     }
 
+    public function newSubscribeTrigger(Request $request) {
+        $projectId = $request->get('id');
+        $newStatus = 1;
+        $userPlan = Project::where('id', $projectId)->first();
+        $message = 'Thankyou for turning on the new subscribers trigger. The more users subscribe, the more you earn. Happy AR!';
+        if ($userPlan->newSubscribeTrigger == '1') {
+            $newStatus = 0;
+            $message = 'We have stopped to add new subscribers to this project , However you can continue anytime.';
+        } else {
+            $newStatus = 1;
+        }
+
+        Project::where('id', $projectId)->update([
+            'newSubscribeTrigger' => $newStatus
+        ]);
+        return $message;
+    }
+
     public function upgradeNow(Request $request) {
         $planId = base64_decode($request->get('id'));
         $getNewPlan = Plan::where('id', $planId)->first();
@@ -330,8 +349,8 @@ class PaymentController extends Controller {
         if ($type == 'yearly') {
             return 365;
         }
-        
-        if($type == 'daily'){
+
+        if ($type == 'daily') {
             return 2;
         }
     }

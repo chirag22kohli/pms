@@ -59,7 +59,27 @@ function manageReoccurring() {
         headers: {
             'X-CSRF-TOKEN': $('#csr').val()
         },
-        
+
+        cache: false,
+
+        success: function (data) {
+            $.alert({
+                theme: 'supervan',
+                title: '',
+                content: data
+            });
+        }
+    });
+}
+function newSubscribeTrigger(id) {
+    $.ajax({
+        url: "newSubscribeTrigger",
+        method: 'post',
+        data: {id: id},
+        headers: {
+            'X-CSRF-TOKEN': $('#csr').val()
+        },
+
         cache: false,
 
         success: function (data) {

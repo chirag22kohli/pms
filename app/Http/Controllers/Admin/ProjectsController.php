@@ -7,13 +7,19 @@ use App\Http\Controllers\Controller;
 use App\Project;
 use Illuminate\Http\Request;
 use Auth;
-
+use App\PaidProjectDetail;
+use Carbon;
 class ProjectsController extends Controller {
 
     protected $arController;
 
     public function __construct(ArController $arController) {
         $this->arController = $arController;
+        $date = Carbon\Carbon::now();
+        $date = strtotime($date);
+        $date = date('Y-m-d', $date);
+        $this->date = $date;
+        $this->successStatus = 200;
     }
 
     /**
@@ -140,12 +146,20 @@ class ProjectsController extends Controller {
     public function destroy($id) {
 
         $getTrackers = \App\Tracker::where('project_id', $id)->get();
+
+        $checkPaid = PaidProjectDetail::where('project_id', $id)->where('expriy_date', '>=', $this->date)->get();
+        if (count($checkPaid) > 0):
+              return redirect('admin/projects')->with('flash_message', 'You cannot delete this project as it has subscribed users already.');
+        endif;
+        
         if (count($getTrackers) > 0) {
             foreach ($getTrackers as $tracker) {
                 $selectObjects = \App\object::where('tracker_id', $tracker->id)->get();
                 if (count($selectObjects) > 0) {
                     foreach ($selectObjects as $object) {
+
                         $deleteActions = \App\Action::where('object_id', '=', $object->id)->delete();
+
                         $deleteObject = \App\object::where('id', '=', $object->id)->delete();
                     }
                 }
