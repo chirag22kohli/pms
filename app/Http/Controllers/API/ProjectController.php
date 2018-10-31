@@ -14,8 +14,16 @@ use App\PaidProjectDetail;
 use DB;
 use Carbon\Carbon;
 use App\UserUid;
+use App\RecentProject;
 
 class ProjectController extends Controller {
+
+    public function __construct() {
+        $date = Carbon\Carbon::now();
+        $date = strtotime($date);
+        $date = date('Y-m-d', $date);
+        $this->date = $date;
+    }
 
     public $successStatus = 200;
 
@@ -35,7 +43,20 @@ class ProjectController extends Controller {
         }
         $projectDetails = Project::where('id', $request->input('project_id'))->where('status', 1)->first();
         if (!$projectDetails->newSubscribeTrigger):
-            return parent::error('Project owner has turned off the any new subscriptions to this Project', 200);
+            if ($projectDetails->type = 'paid') {
+                if ($projectDetails->expriy_date <= $this->date) {
+                    // All Good
+                } else {
+                    return parent::error('Project owner has turned off the any new subscriptions to this Project', 200);
+                }
+            } else {
+                $checkInRecentProject = RecentProject::where('user_id', Auth::id())->where('project_id', $request->input('project_id')) - first();
+
+                if (count($checkInRecentProject) < 1) {
+                    return parent::error('Project owner has turned off the any new subscriptions to this Project', 200);
+                }
+            }
+
         endif;
         if (count($projectDetails) > 0) {
             $createRecentHistory = parent::recentHistoryProject(Auth::id(), $request->input('project_id'));
