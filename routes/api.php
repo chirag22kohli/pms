@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth:api', 'roles'], 'roles' => ['Api', 'Client'
     Route::get('checkPaymentMethod', 'API\PaymentController@checkPaymentMethod');
     Route::post('deductPayment', 'API\PaymentController@deductPayment');
     Route::get('myRecentProjects', 'API\ProjectController@myRecentProjects');
+    Route::post('deleteRecentProject', 'API\ProjectController@deleteRecentProject');
 
 
     Route::post('updateContactEvent', 'API\UserController@updateContactEvent');
@@ -38,7 +39,7 @@ Route::group(['middleware' => ['auth:api', 'roles'], 'roles' => ['Api', 'Client'
     Route::get('getProfile', 'API\UserController@getProfile');
     Route::post('updateProfile', 'API\UserController@updateProfile');
     Route::post('changePassword', 'API\UserController@changePassword');
-    
+    Route::get('getTransactions', 'API\UserController@getTransactions');
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

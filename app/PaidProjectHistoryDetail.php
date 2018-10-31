@@ -51,4 +51,11 @@ class PaidProjectHistoryDetail extends Model {
     public function projectDetail() {
         return $this->hasOne(\App\Project::class, 'id', 'project_id');
     }
+    
+    public function ownTransaction(){
+        return $this->hasMany(\App\PaidProjectHistoryDetail::class, 'project_admin_id', 'project_admin_id');
+    }
+     public function transactionAdmin(){
+        return $this->hasOne(\App\User::class, 'id', 'project_admin_id');
+    }
 }

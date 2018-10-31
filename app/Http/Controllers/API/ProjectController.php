@@ -44,9 +44,9 @@ class ProjectController extends Controller {
 
         if (!$projectDetails->newSubscribeTrigger):
             if ($projectDetails->project_type == 'paid') {
-                
-                $paymentDetails = PaidProjectDetail::where('user_id',Auth::id())->where('project_id',$request->input('project_id'))->first();
-                if (count($paymentDetails)>0 && $paymentDetails->expriy_date <= $this->date) {
+
+                $paymentDetails = PaidProjectDetail::where('user_id', Auth::id())->where('project_id', $request->input('project_id'))->first();
+                if (count($paymentDetails) > 0 && $paymentDetails->expriy_date <= $this->date) {
                     // All Good
                 } else {
                     return parent::error('Project owner has turned off the any new subscriptions to this Project', 200);
@@ -137,6 +137,19 @@ class ProjectController extends Controller {
         } else {
             return parent::error('No UID Found', 200);
         }
+    }
+
+    public function deleteRecentProject(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'recent_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+        $details = RecentProject::where('id', $request->input('recent_id'))->delete();
+
+        return parent::success('Deleted Successfully.', $this->successStatus);
     }
 
     public function myRecentProjects(Request $request) {
