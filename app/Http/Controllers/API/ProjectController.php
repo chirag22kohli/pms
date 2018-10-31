@@ -52,7 +52,7 @@ class ProjectController extends Controller {
                     return parent::error('Project owner has turned off the any new subscriptions to this Project', 200);
                 }
             } else {
-                $checkInRecentProject = RecentProject::where('user_id', Auth::id())->where('project_id', $request->input('project_id')) - first();
+                $checkInRecentProject = RecentProject::where('user_id', Auth::id())->where('project_id', $request->input('project_id'))->first();
 
                 if (count($checkInRecentProject) < 1) {
                     return parent::error('Project owner has turned off the any new subscriptions to this Project', 200);
