@@ -159,6 +159,6 @@ Route::get('finalize', 'Admin\ArController@finalize');
 Route::get('planCron', 'CronController@planCron');
 Route::get('projectCron', 'CronController@projectCron');
 
-
+Route::get('testCron', 'CronController@testCron');
 
 

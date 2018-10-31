@@ -40,6 +40,19 @@ class CronController extends Controller {
         $this->successStatus = 200;
     }
 
+    public function testCron() {
+        Cron::create([
+            'user_id' => 1,
+            'date_logged' => $this->date,
+            'message' => "Test",
+            'params' => '',
+            'plan_id' => 0,
+            'success' => 1,
+            'type' => 'Test'
+        ]);
+        return "success";
+    }
+
     public function planCron() {
         $date = Carbon\Carbon::now();
         $date = strtotime($date);
