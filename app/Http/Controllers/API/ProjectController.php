@@ -42,8 +42,9 @@ class ProjectController extends Controller {
             //return parent::error($validator->errors(), 200);
         }
         $projectDetails = Project::where('id', $request->input('project_id'))->where('status', 1)->first();
+
         if (!$projectDetails->newSubscribeTrigger):
-            if ($projectDetails->type = 'paid') {
+            if ($projectDetails->project_type = 'paid') {
                 if ($projectDetails->expriy_date <= $this->date) {
                     // All Good
                 } else {
