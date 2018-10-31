@@ -15,7 +15,6 @@ use DB;
 use Carbon;
 use App\UserUid;
 
-
 class ProjectController extends Controller {
 
     public function __construct() {
@@ -44,8 +43,10 @@ class ProjectController extends Controller {
         $projectDetails = Project::where('id', $request->input('project_id'))->where('status', 1)->first();
 
         if (!$projectDetails->newSubscribeTrigger):
-            if ($projectDetails->project_type = 'paid') {
-                if ($projectDetails->expriy_date <= $this->date) {
+            if ($projectDetails->project_type == 'paid') {
+                
+                $paymentDetails = PaidProjectDetail::where('user_id',Auth::id())->where('project_id',$request->input('project_id'))->first();
+                if (count($paymentDetails)>0 && $paymentDetails->expriy_date <= $this->date) {
                     // All Good
                 } else {
                     return parent::error('Project owner has turned off the any new subscriptions to this Project', 200);
