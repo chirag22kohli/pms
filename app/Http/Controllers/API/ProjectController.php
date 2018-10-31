@@ -14,7 +14,7 @@ use App\PaidProjectDetail;
 use DB;
 use Carbon\Carbon;
 use App\UserUid;
-use App\RecentProject;
+
 
 class ProjectController extends Controller {
 
