@@ -13,6 +13,8 @@ use App\Contactandevents;
 use App\Metum;
 use Hash;
 use App\PaidProjectHistoryDetail;
+use App\Help;
+
 class UserController extends Controller {
 
     public $successStatus = 200;
@@ -233,12 +235,22 @@ class UserController extends Controller {
         }
     }
 
-    public function getTransactions(Request $request){
-       $getTransictVendors = PaidProjectHistoryDetail::where('user_id',Auth::id())->groupby('project_admin_id')->with('ownTransaction')->with('transactionAdmin')->get();
-       if(count($getTransictVendors)>0):
-          return parent::success($getTransictVendors, $this->successStatus);
-          else:
+    public function getTransactions(Request $request) {
+        $getTransictVendors = PaidProjectHistoryDetail::where('user_id', Auth::id())->groupby('project_admin_id')->with('ownTransaction')->with('transactionAdmin')->get();
+        if (count($getTransictVendors) > 0):
+            return parent::success($getTransictVendors, $this->successStatus);
+        else:
             return parent::error('No Transaction List Found', 200);
-       endif;
-       }
+        endif;
+    }
+
+    public function getHelp(Request $request) {
+        $getHelp = Help::get();
+        if (count($getHelp) > 0):
+            return parent::success($getHelp, $this->successStatus);
+        else:
+            return parent::error('No Help Content Found', 200);
+        endif;
+    }
+
 }

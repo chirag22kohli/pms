@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth:api', 'roles'], 'roles' => ['Api', 'Client'
     Route::post('updateProfile', 'API\UserController@updateProfile');
     Route::post('changePassword', 'API\UserController@changePassword');
     Route::get('getTransactions', 'API\UserController@getTransactions');
+    Route::get('getHelp', 'API\UserController@getHelp');
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
