@@ -6,22 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
+use DB;
+class UsersController extends Controller {
 
-class UsersController extends Controller
-{
     /**
      * Display a listing of the resource.
      *
      * @return void
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         $keyword = $request->get('search');
         $perPage = 15;
 
         if (!empty($keyword)) {
             $users = User::where('name', 'LIKE', "%$keyword%")->orWhere('email', 'LIKE', "%$keyword%")
-                ->paginate($perPage);
+                    ->paginate($perPage);
         } else {
             $users = User::paginate($perPage);
         }
@@ -34,8 +33,7 @@ class UsersController extends Controller
      *
      * @return void
      */
-    public function create()
-    {
+    public function create() {
         $roles = Role::select('id', 'name', 'label')->get();
         $roles = $roles->pluck('label', 'name');
 
@@ -49,8 +47,7 @@ class UsersController extends Controller
      *
      * @return void
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $this->validate($request, ['name' => 'required', 'email' => 'required', 'password' => 'required', 'roles' => 'required']);
 
         $data = $request->except('password');
@@ -71,8 +68,7 @@ class UsersController extends Controller
      *
      * @return void
      */
-    public function show($id)
-    {
+    public function show($id) {
         $user = User::findOrFail($id);
 
         return view('admin.users.show', compact('user'));
@@ -85,8 +81,7 @@ class UsersController extends Controller
      *
      * @return void
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $roles = Role::select('id', 'name', 'label')->get();
         $roles = $roles->pluck('label', 'name');
 
@@ -107,8 +102,7 @@ class UsersController extends Controller
      *
      * @return void
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $this->validate($request, ['name' => 'required', 'email' => 'required', 'roles' => 'required']);
 
         $data = $request->except('password');
@@ -134,10 +128,26 @@ class UsersController extends Controller
      *
      * @return void
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         User::destroy($id);
 
         return redirect('admin/users')->with('flash_message', 'User deleted!');
     }
+
+    public function getReports($id) {
+        $userDetails = User::where('id', $id)->first();
+        $paidInfo = \App\PaidProjectHistoryDetail::where('project_admin_id', $id)->with('userDetail')->with('projectDetail')->get();
+        $totalPaid = DB::table('paid_project_history_details')
+                ->where('project_admin_id', '=', $id)
+                ->sum('paid_price');
+        $myTransactions = \App\PaidPlantHistory::where('user_id', $id)->with('plan')->get();
+
+        return view('admin.users.reports', [
+            'userDetails' => $userDetails,
+            'paidInfo' => $paidInfo,
+            'totalPaid' => $totalPaid,
+            'myTransactions' => $myTransactions
+        ]);
+    }
+
 }

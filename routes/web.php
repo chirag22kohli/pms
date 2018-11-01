@@ -34,6 +34,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::resource('roles', 'Admin\RolesController');
     Route::resource('permissions', 'Admin\PermissionsController');
     Route::resource('users', 'Admin\UsersController');
+
     Route::get('generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@getGenerator']);
     Route::post('generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@postGenerator']);
     Route::resource('user-plans', 'admin\\UserPlansController');
@@ -43,6 +44,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::resource('meta', 'Admin\\MetaController');
     Route::resource('cron', 'Admin\\CronController');
     Route::resource('help', 'Admin\\HelpController');
+    Route::get('users/reports/{user_id}', 'Admin\UsersController@getReports');
 });
 
 Route::group(['middleware' => ['auth', 'roles'], 'roles' => 'Admin'], function () {
@@ -69,7 +71,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
     Route::post('updateProfile', 'ClientController@updateProfile');
     Route::post('renewPlan', 'PaymentController@renewPlan');
     Route::post('manageReoccurring', 'PaymentController@manageReoccurring');
-   
+
     Route::get('upgradePlanView', 'PaymentController@upgradePlanView');
     Route::get('upgradeNow', 'PaymentController@upgradeNow');
     Route::post('upgradeNowPlan', 'PaymentController@upgradeNowPlan');
@@ -81,7 +83,7 @@ Route::post('client/addPaymentMethod', 'PaymentController@addPaymentMethod');
 
 
 //Common MiddleWare-------------------------------------------------------------
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => ['Admin', 'Client','Api']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => ['Admin', 'Client', 'Api']], function () {
     Route::resource('admin/projects', 'Admin\\ProjectsController');
     Route::get('arDashboard', 'Admin\ArController@index');
     Route::post('trackerUpload', 'Admin\ArController@trackerUpload');
@@ -89,7 +91,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::post('finalizeTracker', 'Admin\ArController@finalizeTracker');
     Route::get('qrcode', 'Admin\ArController@qrCode');
     Route::resource('actions', 'Admin\\ActionsController');
-     Route::post('newSubscribeTrigger', 'PaymentController@newSubscribeTrigger');
+    Route::post('newSubscribeTrigger', 'PaymentController@newSubscribeTrigger');
 
 //OBJECTS
 
