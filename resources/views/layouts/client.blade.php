@@ -39,7 +39,14 @@
         <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
         <!--//web-fonts-->
         <link href="https://cdn.datatables.net/1.10.19/css/dataTables.material.min.css" rel="stylesheet">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <style>
+            .col-md-9{
+                width:100% !important;
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+        </style>
     </head>
 
     <body>
