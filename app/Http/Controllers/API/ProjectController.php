@@ -42,25 +42,26 @@ class ProjectController extends Controller {
         }
         $projectDetails = Project::where('id', $request->input('project_id'))->where('status', 1)->first();
 
-        if (!$projectDetails->newSubscribeTrigger):
-            if ($projectDetails->project_type == 'paid') {
-
-                $paymentDetails = PaidProjectDetail::where('user_id', Auth::id())->where('project_id', $request->input('project_id'))->first();
-                if (count($paymentDetails) > 0 && $paymentDetails->expriy_date <= $this->date) {
-                    // All Good
-                } else {
-                    return parent::error('Project owner has turned off the any new subscriptions to this Project', 200);
-                }
-            } else {
-                $checkInRecentProject = RecentProject::where('user_id', Auth::id())->where('project_id', $request->input('project_id'))->first();
-
-                if (count($checkInRecentProject) < 1) {
-                    return parent::error('Project owner has turned off the any new subscriptions to this Project', 200);
-                }
-            }
-
-        endif;
         if (count($projectDetails) > 0) {
+            $userDetails = User::where('id', $projectDetails->created_by)->first();
+            if (!$projectDetails->newSubscribeTrigger):
+                if ($projectDetails->project_type == 'paid') {
+
+                    $paymentDetails = PaidProjectDetail::where('user_id', Auth::id())->where('project_id', $request->input('project_id'))->first();
+                    if (count($paymentDetails) > 0 && $paymentDetails->expriy_date <= $this->date) {
+                        // All Good
+                    } else {
+                        return parent::error('Project Owner has turned off new Subscriptions for the project. For enquiries please contact: /n Email: ', 200);
+                    }
+                } else {
+                    $checkInRecentProject = RecentProject::where('user_id', Auth::id())->where('project_id', $request->input('project_id'))->first();
+
+                    if (count($checkInRecentProject) < 1) {
+                        return parent::error('Project Owner has turned off new Subscriptions for the project. For enquiries please contact: /n Email:', 200);
+                    }
+                }
+
+            endif;
             $createRecentHistory = parent::recentHistoryProject(Auth::id(), $request->input('project_id'));
             if ($projectDetails->project_type == 'paid') {
                 $paidDetails = parent::checkProjectPaidStatus($request->input('project_id'));
@@ -81,7 +82,7 @@ class ProjectController extends Controller {
                 }
                 $projectDetails->uid_status = $uidStatus;
             }
-            $userDetails = User::where('id', $projectDetails->created_by)->first();
+
             $projectDetails->project_owner = $userDetails;
             return parent::success($projectDetails, $this->successStatus);
         } else {
@@ -135,7 +136,7 @@ class ProjectController extends Controller {
                 return parent::success($projectDetails, $this->successStatus);
             }
         } else {
-            return parent::error('No UID Found', 200);
+            return parent::error('We could not find the UID. . Please contact Project Owner for assistance. ', 200);
         }
     }
 
