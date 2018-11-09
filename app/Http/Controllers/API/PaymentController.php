@@ -103,7 +103,7 @@ class PaymentController extends Controller {
                     $createPaymentHistory = PaidProjectHistoryDetail::create($paidParams);
                     $createRecentHistory = parent::recentHistoryProject(Auth::id(), $request->input('project_id'));
                 }
-                return parent::success('Charged Successfully', $this->successStatus);
+                return parent::success('Payment Successful. Paid projects are set to auto-renew by default. You may change this by going to the Projects Section of the Navigation Bar.', $this->successStatus);
             } else {
                 $removeInvalidCustomer = Stripe::where('user_id', Auth::id)->update(['customer_id' => null]);
                 return parent::error('Some Issue in Making Charge, Please try again!', $this->successStatus);
