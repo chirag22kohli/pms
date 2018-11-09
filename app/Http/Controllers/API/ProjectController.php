@@ -43,12 +43,14 @@ class ProjectController extends Controller {
         $projectDetails = Project::where('id', $request->input('project_id'))->where('status', 1)->first();
 
         if (count($projectDetails) > 0) {
+        
             $userDetails = User::where('id', $projectDetails->created_by)->first();
             if (!$projectDetails->newSubscribeTrigger):
                 if ($projectDetails->project_type == 'paid') {
-
+                    
                     $paymentDetails = PaidProjectDetail::where('user_id', Auth::id())->where('project_id', $request->input('project_id'))->first();
-                    if (count($paymentDetails) > 0 && $paymentDetails->expriy_date <= $this->date) {
+                   // dd( $this->date);
+                    if (count($paymentDetails) > 0 && strtotime($paymentDetails->expriy_date) >= strtotime($this->date)) {
                         // All Good
                     } else {
                         return parent::error('Project Owner has turned off new Subscriptions for the project. For enquiries please contact: ', 200);
