@@ -51,13 +51,13 @@ class ProjectController extends Controller {
                     if (count($paymentDetails) > 0 && $paymentDetails->expriy_date <= $this->date) {
                         // All Good
                     } else {
-                        return parent::error('Project Owner has turned off new Subscriptions for the project. For enquiries please contact: /n Email: ', 200);
+                        return parent::error('Project Owner has turned off new Subscriptions for the project. For enquiries please contact: \n Email: ', 200);
                     }
                 } else {
                     $checkInRecentProject = RecentProject::where('user_id', Auth::id())->where('project_id', $request->input('project_id'))->first();
 
                     if (count($checkInRecentProject) < 1) {
-                        return parent::error('Project Owner has turned off new Subscriptions for the project. For enquiries please contact: /n Email:', 200);
+                        return parent::error('Project Owner has turned off new Subscriptions for the project. For enquiries please contact: \n Email:', 200);
                     }
                 }
 
