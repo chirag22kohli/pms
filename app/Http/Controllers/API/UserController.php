@@ -14,7 +14,7 @@ use App\Metum;
 use Hash;
 use App\PaidProjectHistoryDetail;
 use App\Help;
-
+use App\tutorialManager;
 class UserController extends Controller {
 
     public $successStatus = 200;
@@ -250,6 +250,15 @@ class UserController extends Controller {
             return parent::success($getHelp, $this->successStatus);
         else:
             return parent::error('No Help Content Found', 200);
+        endif;
+    }
+
+    public function getTutorials(Request $request) {
+        $getHelp = tutorialManager::get();
+        if (count($getHelp) > 0):
+            return parent::success($getHelp, $this->successStatus);
+        else:
+            return parent::error('No Tutorial Found', 200);
         endif;
     }
 

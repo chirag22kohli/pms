@@ -45,6 +45,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::resource('cron', 'Admin\\CronController');
     Route::resource('help', 'Admin\\HelpController');
     Route::get('users/reports/{user_id}', 'Admin\UsersController@getReports');
+    Route::resource('tutorial-manager', 'Admin\\tutorialManagerController');
 });
 
 Route::group(['middleware' => ['auth', 'roles'], 'roles' => 'Admin'], function () {
@@ -163,6 +164,7 @@ Route::get('planCron', 'CronController@planCron');
 Route::get('projectCron', 'CronController@projectCron');
 
 Route::get('testCron', 'CronController@testCron');
+
 
 
 

@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -10,10 +12,13 @@ use Illuminate\Support\Facades\DB;
 use Auth;
 use App\Stripe;
 use Carbon;
+
 class Controller extends BaseController {
+
     use AuthorizesRequests,
         DispatchesJobs,
         ValidatesRequests;
+
     public function uploadFile($request, $fileName, $path) {
         $image = $request->file($fileName);
         //dd($_FILES);
@@ -23,8 +28,21 @@ class Controller extends BaseController {
         $thumb_img = Image::make($image->getRealPath())->resize(745, 550);
         $thumb_img->save($destinationPath . '/cropped/' . 'thu-' . $input['imagename'], 80);
         $image->move($destinationPath, $input['imagename']);
-        return $path . '/'  . $input['imagename'];
+        return $path . '/' . $input['imagename'];
     }
+
+    public function uploadTutorialFile($request, $fileName, $path) {
+        $image = $request->file($fileName);
+        //dd($_FILES);
+        $input['imagename'] = time() . '.' . $image->getClientOriginalExtension();
+        $destinationPath = public_path($path);
+        //
+        $thumb_img = Image::make($image->getRealPath())->resize(1080, 400);
+        $thumb_img->save($destinationPath . '/cropped/' . 'thu-' . $input['imagename'], 80);
+        $image->move($destinationPath, $input['imagename']);
+        return $path . '/cropped/' . 'thu-' . $input['imagename'];
+    }
+
     public function uploadObjectFile($request, $fileName, $path) {
         $image = $request->file($fileName);
         //dd($_FILES);
@@ -37,6 +55,7 @@ class Controller extends BaseController {
         //return $path . '/cropped/' .'thu-'. $input['imagename'];
         return $path . '/' . $input['imagename'];
     }
+
     public function uploadMediaFile($request, $fileName, $path) {
         $image = $request->file($fileName);
         //dd($_FILES);
@@ -45,6 +64,7 @@ class Controller extends BaseController {
         $image->move($destinationPath, $input['imagename']);
         return $path . $input['imagename'];
     }
+
     public function checkDup($filePath) {
         $filename = $filePath;
         $sha1file = sha1_file($filename);
@@ -55,6 +75,7 @@ class Controller extends BaseController {
             return true;
         }
     }
+
     public static function bytesToHuman($bytes) {
         $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
         for ($i = 0; $bytes > 1024; $i++) {
@@ -62,6 +83,7 @@ class Controller extends BaseController {
         }
         return round($bytes, 2) . ' ' . $units[$i];
     }
+
     public static function convertoMb($bytes) {
         $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
         for ($i = 0; $bytes > 1024; $i++) {
@@ -73,6 +95,7 @@ class Controller extends BaseController {
         endif;
         return round($bytes, 2);
     }
+
     public static function usageInfoPlan() {
         $actionSpace = DB::table('actions')
                 ->where('created_by', '=', Auth::id())
@@ -83,9 +106,10 @@ class Controller extends BaseController {
         $trackerSpace = DB::table('trackers')
                 ->where('created_by', '=', Auth::id())
                 ->sum('size');
-        $finalSpace = $actionSpace + $objectSpace +$trackerSpace;
+        $finalSpace = $actionSpace + $objectSpace + $trackerSpace;
         return self::convertoMb($finalSpace);
     }
+
     public static function usageInfo() {
         $actionSpace = DB::table('actions')
                 ->where('created_by', '=', Auth::id())
@@ -93,18 +117,20 @@ class Controller extends BaseController {
         $objectSpace = DB::table('objects')
                 ->where('created_by', '=', Auth::id())
                 ->sum('size');
-          $trackerSpace = DB::table('trackers')
+        $trackerSpace = DB::table('trackers')
                 ->where('created_by', '=', Auth::id())
                 ->sum('size');
-        $finalSpace = $actionSpace + $objectSpace +$trackerSpace;
+        $finalSpace = $actionSpace + $objectSpace + $trackerSpace;
         return self::bytesToHuman($finalSpace);
     }
+
     public static function trackerCount() {
         $trackerCount = DB::table('trackers')
                 ->where('created_by', '=', Auth::id())
                 ->count();
         return $trackerCount;
     }
+
     public static function checkPlanUsage() {
         if (Auth::user()->roles[0]->name == 'Admin') {
             return [
@@ -151,18 +177,19 @@ class Controller extends BaseController {
             }
         }
     }
-    public static function checkClientConnectedAccount(){
+
+    public static function checkClientConnectedAccount() {
         if (Auth::user()->roles[0]->name == 'Admin') {
             return true;
         }
-        $checkClientStripeConnect = Stripe::where('user_id',Auth::id())->where('account_id','!=',null)->first();
-        if(count($checkClientStripeConnect)>0):
+        $checkClientStripeConnect = Stripe::where('user_id', Auth::id())->where('account_id', '!=', null)->first();
+        if (count($checkClientStripeConnect) > 0):
             return true;
         else:
             return false;
         endif;
     }
-    
+
     public static function error($validatorMessage, $errorCode = 422, $messageIndex = false) {
         if ($messageIndex === true):
             $validatorMessage = ['message' => [$validatorMessage]];
@@ -171,15 +198,17 @@ class Controller extends BaseController {
         endif;
         return response()->json(['status' => false, 'data' => (object) [], 'error' => ['code' => $errorCode, 'error_message' => $validatorMessage]], $errorCode);
     }
+
     public static function success($data, $code = 200) {
 //        print_r($data);die;
         return response()->json(['status' => true, 'code' => $code, 'data' => (object) $data], $code);
     }
+
     public static function successCreated($data, $code = 201) {
         return response()->json(['status' => true, 'code' => $code, 'data' => (object) $data], $code);
     }
-    
-      protected function getExpiryDate($type) {
+
+    protected function getExpiryDate($type) {
         $date = Carbon\Carbon::now();
         $date = strtotime($date);
         if ($type == 'weekly') {
@@ -188,12 +217,13 @@ class Controller extends BaseController {
             $date = strtotime("+7 day", $date);
         } elseif ($type == 'monthly') {
             $date = strtotime("+30 day", $date);
-        } elseif($type == 'yearly') {
+        } elseif ($type == 'yearly') {
             $date = strtotime("+365 day", $date);
-        }elseif($type == 'daily'){
-             $date = strtotime("+1 day", $date);
+        } elseif ($type == 'daily') {
+            $date = strtotime("+1 day", $date);
         }
         $date = date('Y-m-d', $date);
         return $date;
     }
+
 }
