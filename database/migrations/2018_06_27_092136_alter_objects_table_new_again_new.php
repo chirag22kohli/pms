@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterUsersTable extends Migration
+class AlterObjectsTableNewAgainNew extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class AlterUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        //
+         Schema::table('objects', function (Blueprint $table) {
+           
+            $table->text('tracker_id')->after('project_id')->nullable();
+            });
     }
 
     /**
@@ -25,8 +27,6 @@ class AlterUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        //
     }
 }

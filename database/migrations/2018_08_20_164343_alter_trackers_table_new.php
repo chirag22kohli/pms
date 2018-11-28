@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterProjectsTable extends Migration
+class AlterTrackersTableNew extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class AlterProjectsTable extends Migration
      */
     public function up()
     {
-        Schema::table('projects', function (Blueprint $table) {
-            //
-             $table->string('project_type')->nullable();
-             $table->string('price')->nullable();
-             $table->string('billing_cycle')->nullable();
-             
+        Schema::table('trackers', function (Blueprint $table) {
+            $table->text('sha')->nullable();
         });
     }
 
@@ -29,7 +25,7 @@ class AlterProjectsTable extends Migration
      */
     public function down()
     {
-        Schema::table('projects', function (Blueprint $table) {
+        Schema::table('trackers', function (Blueprint $table) {
             //
         });
     }
