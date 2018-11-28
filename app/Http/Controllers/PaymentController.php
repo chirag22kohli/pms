@@ -25,6 +25,8 @@ use App\Plan;
 use Carbon;
 use App\PaidPlantHistory;
 use App\Project;
+use App\Scanpack;
+use App\UserScanPack;
 
 class PaymentController extends Controller {
 
@@ -135,6 +137,13 @@ class PaymentController extends Controller {
             'price_paid' => $planDetails->price
         ];
         PaidPlantHistory::create($historyParams);
+        $getScanPack = Scanpack::first();
+        $assignScanPack = UserScanPack::create([
+                    'user_id' => Auth::id(),
+                    'scan_pack_id' => $getScanPack->id,
+                    'scans' => $getScanPack->scans,
+                    'user_plan_id' => $userPlan->plan_id
+        ]);
     }
 
     protected function upgradePlan($result) {

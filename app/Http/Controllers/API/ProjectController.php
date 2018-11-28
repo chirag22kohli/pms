@@ -14,6 +14,7 @@ use App\PaidProjectDetail;
 use DB;
 use Carbon;
 use App\UserUid;
+use App\UserScanPack;
 
 class ProjectController extends Controller {
 
@@ -43,13 +44,13 @@ class ProjectController extends Controller {
         $projectDetails = Project::where('id', $request->input('project_id'))->where('status', 1)->first();
 
         if (count($projectDetails) > 0) {
-        
+
             $userDetails = User::where('id', $projectDetails->created_by)->first();
             if (!$projectDetails->newSubscribeTrigger):
                 if ($projectDetails->project_type == 'paid') {
-                    
+
                     $paymentDetails = PaidProjectDetail::where('user_id', Auth::id())->where('project_id', $request->input('project_id'))->first();
-                   // dd( $this->date);
+                    // dd( $this->date);
                     if (count($paymentDetails) > 0 && strtotime($paymentDetails->expriy_date) >= strtotime($this->date)) {
                         // All Good
                     } else {
@@ -237,6 +238,30 @@ class ProjectController extends Controller {
         } else {
             return parent::error('You are not subscribed to this project', 200);
         }
+    }
+
+    public function updateScanPacks(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'project_id' => 'required'
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+            //  return parent::error($validator->errors(), 200);
+        }
+
+
+        $selectProjectOwner = Project::where('id', $request->get('project_id'))->first();
+      //  dd($selectProjectOwner->created_by);
+        $selectScanPlan  = UserScanPack::where('user_id',$selectProjectOwner->created_by)->first();
+        
+        $newScanUsed = $selectScanPlan->scans_used + 1;
+        $scans = $selectScanPlan->scans - 1;
+        $updateScanPack = UserScanPack::where('user_id', $selectProjectOwner->created_by)->update([
+            'scans_used' =>$newScanUsed,
+            'scans' => $scans
+        ]);
+         return parent::success("Updated Successfully", $this->successStatus);
     }
 
 }

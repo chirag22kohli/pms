@@ -50,6 +50,12 @@
                 Plan Info
             </a>
         </li>
+        <li>
+            <a href="{{url('client/scanpack')}}">
+                <i class="far fa-file"></i>
+                Scan Pack Usage/Limit
+            </a>
+        </li>
          <li>
             <a href="{{url('client/reports')}}">
                 <i class="far fa-chart-bar"></i>

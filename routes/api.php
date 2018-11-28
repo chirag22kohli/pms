@@ -42,6 +42,9 @@ Route::group(['middleware' => ['auth:api', 'roles'], 'roles' => ['Api', 'Client'
     Route::get('getTransactions', 'API\UserController@getTransactions');
     Route::get('getHelp', 'API\UserController@getHelp');
     Route::get('getTutorials', 'API\UserController@getTutorials');
+    Route::post('updateScanPacks', 'API\ProjectController@updateScanPacks');
+    
+    
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

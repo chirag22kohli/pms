@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use Auth;
 use DB;
-
+use App\UserScanPack;
+use App\Scanpack;
 class ClientController extends Controller {
 
     public function home() {
@@ -44,6 +45,11 @@ class ClientController extends Controller {
 
     public static function checkPlanUsage() {
         return parent::checkPlanUsage();
+    }
+    
+    public function viewScanPack(){
+        $getScanPack = UserScanPack::where('user_id',Auth::id())->first();
+         return view('client.scanpack',['getScanPack' => $getScanPack]);
     }
 
 }

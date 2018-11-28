@@ -187,7 +187,16 @@ function stripeTokenHandler(token) {
                 content: 'Please wait while we process your payment and set up your AR Experience.',
             });
         },
+        error: function (xhr) {
+            //Add your image loader here
+            $.alert({
+                theme: 'supervan',
+                title: 'Oops!',
+                content: 'There is some error in processing your payment. Please contact administrator.',
+            });
+        },
         success: function (data) {
+            console.log(data);
             if (data == 'success') {
                 location.reload();
             } else {
