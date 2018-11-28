@@ -254,7 +254,9 @@ class ProjectController extends Controller {
         $selectProjectOwner = Project::where('id', $request->get('project_id'))->first();
       //  dd($selectProjectOwner->created_by);
         $selectScanPlan  = UserScanPack::where('user_id',$selectProjectOwner->created_by)->first();
-        
+        if($selectScanPlan->scans == 0){
+              return parent::error('Scan Packs are over for this project. Please contact project owner to continue scanning.', 200);
+        }
         $newScanUsed = $selectScanPlan->scans_used + 1;
         $scans = $selectScanPlan->scans - 1;
         $updateScanPack = UserScanPack::where('user_id', $selectProjectOwner->created_by)->update([
