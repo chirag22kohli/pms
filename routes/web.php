@@ -80,6 +80,8 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
     Route::post('createSupport', 'Admin\SupportController@createSupport');
     Route::get('scanpack', 'ClientController@viewScanPack');
     Route::post('setTrackerLimit', 'Admin\UserScanPacksController@setTrackerLimit');
+     Route::get('updateScanPack', 'Admin\UserScanPacksController@updateScanPack');
+    
 });
 
 Route::post('client/makePayment', 'PaymentController@payWithStripe');
@@ -173,3 +175,5 @@ Route::get('testCron', 'CronController@testCron');
 
 
 Route::resource('admin/user-scan-packs', 'Admin\\UserScanPacksController');
+
+Route::resource('admin/paid-scan-packs-history', 'Admin\\PaidScanPacksHistoryController');

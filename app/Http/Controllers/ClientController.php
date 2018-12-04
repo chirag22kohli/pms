@@ -48,6 +48,7 @@ class ClientController extends Controller {
     }
     
     public function viewScanPack(){
+     
         $getScanPack = UserScanPack::where('user_id',Auth::id())->first();
          return view('client.scanpack',['getScanPack' => $getScanPack]);
     }

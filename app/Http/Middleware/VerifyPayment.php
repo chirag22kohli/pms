@@ -21,7 +21,7 @@ class VerifyPayment {
     public function handle($request, Closure $next) {
 
         $getUserPlan = UserPlan::where('user_id', Auth::id())->first();
-        if (count($getUserPlan) == 0) {
+        if (!$getUserPlan) {
             $plans = Plan::all();
             return new Response(view('home.choosePlan', ['plans' => $plans]));
         }

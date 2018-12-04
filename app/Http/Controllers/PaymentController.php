@@ -142,6 +142,7 @@ class PaymentController extends Controller {
                     'user_id' => Auth::id(),
                     'scan_pack_id' => $getScanPack->id,
                     'scans' => $getScanPack->scans,
+                    'month' => date('m'),
                     'user_plan_id' => $userPlan->plan_id
         ]);
     }
