@@ -34,12 +34,13 @@ class ClientController extends Controller {
                 ->where('project_admin_id', '=', Auth::id())
                 ->sum('paid_price');
         $myTransactions = \App\PaidPlantHistory::where('user_id', Auth::id())->with('plan')->get();
-
+        $paidScanPacksHistory = \App\PaidScanPacksHistory::where('user_id',Auth::id())->get();
         return view('client.reports', [
             'userDetails' => $userDetails,
             'paidInfo' => $paidInfo,
             'totalPaid' => $totalPaid,
-            'myTransactions' => $myTransactions
+            'myTransactions' => $myTransactions,
+            'paidScanPacksHistory'=>$paidScanPacksHistory
         ]);
     }
 

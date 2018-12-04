@@ -19,7 +19,7 @@ $(document).ready(function () {
     })
     $('#tabfirst').click();
     $('#paidProjects').dataTable();
-
+    $('#scanPacksTable').dataTable();
 });
 function renewPlan(project_info) {
     $.ajax({

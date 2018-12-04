@@ -111,14 +111,14 @@ class Controller {
         $scanPacksTotal = $updateLimit->total_scan_packs;
         $scanPacksLeft = $scanPacksTotal - $updateLimit->used_scan_packs;
         $projectAdmin = \App\User::where('id', '2')->first();
-        $projectOwner = \App\User::where('id', $userId)->first();
+        $projectOwnerData = \App\User::where('id', $userId)->first();
         if ($scanPacksLeft > 0 && $updateLimit->scans == 0) {
             try {
 
                 $charge = StripeConnect::transaction()
                         ->amount($scanpackPrice * 100, 'sgd')
                         ->useSavedCustomer()
-                        ->from($projectOwner)
+                        ->from($projectOwnerData)
                         ->to($projectAdmin)
                         ->create();
             } catch (\Exception $e) {
@@ -136,7 +136,8 @@ class Controller {
                     'payment_type' => 'Scan Pack Upgraded',
                     'price_paid' => $scanpackPrice,
                     'scans_credited' => $scanpackAllowed,
-                    'payment_status' => 1
+                    'payment_status' => 1,
+                    'month'=>$updateLimit->month
                 ];
                 \App\PaidScanPacksHistory::create($historyParams);
                 $newUsedLimit = $updateLimit->used_limit + $scanpackPrice;

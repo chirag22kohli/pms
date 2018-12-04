@@ -25,7 +25,7 @@ class PaidScanPacksHistory extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'scan_pack_id', 'date_purchased', 'scans_credited', 'payment_params', 'payment_type', 'payment_status','price_paid'];
+    protected $fillable = ['user_id', 'scan_pack_id', 'date_purchased', 'scans_credited', 'payment_params', 'payment_type', 'payment_status','price_paid','month'];
 
     
 }

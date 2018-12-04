@@ -15,6 +15,7 @@
 
             <li class="nav-item active"><a class="nav-link" id = "tabfirst" data-toggle="tab" href="#home">Projects Report</a></li>
             <li class="nav-item "><a class="nav-link"  data-toggle="tab" href="#myTransactions">My Transaction</a></li>
+            <li class="nav-item "><a class="nav-link"  data-toggle="tab" href="#paidScanPacksHistory">Scan Pack Transactions</a> </li>
 
         </ul>
         <div class="tab-content">
@@ -126,6 +127,55 @@
                     </div>
                 </div>
 
+            </div>
+            <div id="paidScanPacksHistory" class="tab-pane fade in ">
+                <div class="work-progres">
+                    <h4 class="tittle-w3-agileits mb-4" style="margin-top:19px">Paid Projects Earnings</h4>
+
+                    <div class="table-responsive">
+                        <table id = "scanPacksTable" class="table mdl-data-table  table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Scan Credited</th>
+                                    <th>Price Paid</th>
+                                    <th>Stripe Transaction ID</th>
+                                    <th>Payment Type</th>
+                                    <th>Upgrade Month</th>
+                                    <th>Date Charged</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                if (count($paidScanPacksHistory) > 0) {
+                                    $i = 1;
+                                    foreach ($paidScanPacksHistory as $info) {
+                                        $stripInfo = json_decode($info->payment_params);
+                                        ?>
+                                        <tr>
+                                            <td><?= $i ?></td>
+                                            <td><?= $info->scans_credited ?></td>
+                                            <td><span class="badge badge-pill badge-secondary">$<?= $stripInfo->amount / 100 ?></span></td>
+
+
+                                            <td>
+                                                <span class="badge badge-pill badge-primary"><?= $stripInfo->id ?></span>
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-info"><?= $info['payment_type'] ?></span>
+                                            </td>
+                                            <td>{{ date("F", mktime(0, 0, 0, $info->month, 1)) }}</td>
+                                            <td><?= $info->date_purchased ?> </td>
+                                        </tr>
+                                        <?php
+                                        $i++;
+                                    }
+                                }
+                                ?> 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
