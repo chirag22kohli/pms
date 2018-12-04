@@ -130,7 +130,7 @@
             </div>
             <div id="paidScanPacksHistory" class="tab-pane fade in ">
                 <div class="work-progres">
-                    <h4 class="tittle-w3-agileits mb-4" style="margin-top:19px">Paid Projects Earnings</h4>
+                    <h4 class="tittle-w3-agileits mb-4" style="margin-top:19px">Scan-Pack Spends </h4>
 
                     <div class="table-responsive">
                         <table id = "scanPacksTable" class="table mdl-data-table  table-hover">
