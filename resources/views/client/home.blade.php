@@ -61,7 +61,7 @@
             },
             data: [{
                     yValueFormatString: "$#,###",
-                    xValueFormatString: "MMMM",
+                    xValueFormatString: "M",
                     type: "spline",
                     dataPoints: dataPoints
                 }]
