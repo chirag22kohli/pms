@@ -48,17 +48,13 @@
         });
         var options = {
             animationEnabled: true,
+
+            exportEnabled: true,
+            theme: "light1", // "light1", "light2", "dark1", "dark2"
             title: {
                 text: "Monthly Earning (Paid Projects)"
             },
-            axisX: {
-                valueFormatString: "MMM"
-            },
-            axisY: {
-                title: "Sales (in SGD)",
-                prefix: "$",
-                includeZero: false
-            },
+
             data: [{
                     type: "column", //change type to bar, line, area, pie, etc
                     //indexLabel: "{y}", //Shows y value on all Data Points
