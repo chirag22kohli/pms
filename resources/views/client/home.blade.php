@@ -59,12 +59,13 @@
                 labelAngle: -50
             },
             axisY: {
+                title: "Sales in SGD",
                 valueFormatString: "#,###"
             },
             data: [{
                     type: "area",
                     color: "rgba(0,75,141,0.7)",
-
+                    yValueFormatString: "$#,###.##",
                     dataPoints: dataPoints
                 }]
         };
