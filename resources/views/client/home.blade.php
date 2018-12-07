@@ -58,7 +58,7 @@
                 valueFormatString: "MMM"
             },
             axisY: {
-                title: "Sales (in USD)",
+                title: "Sales (in SGD)",
                 prefix: "$",
                 includeZero: false
             },
