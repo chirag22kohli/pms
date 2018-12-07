@@ -41,7 +41,7 @@
             console.log(data);
             $.each(data, function (key, value) {
                 console.log(value['Month(created_at)']);
-                dataPoints.push({x: new Date(value['Year(created_at)'], value['Month(created_at)'],value['dd']), y: value['paid_price']});
+                dataPoints.push({x: new Date(value['Year(created_at)'], value['Month(created_at)'], value['dd']), y: value['paid_price']});
             });
             console.log(options);
             chart.render();
@@ -55,12 +55,11 @@
                 text: "Monthly Earning (Paid Projects)"
             },
             axisX: {
-                valueFormatString: "MMMM"
+                valueFormatString: "DD-MMM",
+                labelAngle: -50
             },
             axisY: {
-                title: "Sales (in SGD)",
-                prefix: "$",
-                includeZero: false
+                valueFormatString: "#,###"
             },
             data: [{
                     type: "column", //change type to bar, line, area, pie, etc
