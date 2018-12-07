@@ -62,10 +62,9 @@
                 valueFormatString: "#,###"
             },
             data: [{
-                    type: "column", //change type to bar, line, area, pie, etc
-                    //indexLabel: "{y}", //Shows y value on all Data Points
-                    indexLabelFontColor: "#5A5757",
-                    indexLabelPlacement: "outside",
+                    type: "area",
+                    color: "rgba(0,75,141,0.7)",
+
                     dataPoints: dataPoints
                 }]
         };
