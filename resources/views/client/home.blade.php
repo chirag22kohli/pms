@@ -55,19 +55,17 @@
                 text: "Monthly Earning (Paid Projects)"
             },
             axisX: {
-                interval: 5,
-                valueFormatString: "MMMM"
-                
-               
+                valueFormatString: "MMM"
             },
             axisY: {
-                title: "Sales in SGD",
-                valueFormatString: "#,###"
+                title: "Sales (in USD)",
+                prefix: "$",
+                includeZero: false
             },
             data: [{
-                    type: "line",
-                   
-                    yValueFormatString: "$#,###.##",
+                    yValueFormatString: "$#,###",
+                    xValueFormatString: "MMMM",
+                    type: "spline",
                     dataPoints: dataPoints
                 }]
         };
