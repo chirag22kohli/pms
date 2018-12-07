@@ -85,6 +85,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
     Route::get('scanpack', 'ClientController@viewScanPack');
     Route::post('setTrackerLimit', 'Admin\UserScanPacksController@setTrackerLimit');
     Route::get('updateScanPack', 'Admin\UserScanPacksController@updateScanPack');
+       Route::get('getPaidProjectGraphData', 'ClientController@getPaidProjectGraphData');
 });
 
 Route::post('client/makePayment', 'PaymentController@payWithStripe');
@@ -154,7 +155,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::get('checkPlanUsage', 'ClientController@checkPlanUsage');
     Route::post('deleteMultipleUid', 'Admin\RestrictedUidController@deleteMultipleUid');
     
-      Route::get('getPaidProjectGraphData', 'ClientController@getPaidProjectGraphData');
+   
 });
 
 
