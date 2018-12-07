@@ -8,6 +8,7 @@ use Auth;
 use DB;
 use App\UserScanPack;
 use App\Scanpack;
+
 class ClientController extends Controller {
 
     public function home() {
@@ -34,24 +35,31 @@ class ClientController extends Controller {
                 ->where('project_admin_id', '=', Auth::id())
                 ->sum('paid_price');
         $myTransactions = \App\PaidPlantHistory::where('user_id', Auth::id())->with('plan')->get();
-        $paidScanPacksHistory = \App\PaidScanPacksHistory::where('user_id',Auth::id())->get();
+        $paidScanPacksHistory = \App\PaidScanPacksHistory::where('user_id', Auth::id())->get();
         return view('client.reports', [
             'userDetails' => $userDetails,
             'paidInfo' => $paidInfo,
             'totalPaid' => $totalPaid,
             'myTransactions' => $myTransactions,
-            'paidScanPacksHistory'=>$paidScanPacksHistory
+            'paidScanPacksHistory' => $paidScanPacksHistory
         ]);
     }
 
     public static function checkPlanUsage() {
         return parent::checkPlanUsage();
     }
-    
-    public function viewScanPack(){
-     
-        $getScanPack = UserScanPack::where('user_id',Auth::id())->first();
-         return view('client.scanpack',['getScanPack' => $getScanPack]);
+
+    public function viewScanPack() {
+
+        $getScanPack = UserScanPack::where('user_id', Auth::id())->first();
+        return view('client.scanpack', ['getScanPack' => $getScanPack]);
+    }
+
+    public function getPaidProjectGraphData() {
+        // { x: new Date(2017, 0), y: 25060 },
+        $data = DB::select('select sum(paid_price), Month(created_at), Year(created_at) FROM `paid_project_history_details` where project_admin_id = ? GROUP BY  MONTH(created_at)',[Auth::id()]); 
+
+        return response()->json($data);
     }
 
 }

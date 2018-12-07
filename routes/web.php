@@ -47,6 +47,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::get('users/reports/{user_id}', 'Admin\UsersController@getReports');
     Route::resource('tutorial-manager', 'Admin\\tutorialManagerController');
     Route::resource('scanpacks', 'Admin\\ScanpacksController');
+
+    Route::resource('admin/user-scan-packs', 'Admin\\UserScanPacksController');
+
+    Route::resource('admin/paid-scan-packs-history', 'Admin\\PaidScanPacksHistoryController');
 });
 
 Route::group(['middleware' => ['auth', 'roles'], 'roles' => 'Admin'], function () {
@@ -80,8 +84,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
     Route::post('createSupport', 'Admin\SupportController@createSupport');
     Route::get('scanpack', 'ClientController@viewScanPack');
     Route::post('setTrackerLimit', 'Admin\UserScanPacksController@setTrackerLimit');
-     Route::get('updateScanPack', 'Admin\UserScanPacksController@updateScanPack');
-    
+    Route::get('updateScanPack', 'Admin\UserScanPacksController@updateScanPack');
 });
 
 Route::post('client/makePayment', 'PaymentController@payWithStripe');
@@ -171,9 +174,5 @@ Route::get('projectCron', 'CronController@projectCron');
 Route::get('testCron', 'CronController@testCron');
 
 
+  Route::get('getPaidProjectGraphData', 'ClientController@getPaidProjectGraphData');
 
-
-
-Route::resource('admin/user-scan-packs', 'Admin\\UserScanPacksController');
-
-Route::resource('admin/paid-scan-packs-history', 'Admin\\PaidScanPacksHistoryController');

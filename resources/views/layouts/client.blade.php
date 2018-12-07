@@ -103,6 +103,8 @@
 
         <!-- Js for bootstrap working-->
         <script src="{{ asset('js/client/bootstrap.min.js') }}"></script>
+        <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+        <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
         <!-- //Js for bootstrap working -->
         <script src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js '></script>
 
@@ -157,6 +159,8 @@
                     allowCookieOverride: true
             });
         </script> 
+
+
     </body>
 
 </html>
