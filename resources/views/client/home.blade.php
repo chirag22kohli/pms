@@ -41,7 +41,7 @@
             console.log(data);
             $.each(data, function (key, value) {
 
-                dataPoints.push({x: new Date(value[1], value[0]), y: parseInt(value[2])});
+                dataPoints.push({x: new Date(value['Year(created_at)'], value['Month(created_at)']), y: parseInt(value['sum'])});
             });
 
             chart.render();
