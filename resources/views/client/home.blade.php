@@ -37,7 +37,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var dataPoints = [];
-        $.getJSON("http://localhost/pms/public/getPaidProjectGraphData", function (data) {
+        $.getJSON("getPaidProjectGraphData", function (data) {
             console.log(data);
             $.each(data, function (key, value) {
 
