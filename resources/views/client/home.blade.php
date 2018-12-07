@@ -54,7 +54,14 @@
             title: {
                 text: "Monthly Earning (Paid Projects)"
             },
-
+            axisX: {
+                valueFormatString: "MMMM"
+            },
+            axisY: {
+                title: "Sales (in SGD)",
+                prefix: "$",
+                includeZero: false
+            },
             data: [{
                     type: "column", //change type to bar, line, area, pie, etc
                     //indexLabel: "{y}", //Shows y value on all Data Points
