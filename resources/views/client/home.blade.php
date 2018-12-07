@@ -57,7 +57,7 @@
             axisX: {
                 interval: 3,
                 intervalType: "month",
-                valueFormatString: "MMMM",
+                valueFormatString: "MMMM"
             },
             axisY: {
                 title: "Sales in SGD",
