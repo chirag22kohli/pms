@@ -55,9 +55,10 @@
                 text: "Monthly Earning (Paid Projects)"
             },
             axisX: {
-                interval: 3,
-                intervalType: "month",
+                interval: 5,
                 valueFormatString: "MMMM"
+                
+               
             },
             axisY: {
                 title: "Sales in SGD",
@@ -65,7 +66,7 @@
             },
             data: [{
                     type: "line",
-
+                   
                     yValueFormatString: "$#,###.##",
                     dataPoints: dataPoints
                 }]
