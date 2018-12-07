@@ -153,6 +153,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::post('/import_process', 'RestrictedUidController@processImport')->name('import_process');
     Route::get('checkPlanUsage', 'ClientController@checkPlanUsage');
     Route::post('deleteMultipleUid', 'Admin\RestrictedUidController@deleteMultipleUid');
+    
+      Route::get('getPaidProjectGraphData', 'ClientController@getPaidProjectGraphData');
 });
 
 
@@ -174,5 +176,5 @@ Route::get('projectCron', 'CronController@projectCron');
 Route::get('testCron', 'CronController@testCron');
 
 
-  Route::get('getPaidProjectGraphData', 'ClientController@getPaidProjectGraphData');
+
 
