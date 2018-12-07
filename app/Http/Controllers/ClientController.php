@@ -57,9 +57,9 @@ class ClientController extends Controller {
 
     public function getPaidProjectGraphData() {
         // { x: new Date(2017, 0), y: 25060 },
-        $data = DB::select('SELECT paid_price , DATE_FORMAT(created_at,"%d") as dd, Month(created_at), Year(created_at) FROM `paid_project_history_details` where project_admin_id = ?',[Auth::id()]); 
+        $data = DB::select('select sum(paid_price), Month(created_at), Year(created_at) FROM `paid_project_history_details` where project_admin_id = ? GROUP BY  MONTH(created_at)',[Auth::id()]); 
 
-        return response()->json($data);
+        return response()->json($d);
     }
 
 }
