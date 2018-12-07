@@ -56,6 +56,7 @@
             },
             axisX: {
                 valueFormatString: "MMMM",
+                 intervalType: "month",
                
             },
             axisY: {
