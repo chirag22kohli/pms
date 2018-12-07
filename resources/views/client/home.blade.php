@@ -63,7 +63,7 @@
                 valueFormatString: "#,###"
             },
             data: [{
-                    type: "column",
+                    type: "area",
                     color: "rgba(0,75,141,0.7)",
                     yValueFormatString: "$#,###.##",
                     dataPoints: dataPoints
