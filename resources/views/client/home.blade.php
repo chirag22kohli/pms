@@ -55,7 +55,7 @@
                 text: "Monthly Earning (Paid Projects)"
             },
             axisX: {
-                valueFormatString: "DD-MMM",
+                valueFormatString: "MMMM",
                 labelAngle: -50
             },
             axisY: {
