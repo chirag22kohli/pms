@@ -89,7 +89,7 @@
 
                     <div class="navbar-header">
                         <h1>
-                            <a href="http://localhost/pms/public/homepage">Chap   <i class="fab fa-connectdevelop"></i></a>
+                            <a href="{{url('homepage')}}">Chap   <i class="fab fa-connectdevelop"></i></a>
                         </h1>
                     </div>
                     <!-- Search-from
