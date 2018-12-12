@@ -205,8 +205,8 @@
             <div class="card-header optionHeader"><h4>Objects</h4></div>
             <div id="drag1" main_class ="dragged1" type ="google" class="drag dragCommon" title="Google Plus"></div> <!-- end of drag1 -->
             <div id="drag2" main_class ="dragged2" type ="facebook" class="drag dragCommon" title="Facebook"></div> <!-- end of drag2 -->
-            <div id="drag3" main_class ="dragged3" type ="audio" class="drag dragCommon"  title="Autoplayt Audio"></div> <!-- end of drag3 -->
-            <div id="drag4" main_class ="dragged4" type ="video" class="drag dragCommon" title="Autoplayt Video"></div> <!-- end of drag4 -->
+            <div id="drag3" main_class ="dragged3" type ="audio" class="drag dragCommon"  title="Auto-play Audio"></div> <!-- end of drag3 -->
+            <div id="drag4" main_class ="dragged4" type ="video" class="drag dragCommon" title="Auto-play Video"></div> <!-- end of drag4 -->
             <div id="drag5" main_class ="dragged5" type ="image" class="drag dragCommon" title="Image"></div> <!-- end of drag5 -->
             <div id="drag6" main_class ="dragged6" type ="email" class="drag dragCommon" title="Email"></div> <!-- end of drag6 -->
             <div id="drag7" main_class ="dragged7" type ="web_link" class="drag dragCommon" title="Web Link"></div> <!-- end of drag6 -->
