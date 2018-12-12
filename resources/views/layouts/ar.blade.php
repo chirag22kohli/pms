@@ -79,7 +79,7 @@
             });
         </script>
     </head>
-    <body>
+    <body style="    min-height: 800px;" >
         <div id="app">
 
 
