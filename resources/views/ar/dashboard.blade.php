@@ -185,41 +185,43 @@
 </script>
 <script src="{{ asset('js/ar/ar.js') }}"></script>
 <div class="modal"><!-- Place at bottom of page --></div>
-<div class="container">
+
+<div>
     <div id="wrapper">
         <div class = "row">
             <div class = "col-md-9">
-                <button class = "btn btn-warning"  onclick="finalizeTracker()" >Finalize Tracker</button>
+                <button class = "btn btn-link finalizeButton"  onclick="finalizeTracker()" >Finalize Tracker</button>
             </div>
-            <div class = "col-md-3"> <button onclick ="uploadTracker()" class = "btn btn-success trackerButton">Upload Tracker</button></div>
+            <!--<div class = "col-md-3"> <button onclick ="uploadTracker()" class = "btn btn-success trackerButton">Upload Tracker</button></div>
             <form  style ="display: none" enctype="multipart/form-data" name ="imageUploadForm" id =  "imageUploadForm" method = "post" action = "trackerUpload">
                 <input type="file"  id ="trackerImage" name = "trackerImage" onchange="upload()">
                 <input type ="hidden" name ="tracker_id" value = "{{$tracker_id}}">
-            </form>
+            </form>-->
 
         </div>
         </br>
+        
         <div id="options">
-
-            <div id="drag1" main_class ="dragged1" type ="google" class="drag dragCommon"></div> <!-- end of drag1 -->
-            <div id="drag2" main_class ="dragged2" type ="facebook" class="drag dragCommon"></div> <!-- end of drag2 -->
-            <div id="drag3" main_class ="dragged3" type ="audio" class="drag dragCommon"></div> <!-- end of drag3 -->
-            <div id="drag4" main_class ="dragged4" type ="video" class="drag dragCommon"></div> <!-- end of drag4 -->
-            <div id="drag5" main_class ="dragged5" type ="image" class="drag dragCommon"></div> <!-- end of drag5 -->
-            <div id="drag6" main_class ="dragged6" type ="email" class="drag dragCommon"></div> <!-- end of drag6 -->
-            <div id="drag7" main_class ="dragged7" type ="web_link" class="drag dragCommon"></div> <!-- end of drag6 -->
-            <div id="drag8" main_class ="dragged8" type ="event" class="drag dragCommon"></div> <!-- end of drag6 -->
-            <div id="drag9" main_class ="dragged9" type ="contact" class="drag dragCommon"></div> <!-- end of drag6 -->
-            <div id="drag10" main_class ="dragged10" type ="youtube" class="drag dragCommon"></div> <!-- end of drag6 -->
-            <div id="drag11" main_class ="dragged11" type ="flip" class="drag dragCommon"></div> <!-- end of drag6 -->
-            <div id="drag12" main_class ="dragged12" type ="screenshot" class="drag dragCommon"></div> <!-- end of drag6 -->
-            <div id="drag13" main_class ="dragged13" type ="tapaudio" class="drag dragCommon"></div> <!-- end of drag6 -->
-            <div id="drag14" main_class ="dragged14" type ="tapvideo" class="drag dragCommon"></div> <!-- end of drag6 -->
+            <div class="card-header optionHeader"><h4>Objects</h4></div>
+            <div id="drag1" main_class ="dragged1" type ="google" class="drag dragCommon" title="Google Plus"></div> <!-- end of drag1 -->
+            <div id="drag2" main_class ="dragged2" type ="facebook" class="drag dragCommon" title="Facebook"></div> <!-- end of drag2 -->
+            <div id="drag3" main_class ="dragged3" type ="audio" class="drag dragCommon"  title="Autoplayt Audio"></div> <!-- end of drag3 -->
+            <div id="drag4" main_class ="dragged4" type ="video" class="drag dragCommon" title="Autoplayt Video"></div> <!-- end of drag4 -->
+            <div id="drag5" main_class ="dragged5" type ="image" class="drag dragCommon" title="Image"></div> <!-- end of drag5 -->
+            <div id="drag6" main_class ="dragged6" type ="email" class="drag dragCommon" title="Email"></div> <!-- end of drag6 -->
+            <div id="drag7" main_class ="dragged7" type ="web_link" class="drag dragCommon" title="Web Link"></div> <!-- end of drag6 -->
+            <div id="drag8" main_class ="dragged8" type ="event" class="drag dragCommon" title="Calender"></div> <!-- end of drag6 -->
+            <div id="drag9" main_class ="dragged9" type ="contact" class="drag dragCommon" title="Contact"></div> <!-- end of drag6 -->
+            <div id="drag10" main_class ="dragged10" type ="youtube" class="drag dragCommon" title="Youtube"></div> <!-- end of drag6 -->
+            <div id="drag11" main_class ="dragged11" type ="flip" class="drag dragCommon" title="Switch Camera"></div> <!-- end of drag6 -->
+            <div id="drag12" main_class ="dragged12" type ="screenshot" class="drag dragCommon" title="Screen Shot" ></div> <!-- end of drag6 -->
+            <div id="drag13" main_class ="dragged13" type ="tapaudio" class="drag dragCommon" title="Tap to play audio"></div> <!-- end of drag6 -->
+            <div id="drag14" main_class ="dragged14" type ="tapvideo" class="drag dragCommon" title="Tap to play video"></div> <!-- end of drag6 -->
 
         </div><!-- end of options -->
-
+        <div class="card-header frameHeader"><h4>Frame</h4></div>
         <div id="frame" <?php if (!empty($tracker)) { ?> style="background-image: url(<?php echo url($tracker); ?>); background-size: contain;width:<?= $trackerDetails->width ?>px;height:<?= $trackerDetails->height ?>px" <?php } ?>>
-            <div class="card-header">Drop Here</div>
+            
             <?php
             if (count($objects) > 0) {
                 foreach ($objects as $object) {

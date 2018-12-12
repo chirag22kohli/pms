@@ -10,11 +10,34 @@
 
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <script>
+            addEventListener("load", function () {
+                setTimeout(hideURLbar, 0);
+            }, false);
+            function hideURLbar() {
+                window.scrollTo(0, 1);
+            }
+        </script>
+        <!-- //Meta Tags -->
+
+        <!-- Style-sheets -->
+        <!-- Bootstrap Css -->
+        <link href="{{ asset('css/client/bootstrap.css') }} " rel="stylesheet" type="text/css" media="all" />
+        <!-- Bootstrap Css -->
+        <!-- Common Css -->
+        <link href="{{ asset('css/client/style.css') }} " rel="stylesheet" type="text/css" media="all" />
+        <!--// Common Css -->
+        <!-- Nav Css -->
+        <link rel="stylesheet" href="{{ asset('css/client/style4.css') }}">
+        <!--// Nav Css -->
+        <!-- Fontawesome Css -->
+        <link href="{{ asset('css/client/fontawesome-all.css') }} " rel="stylesheet">
+        <link href="{{ asset('css/client/widgets.css') }} " rel="stylesheet">
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
         <script type="text/javascript">
-var $j = jQuery.noConflict(true);
+            var $j = jQuery.noConflict(true);
         </script>
         <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
         <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
@@ -31,54 +54,101 @@ var $j = jQuery.noConflict(true);
 
         <!-- Updated JavaScript url -->
         <script src="//jonthornton.github.io/jquery-timepicker/jquery.timepicker.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar').toggleClass('active');
+                });
+            });
+        </script>
+        <!--// Sidebar-nav Js -->
 
+        <!-- dropdown nav -->
+        <script>
+            $(document).ready(function () {
+                $(".dropdown").hover(
+                        function () {
+                            $('.dropdown-menu', this).stop(true, true).slideDown("fast");
+                            $(this).toggleClass('open');
+                        },
+                        function () {
+                            $('.dropdown-menu', this).stop(true, true).slideUp("fast");
+                            $(this).toggleClass('open');
+                        }
+                );
+            });
+        </script>
     </head>
     <body>
         <div id="app">
-            <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-                <div class="container">
-                    <a class="navbar-brand" href="{{ url('/homepage') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <!-- Left Side Of Navbar -->
-                        <ul class="navbar-nav mr-auto">
 
-                        </ul>
 
-                        <!-- Right Side Of Navbar -->
-                        <ul class="navbar-nav ml-auto">
-                            <!-- Authentication Links -->
-                            @guest
-                            <li><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
-                            <li><a class="nav-link" href="{{ url('/register') }}">Register</a></li>
-                            @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+
+                    <div class="navbar-header">
+                        <h1>
+                            <a href="http://localhost/pms/public/homepage">Chap   <i class="fab fa-connectdevelop"></i></a>
+                        </h1>
+                    </div>
+                    <!-- Search-from
+                    <form action="#" method="post" class="form-inline mx-auto search-form">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" required="">
+                        <button class="btn btn-style my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                    <!--// Search-from -->
+                    <ul class="top-icons-agileits-w3layouts float-right">
+
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
+                                <i class="far fa-user"></i>
+                            </a>
+                            <div class="dropdown-menu drop-3" style="left: unset">
+                                <div class="profile d-flex mr-o">
+                                    <div class="profile-l align-self-center">
+                                      <!--  <img src="images/profile.jpg" class="img-fluid mb-3" alt="Responsive image"> -->
+                                    </div>
+                                    <div class="profile-r align-self-center">
+                                        <h3 class="sub-title-w3-agileits">    {{ Auth::user()->name }}</h3>
+                                        <a href="mailto:{{ Auth::user()->email }}">    {{ Auth::user()->email }}</a>
+                                    </div>
+                                </div>
+                                <a href="#" class="dropdown-item mt-3">
+                                    <h4>
+                                        <i class="far fa-user mr-3"></i>My Profile</h4>
                                 </a>
 
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ url('/logout') }}"
-                                       onclick="event.preventDefault();
-    document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
+                                <a href="#" class="dropdown-item mt-3">
+                                    <h4>
+                                        <i class="far fa-question-circle mr-3"></i>Faq</h4>
+                                </a>
+                                <a href="{{url('client/newPaymentMethod')}}" class="dropdown-item mt-3">
+                                    <h4>
+                                        <i class="far fa-stripe-s mr-3"></i>Add New Payment Method</h4>
+                                </a>
+                                <a href="{{url('client/support')}}" class="dropdown-item mt-3">
+                                    <h4>
+                                        <i class="far fa-thumbs-up mr-3"></i>Support</h4>
+                                </a>
 
-                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                            @endguest
-                        </ul>
-                    </div>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ url('/logout') }}"
+                                   onclick="event.preventDefault();
+                                           document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
+                                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </nav>
+
 
             <main class="py-4">
                 @yield('content')
