@@ -13,7 +13,7 @@ body {
     background-color: #fff;
     width: 256px;
     height:580px;
-    box-shadow: 7px 14px #f1f1f1;
+    box-shadow:3px 3px 6px #535353;
     float:left;
 }
 .finalizeButton{
@@ -32,10 +32,11 @@ body {
 }
 .optionHeader{
     width: 256px;
+    background-color: rgb(57, 167, 255) !important;
 }
 .optionHeader h4{
     font-weight:bold;
-    color: #848484;
+    color: #fff;
     font-size: 19px;
 }
 #frame{
@@ -44,18 +45,20 @@ body {
     background-image: url("../../images/rular_bg.png");
     background-repeat:no repeat;
     background-position: 0 0;
-    box-shadow: 7px 14px #f1f1f1;
+    box-shadow: 3px 3px 6px #535353;
     margin-left: 268px;
 }
 .frameHeader{
+        box-shadow: 3px 3px 6px #535353;
     width:745px;
     margin-left: 268px;
+    background-color: rgb(57, 167, 255) !important;
     
 }
 
 .frameHeader h4{
     font-weight:bold;
-    color: #848484;
+    color: #fff;
     font-size: 19px;
 }
 #tbldevs{
