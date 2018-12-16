@@ -13,7 +13,7 @@
     <div class="outer-w3-agile mt-3">
         <ul class="nav nav-tabs">
 
-            <li class="nav-item active"><a class="nav-link" id = "tabfirst" data-toggle="tab" href="#home">Projects Report</a></li>
+            <li class="nav-item active" ><a class="nav-link" id = "tabfirst" data-toggle="tab" href="#home">Projects Report</a></li>
             <li class="nav-item "><a class="nav-link"  data-toggle="tab" href="#myTransactions">My Transaction</a></li>
             <li class="nav-item "><a class="nav-link"  data-toggle="tab" href="#paidScanPacksHistory">Scan Pack Transactions</a> </li>
             <li class="nav-item "><a class="nav-link"  data-toggle="tab" href="#userScans">User Scans Report (Project Wise)</a> </li>
@@ -22,7 +22,7 @@
         <div class="tab-content">
 
 
-            <div id="home" class="tab-pane fade in active">
+            <div id="home" class="tab-pane fade in active show">
 
                 <div class="work-progres">
                     <h4 class="tittle-w3-agileits mb-4" style="margin-top:19px">Paid Projects Earnings</h4>
