@@ -6,7 +6,7 @@
 <!-- main-heading -->
 <h2 class="main-title-w3layouts mb-2 text-center">Welcome to Chap</h2>
 <!--// main-heading -->
-
+<input type="hidden" id ="csr" value="{{ csrf_token() }}">
 <!-- Error Page Content -->
 <div class="blank-page-content">
 
@@ -21,11 +21,22 @@
             <div class = "col-md-4">
                 <h2>Plan Expiry:  </h2>
                 <p><b>{{ $expiryDate }}</b></p>
-                
+
                 <br>
                 <h2>Scan Pack Data</h2>
                 <p>No Used: <b><?= $getScanPack->scans_used ?> </b></p>
                 <p>No Left: <b><?= $getScanPack->scans ?></b></p>
+
+                <span style = "    font-size: 18px"> Auto Renew Plan:  </span>
+                <label class="switch">
+                    <input onchange = "manageReoccurring()" type="checkbox" <?php
+                    if ($userPlan->reoccuring_status) {
+                        echo 'checked';
+                    }
+                    ?>>
+                    <span class="slider round"></span>
+                </label>
+
             </div>
         </div>
         <div class ="row">

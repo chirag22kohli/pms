@@ -19,7 +19,7 @@ class ClientController extends Controller {
         $planInfo = Plan::where('id', $userPlan->plan_id)->first();
         $dayDiffrence = $userPlan->plan_expiry_date;
        
-        return view('client.home', ['getScanPack' => $getScanPack, 'expiryDate'=>$dayDiffrence]);
+        return view('client.home', ['getScanPack' => $getScanPack, 'expiryDate'=>$dayDiffrence,'userPlan'=>$userPlan]);
     }
 
     public function profile() {
