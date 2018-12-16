@@ -13,17 +13,24 @@
     <!-- Error Page Info -->
     <div class="outer-w3-agile mt-3">
         <div class ="row">
-            <div class = "col-md-6">
-                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-
+            <div class = "col-md-8 col-md-offset-2">
+                <h2> Since Last Login</h2>
+                <p>New Signup's: <b>0</b></p>
+                <p>Revenue earnt: <b>0</b></p>
             </div>
-            <div class = "col-md-6">
-
+            <div class = "col-md-4">
+                <h2>Plan Expiry:  </h2>
+                <p><b>{{ $expiryDate }}</b></p>
+                
+                <br>
+                <h2>Scan Pack Data</h2>
+                <p>No Used: <b><?= $getScanPack->scans_used ?> </b></p>
+                <p>No Left: <b><?= $getScanPack->scans ?></b></p>
             </div>
         </div>
         <div class ="row">
             <div class = "col-md-6">
-
+                <div id="chartContainer" style="height: 300px; width: 100%;"></div>
             </div>
             <div class = "col-md-6">
 
