@@ -48,9 +48,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' =>
     Route::resource('tutorial-manager', 'Admin\\tutorialManagerController');
     Route::resource('scanpacks', 'Admin\\ScanpacksController');
 
-    Route::resource('admin/user-scan-packs', 'Admin\\UserScanPacksController');
+    Route::resource('user-scan-packs', 'Admin\\UserScanPacksController');
 
-    Route::resource('admin/paid-scan-packs-history', 'Admin\\PaidScanPacksHistoryController');
+    Route::resource('paid-scan-packs-history', 'Admin\\PaidScanPacksHistoryController');
+    Route::resource('user-project-scan', 'Admin\\userProjectScanController');
 });
 
 Route::group(['middleware' => ['auth', 'roles'], 'roles' => 'Admin'], function () {
@@ -175,6 +176,7 @@ Route::get('planCron', 'CronController@planCron');
 Route::get('projectCron', 'CronController@projectCron');
 
 Route::get('testCron', 'CronController@testCron');
+
 
 
 

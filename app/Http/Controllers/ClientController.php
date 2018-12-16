@@ -8,7 +8,7 @@ use Auth;
 use DB;
 use App\UserScanPack;
 use App\Scanpack;
-
+use App\userProjectScan;
 class ClientController extends Controller {
 
     public function home() {
@@ -36,12 +36,16 @@ class ClientController extends Controller {
                 ->sum('paid_price');
         $myTransactions = \App\PaidPlantHistory::where('user_id', Auth::id())->with('plan')->get();
         $paidScanPacksHistory = \App\PaidScanPacksHistory::where('user_id', Auth::id())->get();
+        
+        $getUserScan = userProjectScan::where('project_owner_id',Auth::id())->with('project_detail')->with('project_user')->get();
+       
         return view('client.reports', [
             'userDetails' => $userDetails,
             'paidInfo' => $paidInfo,
             'totalPaid' => $totalPaid,
             'myTransactions' => $myTransactions,
-            'paidScanPacksHistory' => $paidScanPacksHistory
+            'paidScanPacksHistory' => $paidScanPacksHistory,
+            'getUserScan'=>$getUserScan
         ]);
     }
 

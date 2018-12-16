@@ -15,7 +15,7 @@ use DB;
 use Carbon;
 use App\UserUid;
 use App\UserScanPack;
-
+use App\userProjectScan;
 class ProjectController extends Controller {
 
     public function __construct() {
@@ -252,7 +252,7 @@ class ProjectController extends Controller {
 
 
         $selectProjectOwner = Project::where('id', $request->get('project_id'))->first();
-        //  dd($selectProjectOwner->created_by);
+       
         $selectScanPlan = UserScanPack::where('user_id', $selectProjectOwner->created_by)->first();
         if ($selectScanPlan->scans == 0) {
             $purchasePack = parent::updateScanPack($selectProjectOwner->created_by);
@@ -265,6 +265,18 @@ class ProjectController extends Controller {
         $updateScanPack = UserScanPack::where('user_id', $selectProjectOwner->created_by)->update([
             'scans_used' => $newScanUsed,
             'scans' => $scans
+        ]);
+        
+        userProjectScan::firstOrCreate([
+            'user_id'=>Auth::id(),
+            'project_id'=>$request->get('project_id'),
+            'project_owner_id'=> $selectProjectOwner->created_by,
+            
+           
+        ]);
+        
+        userProjectScan::where( 'user_id', Auth::id())->where('project_id',$request->get('project_id'))->update([
+             'count'=> DB::raw('count+1'), 
         ]);
         return parent::success("Updated Successfully", $this->successStatus);
     }

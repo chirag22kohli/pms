@@ -16,6 +16,7 @@
             <li class="nav-item active"><a class="nav-link" id = "tabfirst" data-toggle="tab" href="#home">Projects Report</a></li>
             <li class="nav-item "><a class="nav-link"  data-toggle="tab" href="#myTransactions">My Transaction</a></li>
             <li class="nav-item "><a class="nav-link"  data-toggle="tab" href="#paidScanPacksHistory">Scan Pack Transactions</a> </li>
+            <li class="nav-item "><a class="nav-link"  data-toggle="tab" href="#userScans">User Scans Report (Project Wise)</a> </li>
 
         </ul>
         <div class="tab-content">
@@ -166,6 +167,43 @@
                                             </td>
                                             <td>{{ date("F", mktime(0, 0, 0, $info->month, 1)) }}</td>
                                             <td><?= $info->date_purchased ?> </td>
+                                        </tr>
+                                        <?php
+                                        $i++;
+                                    }
+                                }
+                                ?> 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="userScans" class="tab-pane fade in ">
+                <div class="work-progres">
+                    <h4 class="tittle-w3-agileits mb-4" style="margin-top:19px">User Scans Report (Project Wise)</h4>
+
+                    <div class="table-responsive">
+                        <table id = "scanPacksTable" class="table mdl-data-table  table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Project Name</th>
+                                    <th>User Email</th>
+                                    <th>Scans Used</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                if (count($getUserScan) > 0) {
+                                    $i = 1;
+                                    foreach ($getUserScan as $info) {
+                                        ?>
+                                        <tr>
+                                            <td><?= $i ?></td>
+                                            <td><?= $info->project_detail->name ?></td>
+                                            <td><span class="badge badge-pill badge-secondary"><?= $info->project_user->email ?></span></td>
+                                            <td><?= $info->count ?></td>
                                         </tr>
                                         <?php
                                         $i++;
