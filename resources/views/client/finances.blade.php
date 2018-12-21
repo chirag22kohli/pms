@@ -3,7 +3,7 @@
         <tr>
             
             <th>Expense Type</th>
-            <th>Total Expense</th>
+            <th>Total Amount</th>
             
         </tr>
     </thead>
@@ -21,6 +21,21 @@
             <td>Revenue Earned from Paid Projects</td>
             <td>$<?= $totalEarned ?></td>
         </tr>
-        
+        <tr>
+            <td><h4>Net</h4></td>
+            <td><?php
+            $totalExpense = $totalEarned - ($totalExpenseSubscription + $totalExpenseScanPacks);
+            
+            if($totalExpense < 0){
+                $class = "color:red";
+            }else{
+                $class = "color:green";
+            }
+            
+            ?>
+                <h5 style = "<?= $class ?>"><?= $totalExpense;?></h5>
+            </td>
+        </tr>
     </tbody>
 </table>
+
