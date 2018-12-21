@@ -11,15 +11,16 @@ use App\Scanpack;
 use App\userProjectScan;
 use App\Plan;
 use App\UserPlan;
+
 class ClientController extends Controller {
 
     public function home() {
         $getScanPack = UserScanPack::where('user_id', Auth::id())->first();
-          $userPlan = UserPlan::where('user_id', Auth::id())->first();
+        $userPlan = UserPlan::where('user_id', Auth::id())->first();
         $planInfo = Plan::where('id', $userPlan->plan_id)->first();
         $dayDiffrence = $userPlan->plan_expiry_date;
-       
-        return view('client.home', ['getScanPack' => $getScanPack, 'expiryDate'=>$dayDiffrence,'userPlan'=>$userPlan]);
+
+        return view('client.home', ['getScanPack' => $getScanPack, 'expiryDate' => $dayDiffrence, 'userPlan' => $userPlan]);
     }
 
     public function profile() {
@@ -46,6 +47,8 @@ class ClientController extends Controller {
 
         $getUserScan = userProjectScan::where('project_owner_id', Auth::id())->with('project_detail')->with('project_user')->get();
 
+
+
         return view('client.reports', [
             'userDetails' => $userDetails,
             'paidInfo' => $paidInfo,
@@ -54,6 +57,26 @@ class ClientController extends Controller {
             'paidScanPacksHistory' => $paidScanPacksHistory,
             'getUserScan' => $getUserScan
         ]);
+    }
+
+    public function getFinances(Request $request) {
+        if ($request->input('startDate') == $request->input('endDate')) {
+
+
+
+            $totalExpenseSubscription = \App\PaidPlantHistory::where('user_id', Auth::id())->whereDate('created_at', $request->input('startDate'))->sum('price_paid');
+            $totalExpenseScanPacks = \App\PaidScanPacksHistory::where('user_id', Auth::id())->whereDate('created_at', $request->input('startDate'))->sum('price_paid');
+        } else {
+
+
+
+            $totalExpenseScanPacks = \App\PaidScanPacksHistory::where('user_id', Auth::id())->whereBetween('created_at', [$request->input('startDate'), $request->input('endDate')])->sum('price_paid');
+
+            $totalExpenseSubscription = \App\PaidPlantHistory::where('user_id', Auth::id())->whereBetween('created_at', [$request->input('startDate'), $request->input('endDate')])->sum('price_paid');
+        }
+
+
+        return view('client.finances', ['totalExpenseSubscription' => $totalExpenseSubscription, 'totalExpenseScanPacks'=> $totalExpenseScanPacks ]);
     }
 
     public static function checkPlanUsage() {

@@ -17,6 +17,7 @@
             <li class="nav-item "><a class="nav-link"  data-toggle="tab" href="#myTransactions">My Transaction</a></li>
             <li class="nav-item "><a class="nav-link"  data-toggle="tab" href="#paidScanPacksHistory">Scan Pack Transactions</a> </li>
             <li class="nav-item "><a class="nav-link"  data-toggle="tab" href="#userScans">User Scans Report (Project Wise)</a> </li>
+            <li class="nav-item "><a class="nav-link"  data-toggle="tab" href="#finances">Finances</a> </li>
 
         </ul>
         <div class="tab-content">
@@ -215,6 +216,80 @@
                     </div>
                 </div>
             </div>
+
+
+
+
+
+            <div id="finances" class="tab-pane fade in ">
+                <div class="work-progres">
+                    <h4 class="tittle-w3-agileits mb-4" style="margin-top:19px">Finances</h4>
+
+
+
+
+
+
+                    <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                        <i class="fa fa-calendar"></i>&nbsp;
+                        <span></span> <i class="fa fa-caret-down"></i>
+                    </div>
+                    <meta name="csrf-token" content="{{ csrf_token() }}" />
+                    <script type="text/javascript">
+                        $(function () {
+
+                            var start = moment().subtract(29, 'days');
+                            var end = moment();
+                            console.log(start);
+                            function cb(start, end) {
+                                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                                // console.log(start.format('MMMM D, YYYY'));
+                                //console.log(end.format('MMMM D, YYYY'));
+                                getFinances(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+                            }
+
+                            $('#reportrange').daterangepicker({
+                                startDate: start,
+                                endDate: end,
+                                ranges: {
+                                    'Today': [moment(), moment()],
+                                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                                }
+                            }, cb);
+
+                            cb(start, end);
+
+                        });
+
+
+                        function getFinances(start, end) {
+                            $.ajax({
+                                url: "getFinances",
+                                method: 'post',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                data: {startDate: start, endDate:end},
+                                cache: false,
+                            
+                                success: function (data) {
+                                  $('#financeData').html(data);
+                                }
+                            });
+                        }
+                    </script>
+
+
+                    <div class="table-responsive" id = "financeData">
+
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
