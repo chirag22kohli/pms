@@ -17,5 +17,10 @@
             <td>$<?= $totalExpenseScanPacks ?></td>
         </tr>
         
+        <tr>
+            <td>Revenue Earned from Paid Projects</td>
+            <td>$<?= $totalEarned ?></td>
+        </tr>
+        
     </tbody>
 </table>

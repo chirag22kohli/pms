@@ -66,6 +66,11 @@ class ClientController extends Controller {
 
             $totalExpenseSubscription = \App\PaidPlantHistory::where('user_id', Auth::id())->whereDate('created_at', $request->input('startDate'))->sum('price_paid');
             $totalExpenseScanPacks = \App\PaidScanPacksHistory::where('user_id', Auth::id())->whereDate('created_at', $request->input('startDate'))->sum('price_paid');
+
+            $totalEarned = DB::table('paid_project_history_details')
+                    ->where('project_admin_id', '=', Auth::id())
+                    ->whereDate('created_at', $request->input('startDate'))
+                    ->sum('paid_price');
         } else {
 
 
@@ -73,10 +78,15 @@ class ClientController extends Controller {
             $totalExpenseScanPacks = \App\PaidScanPacksHistory::where('user_id', Auth::id())->whereBetween('created_at', [$request->input('startDate'), $request->input('endDate')])->sum('price_paid');
 
             $totalExpenseSubscription = \App\PaidPlantHistory::where('user_id', Auth::id())->whereBetween('created_at', [$request->input('startDate'), $request->input('endDate')])->sum('price_paid');
+
+            $totalEarned = DB::table('paid_project_history_details')
+                    ->where('project_admin_id', '=', Auth::id())
+                    ->whereBetween('created_at', [$request->input('startDate'), $request->input('endDate')])
+                    ->sum('paid_price');
         }
 
 
-        return view('client.finances', ['totalExpenseSubscription' => $totalExpenseSubscription, 'totalExpenseScanPacks'=> $totalExpenseScanPacks ]);
+        return view('client.finances', ['totalExpenseSubscription' => $totalExpenseSubscription, 'totalExpenseScanPacks' => $totalExpenseScanPacks, 'totalEarned'=>$totalEarned]);
     }
 
     public static function checkPlanUsage() {
