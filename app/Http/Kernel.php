@@ -63,5 +63,7 @@ class Kernel extends HttpKernel
         'verifyPayment' => \App\Http\Middleware\VerifyPayment::class,
         'checkPaymentMethod'=> \App\Http\Middleware\CheckPaymentMethod::class,
         
+        'PlanExpiry'=> \App\Http\Middleware\PlanExpiry::class,
+        
     ];
 }

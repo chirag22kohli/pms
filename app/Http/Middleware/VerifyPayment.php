@@ -20,6 +20,13 @@ class VerifyPayment {
      */
     public function handle($request, Closure $next) {
 
+
+
+        if (Auth::user()->hasRole('Admin')) {
+            return $next($request);
+        }
+
+
         $getUserPlan = UserPlan::where('user_id', Auth::id())->first();
         if (!$getUserPlan) {
             $plans = Plan::all();

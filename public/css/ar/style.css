@@ -32,7 +32,7 @@ body {
 }
 .optionHeader{
     width: 256px;
-    background-color: rgb(57, 167, 255) !important;
+    background-color: rgb(204, 204, 204) !important;
 }
 .optionHeader h4{
     font-weight:bold;
@@ -52,7 +52,7 @@ body {
         box-shadow: 3px 3px 6px #535353;
     width:745px;
     margin-left: 268px;
-    background-color: rgb(57, 167, 255) !important;
+    background-color: rgb(204, 204, 204) !important;
     
 }
 

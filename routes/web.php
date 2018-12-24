@@ -59,7 +59,7 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => 'Admin'], function (
 });
 
 //Client MiddleWare-------------------------------------------------------------
-Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPayment', 'checkPaymentMethod'], 'roles' => ['Api', 'Client']], function () {
+Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPayment', 'checkPaymentMethod','PlanExpiry'], 'roles' => ['Api', 'Client']], function () {
     Route::get('home', [
         'as' => 'home',
         'uses' => 'ClientController@home'
@@ -96,7 +96,7 @@ Route::post('client/addPaymentMethod', 'PaymentController@addPaymentMethod');
 
 
 //Common MiddleWare-------------------------------------------------------------
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles'], 'roles' => ['Admin', 'Client', 'Api']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles','verifyPayment', 'checkPaymentMethod','PlanExpiry'], 'roles' => ['Admin', 'Client', 'Api']], function () {
     Route::resource('admin/projects', 'Admin\\ProjectsController');
     Route::get('arDashboard', 'Admin\ArController@index');
     Route::post('trackerUpload', 'Admin\ArController@trackerUpload');

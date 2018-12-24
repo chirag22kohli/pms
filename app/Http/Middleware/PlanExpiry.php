@@ -2,33 +2,34 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
-use App\Stripe;
 use Auth;
+use App\UserPlan;
 use Illuminate\Http\Response;
+use App\Plan;
+use Closure;
 
-class CheckPaymentMethod {
+class PlanExpiry {
 
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     *
      * @return mixed
      */
     public function handle($request, Closure $next) {
+
         if (Auth::user()->hasRole('Admin')) {
             return $next($request);
         }
+        $getUserPlan = UserPlan::where('user_id', Auth::id())->first();
 
-        $getUserPaymentMethod = Stripe::where('user_id', Auth::id())->first();
+        if ($getUserPlan->plan_expiry_date < date('Y-m-d')) {
+            //$plans = Plan::all();
 
-        if ($getUserPaymentMethod->customer_id !== null || $getUserPaymentMethod->customer_id != '') {
-            return $next($request);
+            return new Response(view('client.planExpiry'));
         }
-
-        return new Response(view('client.addPaymentMethod'));
+        return $next($request);
     }
 
 }
