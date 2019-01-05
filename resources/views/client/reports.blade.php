@@ -41,32 +41,25 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Project Name</th>
-                                    <th>Price Paid</th>
+                                    <th> Total subscribers </th>
 
-                                    <th>User Email (Payee User)</th>
-                                    <th>Stripe Transaction ID</th>
-                                    <th>Date Chatged</th>
+                                    <th>Total Revenue earnt (NA for free projects)</th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                if (count($paidInfo) > 0) {
+                                if (count($projectReport) > 0) {
                                     $i = 1;
-                                    foreach ($paidInfo as $info) {
+                                    foreach ($projectReport as $info) {
                                         $stripInfo = json_decode($info->payment_params);
                                         ?>
                                         <tr>
                                             <td><?= $i ?></td>
                                             <td><?= $info['projectDetail']->name ?></td>
-                                            <td><span class="badge badge-pill badge-secondary">$<?= $stripInfo->amount / 100 ?></span></td>
+                                            <td><?= $info['totalSubs'] ?></td>
+                                            <td><?= $info['totalSum'] ?></td>
 
-                                            <td>
-                                                <span class="badge badge-info"><?= $info['userDetail']->email ?></span>
-                                            </td>
-                                            <td>
-                                                <span class="badge badge-pill badge-primary"><?= $stripInfo->id ?></span>
-                                            </td>
-                                            <td><?= $info->created_at ?></td>
                                         </tr>
                                         <?php
                                         $i++;
@@ -273,11 +266,11 @@
                                 headers: {
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 },
-                                data: {startDate: start, endDate:end},
+                                data: {startDate: start, endDate: end},
                                 cache: false,
-                            
+
                                 success: function (data) {
-                                  $('#financeData').html(data);
+                                    $('#financeData').html(data);
                                 }
                             });
                         }

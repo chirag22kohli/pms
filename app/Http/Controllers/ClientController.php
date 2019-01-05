@@ -49,7 +49,7 @@ class ClientController extends Controller {
 
         $projectReport = DB::select("SELECT *,SUM(paid_price) as totalSum,COUNT(DISTINCT  user_id) as totalSubs FROM  `paid_project_history_details`  LEFT JOIN projects ON paid_project_history_details.project_id = projects.id WHERE paid_project_history_details.project_admin_id =  " . Auth::id() . " GROUP BY paid_project_history_details.project_id");
 
-        echo json_encode($projectReport);
+       
         
         return view('client.reports', [
             'userDetails' => $userDetails,
@@ -57,7 +57,8 @@ class ClientController extends Controller {
             'totalPaid' => $totalPaid,
             'myTransactions' => $myTransactions,
             'paidScanPacksHistory' => $paidScanPacksHistory,
-            'getUserScan' => $getUserScan
+            'getUserScan' => $getUserScan,
+            'projectReport'=>$projectReport
         ]);
     }
 
