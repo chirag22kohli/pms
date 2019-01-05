@@ -52,7 +52,7 @@
                                 if (count($projectReport) > 0) {
                                     $i = 1;
                                     foreach ($projectReport as $info) {
-                                        $stripInfo = json_decode($info->payment_params);
+                                       
                                         ?>
                                         <tr>
                                             <td><?= $i ?></td>
