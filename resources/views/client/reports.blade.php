@@ -56,7 +56,7 @@
                                         ?>
                                         <tr>
                                             <td><?= $i ?></td>
-                                            <td><?= $info['projectDetail']->name ?></td>
+                                            <td><?= $info['name'] ?></td>
                                             <td><?= $info['totalSubs'] ?></td>
                                             <td><?= $info['totalSum'] ?></td>
 
