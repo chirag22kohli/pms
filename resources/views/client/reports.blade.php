@@ -56,9 +56,9 @@
                                         ?>
                                         <tr>
                                             <td><?= $i ?></td>
-                                            <td><?= $info['name'] ?></td>
-                                            <td><?= $info['totalSubs'] ?></td>
-                                            <td><?= $info['totalSum'] ?></td>
+                                            <td><?= $info->name ?></td>
+                                            <td><?= $info->totalSubs ?></td>
+                                            <td><?= $info->totalSum ?></td>
 
                                         </tr>
                                         <?php
