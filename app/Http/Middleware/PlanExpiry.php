@@ -26,8 +26,11 @@ class PlanExpiry {
 
         if ($getUserPlan->plan_expiry_date < date('Y-m-d')) {
             //$plans = Plan::all();
-
-            return new Response(view('client.planExpiry'));
+           
+            //   return $userPlan;
+            $planInfo = Plan::where('id', $getUserPlan->plan_id)->first();
+          
+            return new Response(view('client.planExpiry',[  'planInfo' => $planInfo]));
         }
         return $next($request);
     }

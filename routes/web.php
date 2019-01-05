@@ -59,7 +59,7 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => 'Admin'], function (
 });
 
 //Client MiddleWare-------------------------------------------------------------
-Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPayment', 'checkPaymentMethod','PlanExpiry'], 'roles' => ['Api', 'Client']], function () {
+Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPayment', 'checkPaymentMethod', 'PlanExpiry'], 'roles' => ['Api', 'Client']], function () {
     Route::get('home', [
         'as' => 'home',
         'uses' => 'ClientController@home'
@@ -77,6 +77,9 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
     });
     Route::post('updateProfile', 'ClientController@updateProfile');
     Route::post('renewPlan', 'PaymentController@renewPlan');
+  
+
+
     Route::post('manageReoccurring', 'PaymentController@manageReoccurring');
 
     Route::get('upgradePlanView', 'PaymentController@upgradePlanView');
@@ -88,7 +91,6 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
     Route::get('updateScanPack', 'Admin\UserScanPacksController@updateScanPack');
     Route::get('getPaidProjectGraphData', 'ClientController@getPaidProjectGraphData');
     Route::post('getFinances', 'ClientController@getFinances');
-       
 });
 
 Route::post('client/makePayment', 'PaymentController@payWithStripe');
@@ -96,7 +98,7 @@ Route::post('client/addPaymentMethod', 'PaymentController@addPaymentMethod');
 
 
 //Common MiddleWare-------------------------------------------------------------
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles','verifyPayment', 'checkPaymentMethod','PlanExpiry'], 'roles' => ['Admin', 'Client', 'Api']], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles', 'verifyPayment', 'checkPaymentMethod', 'PlanExpiry'], 'roles' => ['Admin', 'Client', 'Api']], function () {
     Route::resource('admin/projects', 'Admin\\ProjectsController');
     Route::get('arDashboard', 'Admin\ArController@index');
     Route::post('trackerUpload', 'Admin\ArController@trackerUpload');
@@ -157,8 +159,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles','verifyPayme
     Route::post('/import_process', 'RestrictedUidController@processImport')->name('import_process');
     Route::get('checkPlanUsage', 'ClientController@checkPlanUsage');
     Route::post('deleteMultipleUid', 'Admin\RestrictedUidController@deleteMultipleUid');
-    
-   
 });
 
 
@@ -176,9 +176,10 @@ Route::get('finalize', 'Admin\ArController@finalize');
 
 Route::get('planCron', 'CronController@planCron');
 Route::get('projectCron', 'CronController@projectCron');
+Route::get('scanPackReset', 'CronController@scanPackReset');
 
 Route::get('testCron', 'CronController@testCron');
-
+  Route::post('client/renewExpiredPlan', 'PaymentController@renewExpiredPlan');
 
 
 

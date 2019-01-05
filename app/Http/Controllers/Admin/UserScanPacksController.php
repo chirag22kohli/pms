@@ -130,6 +130,7 @@ class UserScanPacksController extends Controller {
         $updateLimit = UserScanPack::where('user_id', Auth::id())->update([
             'limit_set' => $request->get('limit'),
             'total_scan_packs' => $calculatedScanPacks,
+            'month'=>date('m')
         ]);
 
         return redirect('client/scanpack')->with('flash_message', 'Limit Updated Successfully');

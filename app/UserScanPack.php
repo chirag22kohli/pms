@@ -25,7 +25,7 @@ class UserScanPack extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'scan_pack_id', 'scans', 'scans_used', 'limit_set', 'used_limit', 'total_scan_packs', 'used_scan_packs', 'user_plan_id'];
+    protected $fillable = ['user_id', 'scan_pack_id', 'scans', 'scans_used', 'limit_set', 'used_limit', 'total_scan_packs', 'used_scan_packs', 'user_plan_id','month'];
 
     
 }

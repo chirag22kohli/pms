@@ -29,7 +29,7 @@ use App\Stripe;
 use App\PaidProjectDetail;
 use App\Project;
 use App\PaidProjectHistoryDetail;
-
+use App\UserScanPack;
 class CronController extends Controller {
 
     public function __construct() {
@@ -243,6 +243,18 @@ class CronController extends Controller {
                 'status' => false,
                 'message' => 'Project Not Found (Please select another project)',
             ];
+        }
+    }
+
+    public function scanPackReset() {
+        if (date('d') == '01') {
+            UserScanPack::where('user_id','!=','2')->update([
+                'limit_set'=>0,
+                'used_limit'=>0,
+                'total_scan_packs'=>0,
+                'used_scan_packs'=>0
+            ]);
+            echo "done";
         }
     }
 

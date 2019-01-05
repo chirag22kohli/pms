@@ -52,6 +52,39 @@ function renewPlan(project_info) {
     });
 }
 
+
+function renewExpiredPlan(project_info) {
+    $.ajax({
+        url: "renewExpiredPlan",
+        method: 'post',
+        headers: {
+            'X-CSRF-TOKEN': $('#csr').val()
+        },
+        data: {plan_id: project_info},
+        cache: false,
+        beforeSend: function (xhr) {
+            //Add your image loader here
+            $.alert({
+                theme: 'supervan',
+                title: 'Processing Payment',
+                content: 'Please wait while we process your payment and set up your AR Experience.',
+            });
+        },
+        success: function (data) {
+            if (data == 'success') {
+                location.reload();
+            } else {
+                $.alert({
+                    theme: 'supervan',
+                    title: 'Payment Failed',
+                    content: 'There is some issue in processing your payment, Please try again.',
+                });
+            }
+        }
+    });
+}
+
+
 function manageReoccurring() {
     $.ajax({
         url: "manageReoccurring",

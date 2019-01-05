@@ -60,7 +60,7 @@
 
                     <div class="form-group">
                         <label for="issue">Please set your Limit for Scan Packs: </label>
-                        <input style ="width:90%" type="number" name ="limit" value = "<?= $getScanPack->limit_set ?>" class="form-control" id="exampleFormControlInput1" placeholder="<?= $getScanPack->limit_set ?>" required="" > 
+                        <input style ="width:50%" type="number" name ="limit" value = "<?= $getScanPack->limit_set ?>" class="form-control" id="exampleFormControlInput1" placeholder="<?= $getScanPack->limit_set ?>" required="" > 
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-10">
@@ -68,6 +68,7 @@
                         </div>
                     </div>
                 </form>
+                  <p class="paragraph-agileits-w3layouts"><b>Note: This is the maximum monthly spend on scan packs.  Once the current scan pack finishes, a new one will be purchased automatically till this limit is reached. </b>
             </div>
         </div>
     </div>

@@ -170,6 +170,30 @@ class PaymentController extends Controller {
         ];
         PaidPlantHistory::create($historyParams);
     }
+    
+       protected function upgradeExpiredPlan($result) {
+        $userId = Auth::id();
+        $userPlan = UserPlan::where('user_id', $userId)->first();
+        $planDetails = Plan::where('id', $userPlan->plan_id)->first();
+        $expiryData = $this->getExpiryWithDate($planDetails->price_type, date('Y-m-d'));
+        $updateParams = UserPlan::where('user_id', $userId)->update([
+            'payment_status' => 1,
+            'payment_params' => json_encode($result),
+            'plan_expiry_date' => $expiryData
+        ]);
+
+
+        $historyParams = [
+            'payment_params' => json_encode($result),
+            'user_id' => Auth::id(),
+            'plan_id' => $userPlan->plan_id,
+            'previous_expiry_date' => $userPlan->plan_expiry_date,
+            'expriy_date' => $expiryData,
+            'payment_type' => 'Renewed Current Plan',
+            'price_paid' => $planDetails->price
+        ];
+        PaidPlantHistory::create($historyParams);
+    }
 
     public function payWithStripe(Request $request) {
         //  dd(Auth::user()->name);
@@ -252,6 +276,32 @@ class PaymentController extends Controller {
             if ($charge->status == 'succeeded') {
 
                 $this->upgradePlan($charge);
+
+                return 'success';
+            } else {
+                return 'false';
+            }
+        }
+    }
+    
+     public function renewExpiredPlan(Request $request) {
+        $planId = $request->input('plan_id');
+        $planInfo = Plan::where('id', $planId)->first();
+        $superAdmin = \App\User::where('id', 2)->first();
+
+        if (count($planInfo) > 0) {
+
+            $price = $planInfo->price;
+            $charge = StripeConnect::transaction()
+                    ->amount($price * 100, 'sgd')
+                    ->useSavedCustomer()
+                    ->from(Auth::user())
+                    ->to($superAdmin)
+                    ->create();
+
+            if ($charge->status == 'succeeded') {
+
+                $this->upgradeExpiredPlan($charge);
 
                 return 'success';
             } else {

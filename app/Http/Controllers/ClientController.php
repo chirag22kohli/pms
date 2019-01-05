@@ -47,8 +47,10 @@ class ClientController extends Controller {
 
         $getUserScan = userProjectScan::where('project_owner_id', Auth::id())->with('project_detail')->with('project_user')->get();
 
+        $projectReport = DB::select("SELECT *,SUM(paid_price),COUNT(*) FROM  `paid_project_history_details`  LEFT JOIN projects ON paid_project_history_details.project_id = projects.id WHERE paid_project_history_details.project_admin_id = " . Auth::id() . " GROUP BY paid_project_history_details.project_id");
 
-
+        echo json_encode($projectReport);
+        
         return view('client.reports', [
             'userDetails' => $userDetails,
             'paidInfo' => $paidInfo,
@@ -86,7 +88,7 @@ class ClientController extends Controller {
         }
 
 
-        return view('client.finances', ['totalExpenseSubscription' => $totalExpenseSubscription, 'totalExpenseScanPacks' => $totalExpenseScanPacks, 'totalEarned'=>$totalEarned]);
+        return view('client.finances', ['totalExpenseSubscription' => $totalExpenseSubscription, 'totalExpenseScanPacks' => $totalExpenseScanPacks, 'totalEarned' => $totalEarned]);
     }
 
     public static function checkPlanUsage() {
