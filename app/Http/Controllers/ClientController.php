@@ -18,7 +18,7 @@ class ClientController extends Controller {
         $getScanPack = UserScanPack::where('user_id', Auth::id())->first();
         $userPlan = UserPlan::where('user_id', Auth::id())->first();
         $planInfo = Plan::where('id', $userPlan->plan_id)->first();
-        $dayDiffrence = $userPlan->plan_expiry_date;
+        $dayDiffrence = date('d/m/Y',strtotime($userPlan->plan_expiry_date));
 
         return view('client.home', ['getScanPack' => $getScanPack, 'expiryDate' => $dayDiffrence, 'userPlan' => $userPlan]);
     }

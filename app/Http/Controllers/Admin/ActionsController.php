@@ -20,14 +20,14 @@ class ActionsController extends Controller {
         $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
-        return view('actions.google', ['object_id' => $object_details->id, 'objectAction' => $objectActionDetails]);
+        return view('actions.google', ['object_id' => $object_details->id, 'objectAction' => $objectActionDetails,'objectImage' => $object_details->object_image]);
     }
 
     public function facebook(Request $request) {
         $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
-        return view('actions.facebook', ['object_id' => $object_details->id, 'objectAction' => $objectActionDetails]);
+        return view('actions.facebook', ['object_id' => $object_details->id, 'objectAction' => $objectActionDetails,'objectImage' => $object_details->object_image]);
     }
 
     public function audio(Request $request) {

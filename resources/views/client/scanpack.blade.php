@@ -46,6 +46,8 @@
                     <?php if ($getScanPack->used_scan_packs != null && $getScanPack->used_scan_packs != "") { ?>
                         <li class="py-2 border-bottom">Total Used Scan Packs(According to Limit) : <b><?= $getScanPack->used_scan_packs ?></b></li> 
 
+                    <?php }else{ ?>
+                        <li class="py-2 border-bottom">Total Used Scan Packs(According to Limit) : <b>N/A</b></li> 
                     <?php }
                     ?>
                 </ul>

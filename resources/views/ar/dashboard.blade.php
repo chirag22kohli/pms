@@ -181,7 +181,11 @@
         });
     }
 
-
+ $.alert({
+                        theme: 'supervan',
+                        title: 'Note',
+                        content: 'Click on Finalize Tracker before navigating away from this page. Changes may not be saved otherwise.',
+                    });
 </script>
 <script src="{{ asset('js/ar/ar.js') }}"></script>
 <div class="modal"><!-- Place at bottom of page --></div>
