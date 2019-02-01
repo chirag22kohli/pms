@@ -133,7 +133,11 @@ class ArController extends Controller {
                 $vuforiaParams = $this->uploadDataVuforia($trackerDimensions, $trackerDetails->project_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
                 $trackerVuforia = json_decode($vuforiaParams);
                 $updateTracker = Tracker::where('id', $tracker_id)->update(['target_id' => $trackerVuforia->target_id, 'parm' => $vuforiaParams]);
-                return $vuforiaParams;
+                //return $vuforiaParams;
+                 return [
+                    'obj' => $trackerDetails['objects'],
+                    'parms' => $vuforiaParams
+                ];
             }
         } else {
             return 0;
@@ -308,7 +312,8 @@ class ArController extends Controller {
      */
     private function getHeaders($method, $path = self::TARGETS_PATH, $content_type = '', $body = '') {
         $headers = array();
-        $date = new DateTime("now", new DateTimeZone("GMT"));
+        //remove while live
+        $date = new DateTime("-6 minutes", new DateTimeZone("GMT"));
         $dateString = $date->format("D, d M Y H:i:s") . " GMT";
         $md5 = md5($body, false);
         $string_to_sign = $method . "\n" . $md5 . "\n" . $content_type . "\n" . $dateString . "\n" . $path;

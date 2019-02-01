@@ -204,7 +204,7 @@
 
         </div>
         </br>
-        
+      
         <div id="options">
             <div class="card-header optionHeader"><h4>Objects</h4></div>
             <div id="drag1" main_class ="dragged1" type ="google" class="drag dragCommon" title="Google Plus"></div> <!-- end of drag1 -->

@@ -15,6 +15,7 @@ use Hash;
 use App\PaidProjectHistoryDetail;
 use App\Help;
 use App\tutorialManager;
+
 class UserController extends Controller {
 
     public $successStatus = 200;
@@ -53,9 +54,9 @@ class UserController extends Controller {
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-       
+
         $success['token'] = $user->createToken('MyApp')->accessToken;
-      
+
         $success['name'] = $user->name;
 
         $lastId = $user->id;
