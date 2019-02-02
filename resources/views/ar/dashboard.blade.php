@@ -87,6 +87,7 @@
                     var pos = $(ui.helper).offset();
                     var left_tracker = pos.left - $("#frame").position().left;
                     var top_tracker = pos.top - $("#frame").position().top;
+                   
                     addObject(this.id, pos.left, pos.top, left_tracker, top_tracker);
 //                    $j('#' + this.id).resizable({aspectRatio: true,
 //                        ghost: true,
@@ -141,7 +142,9 @@
 
     function addObject(objName, xpos, ypos, left_tracker, top_tracker) {
 
-
+        var left_tracker_new =  left_tracker - 268;
+        left_tracker = left_tracker_new;
+        console.log(left_tracker);
         var type = $('#' + objName).attr('type');
         var width = $('#' + objName).css('width');
         var height = $('#' + objName).css('height');
