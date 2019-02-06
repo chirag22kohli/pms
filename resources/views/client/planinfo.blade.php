@@ -48,7 +48,7 @@
 
                             <li class="py-2 border-bottom"><i class="fa fa-check w3layouts_icon" aria-hidden="true"></i>{{ $planInfo->max_trackers }} Trackers</li> 
 
-                            <li class="py-2 border-bottom"><i class="fa fa-check w3layouts_icon" aria-hidden="true"></i>Unlimited Storage</li> 
+                            <!--<li class="py-2 border-bottom"><i class="fa fa-check w3layouts_icon" aria-hidden="true"></i>Unlimited Storage</li> --> 
 
                         <?php } ?>
                         <li class="py-2 border-bottom"><i class="fa fa-check" aria-hidden="true"></i>True AR Experience</li>
@@ -64,7 +64,7 @@
                         
                     </div>
                     <div class = "col-md-4">
-                        <h4> Reoccurring Payment</h4>
+                        <h4>Auto-renew</h4>
                     </div>
                     <div class = "col-md-2">
                         <label class="switch">
@@ -95,13 +95,13 @@
                                 </td>
 
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <th class="text-nowrap" scope="row">Storage</th>
                                 <td>
                                     <code>Unlimited Storage</code>
                                 </td>
 
-                            </tr>
+                            </tr> -->
                         <?php } ?>
                         <tr>
                             <th class="text-nowrap" scope="row">Expiry Date</th>
@@ -110,15 +110,17 @@
                             </td>
 
                         </tr>
+                         <?php if ($planInfo->type == 'size') { ?>
                         <tr>
                             <th class="text-nowrap" scope="row">Usage</th>
-                            <td colspan="5">{{ $usageInfo }}/∞</td>
+                            <td colspan="5">{{ $usageInfo }}/ {{ $planInfo->max_trackers }} MiB</td>
                         </tr>
+                         <?php }else{ ?>
                         <tr>
                             <th class="text-nowrap" scope="row">Used Trackers</th>
                             <td colspan="5">{{ $trackerCount }}</td>
                         </tr>
-
+                         <?php } ?>
                         <tr>
                             <th class="text-nowrap" scope="row"><input type="hidden" id ="csr" value="{{ csrf_token() }}"> </th>
 

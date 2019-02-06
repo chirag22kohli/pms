@@ -27,7 +27,9 @@ body a {
 a:hover {
 	text-decoration: none;
 }
-
+code{
+    font-size: 95.5%;
+}
 input[type="button"],
 button[type="submit"] {
 	transition: 0.5s all;
@@ -1370,6 +1372,7 @@ h1.paragraph-agileits-w3layouts a:hover {
 	font-weight: 600;
 	letter-spacing: 1px;
 	color: #91a6f9;
+        margin-top: 21px;
 }
 
 .forgot a:hover {
