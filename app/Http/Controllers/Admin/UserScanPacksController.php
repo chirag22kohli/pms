@@ -165,7 +165,7 @@ class UserScanPacksController extends Controller {
                     'payment_params' => json_encode($charge),
                     'user_id' => Auth::id(),
                     'scan_pack_id' => $getScanPack->id,
-                    'date_purchased' => date('Y-m-d'),
+                    'date_purchased' => date('d/m/Y'),
                     'payment_type' => 'Scan Pack Upgraded',
                     'price_paid' => $scanpackPrice,
                     'scans_credited' => $scanpackAllowed,

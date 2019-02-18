@@ -17,7 +17,7 @@ class ProjectsController extends Controller {
         $this->arController = $arController;
         $date = Carbon\Carbon::now();
         $date = strtotime($date);
-        $date = date('Y-m-d', $date);
+        $date = date('d/m/Y', $date);
         $this->date = $date;
         $this->successStatus = 200;
     }

@@ -21,7 +21,7 @@ class ProjectController extends Controller {
     public function __construct() {
         $date = Carbon\Carbon::now();
         $date = strtotime($date);
-        $date = date('Y-m-d', $date);
+        $date = date('d/m/Y', $date);
         $this->date = $date;
     }
 

@@ -464,6 +464,10 @@
                             <!-- .pricing-table End -->
                         </div>
                         <!-- .row end -->
+                        <div style="text-align:center">
+     <a class="btn btn--white btn--bordered" href="{{ url('/viewPlans') }}">View All Plans</a>
+</div>​
+                     
                     </div>
                     <!-- .container end -->
                 </section>
