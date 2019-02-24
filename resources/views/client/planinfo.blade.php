@@ -106,7 +106,7 @@
                         <tr>
                             <th class="text-nowrap" scope="row">Expiry Date</th>
                             <td>
-                                <code>{{ $userPlan->plan_expiry_date }} ({{ $difference }})</code>
+                                <code><?= date('d/m/Y', strtotime($userPlan->plan_expiry_date ));?> ({{ $difference }})</code>
                             </td>
 
                         </tr>

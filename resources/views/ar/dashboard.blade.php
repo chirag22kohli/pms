@@ -5,7 +5,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         //Counter
-        counter = <?php echo $cloneId; ?>;
+      var counter = <?php echo $cloneId; ?>;
 
         //Make element draggable
         $j(".drag").draggable({
@@ -87,7 +87,7 @@
                     var pos = $(ui.helper).offset();
                     var left_tracker = pos.left - $("#frame").position().left;
                     var top_tracker = pos.top - $("#frame").position().top;
-                   
+
                     addObject(this.id, pos.left, pos.top, left_tracker, top_tracker);
 //                    $j('#' + this.id).resizable({aspectRatio: true,
 //                        ghost: true,
@@ -142,7 +142,7 @@
 
     function addObject(objName, xpos, ypos, left_tracker, top_tracker) {
 
-        var left_tracker_new =  left_tracker - 268;
+        var left_tracker_new = left_tracker - 268;
         left_tracker = left_tracker_new;
         console.log(left_tracker);
         var type = $('#' + objName).attr('type');
@@ -177,6 +177,16 @@
             beforeSend: function () {
                 $("body").addClass("loading");
             },
+            error: function (xhr) {
+                //Add your image loader here
+                $.alert({
+                    theme: 'supervan',
+                    title: 'Oops!',
+                    content: 'There is some error in uploading tracker. Please try again with a diffrent image',
+                });
+                 $("body").removeClass("loading");
+                  console.log(xhr);
+            },
             success: function (msg) {
                 console.log(msg);
                 $("body").removeClass("loading");
@@ -184,11 +194,11 @@
         });
     }
 
- $.alert({
-                        theme: 'supervan',
-                        title: 'Note',
-                        content: 'Click on Finalize Tracker before navigating away from this page. Changes may not be saved otherwise.',
-                    });
+    $.alert({
+        theme: 'supervan',
+        title: 'Note',
+        content: 'Click on Finalize Tracker before navigating away from this page. Changes may not be saved otherwise.',
+    });
 </script>
 <script src="{{ asset('js/ar/ar.js') }}"></script>
 <div class="modal"><!-- Place at bottom of page --></div>
@@ -207,7 +217,7 @@
 
         </div>
         </br>
-      
+
         <div id="options">
             <div class="card-header optionHeader"><h4>Objects</h4></div>
             <div id="drag1" main_class ="dragged1" type ="google" class="drag dragCommon" title="Google Plus"></div> <!-- end of drag1 -->
@@ -228,7 +238,7 @@
         </div><!-- end of options -->
         <div class="card-header frameHeader"><h4>Frame</h4></div>
         <div id="frame" <?php if (!empty($tracker)) { ?> style="background-image: url(<?php echo url($tracker); ?>); background-size: contain;width:<?= $trackerDetails->width ?>px;height:<?= $trackerDetails->height ?>px" <?php } ?>>
-            
+
             <?php
             if (count($objects) > 0) {
                 foreach ($objects as $object) {

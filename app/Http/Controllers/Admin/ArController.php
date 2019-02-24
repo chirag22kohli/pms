@@ -44,20 +44,29 @@ class ArController extends Controller {
         if (count($trackerDetails) < 1):
             return view('client.mayDay');
         endif;
-        $objectLastId = object::where('tracker_id', $trackerDetails->id)->orderBy('id', 'desc')->first();
+       // $objectLastId = object::where('tracker_id', $trackerDetails->id)->orderBy('id', 'desc')->first();
 
         $objects = object::where('tracker_id', $trackerId)->get();
-        if (count($objectLastId) > 0):
-            $cloneId = $objectLastId->id + 1;
-        else:
-            $lastId = object::orderBy('id', 'desc')->first();
-            if (count($lastId) > 0):
-                $cloneId = $lastId->id + 1;
-            else:
-                $cloneId = 1;
-            endif;
+//        if (count($objectLastId) > 0):
+//            $cloneId = $objectLastId->id + 1;
+//        else:
+//            $lastId = object::orderBy('id', 'desc')->first();
+//            if (count($lastId) > 0):
+//                $cloneId = $lastId->id + 1;
+//            else:
+//                $cloneId = 1;
+//            endif;
+//
+//        endif;
 
+        $lastId = object::orderBy('id', 'desc')->first();
+        if (count($lastId) > 0):
+            $cloneId = $lastId->id + 1;
+        else:
+            $cloneId = 1;
         endif;
+        
+        
         if (!Auth::user()->hasRole('Admin')):
             $projectOwnerCheck = Tracker::where('id', $trackerId)->where('created_by', Auth::id())->first();
             if (count($projectOwnerCheck) < 1):
@@ -134,7 +143,7 @@ class ArController extends Controller {
                 $trackerVuforia = json_decode($vuforiaParams);
                 $updateTracker = Tracker::where('id', $tracker_id)->update(['target_id' => $trackerVuforia->target_id, 'parm' => $vuforiaParams]);
                 //return $vuforiaParams;
-                 return [
+                return [
                     'obj' => $trackerDetails['objects'],
                     'parms' => $vuforiaParams
                 ];
