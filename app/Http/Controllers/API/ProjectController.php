@@ -16,7 +16,7 @@ use Carbon;
 use App\UserUid;
 use App\UserScanPack;
 use App\userProjectScan;
-use Illuminate\Support\Carbon;
+
 class ProjectController extends Controller {
 
     public function __construct() {
@@ -207,7 +207,7 @@ class ProjectController extends Controller {
         }
 
         DB::insert('insert into tracker_support (user_id, tracker_id, project_id, reason, created_at) values (?, ?, ? ,?, ?)', [Auth::id(),
-            $request->input('tracker_id'), $request->input('project_id'), $request->input('reason'), Carbon::now()]);
+            $request->input('tracker_id'), $request->input('project_id'), $request->input('reason'), Carbon\Carbon::now()]);
 
 
         return parent::success('Successfully sent your feedback.', $this->successStatus);
