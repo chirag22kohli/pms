@@ -91,7 +91,7 @@
                             <tr>
                                 <th class="text-nowrap" scope="row">Total Trackers</th>
                                 <td>
-                                    <code>{{ $planInfo->max_trackers }} Trackers</code>
+                                    {{ $planInfo->max_trackers }} Trackers
                                 </td>
 
                             </tr>
@@ -106,7 +106,7 @@
                         <tr>
                             <th class="text-nowrap" scope="row">Expiry Date</th>
                             <td>
-                                <code><?= date('d/m/Y', strtotime($userPlan->plan_expiry_date ));?> ({{ $difference }})</code>
+                                <?= date('d/m/Y', strtotime($userPlan->plan_expiry_date ));?> ({{ $difference }})
                             </td>
 
                         </tr>

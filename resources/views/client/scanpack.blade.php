@@ -28,6 +28,10 @@
                     }
                     ?>
 
+                    <li class="py-2 border-bottom">Scan Pack Price <b>$<?= $scanPackDetails->price ?></b></li> 
+                    <li class="py-2 border-bottom">Scans Per Pack <b><?= $scanPackDetails->scans ?></b></li> 
+
+
                     <li class="py-2 border-bottom">Used Scans: <b><?= $getScanPack->scans_used ?></b></li> 
 
                     <li class="py-2 border-bottom">Total Left Over Scans: <b><?= $getScanPack->scans ?></b></li> 
@@ -46,7 +50,7 @@
                     <?php if ($getScanPack->used_scan_packs != null && $getScanPack->used_scan_packs != "") { ?>
                         <li class="py-2 border-bottom">Total Used Scan Packs(According to Limit) : <b><?= $getScanPack->used_scan_packs ?></b></li> 
 
-                    <?php }else{ ?>
+                    <?php } else { ?>
                         <li class="py-2 border-bottom">Total Used Scan Packs(According to Limit) : <b>N/A</b></li> 
                     <?php }
                     ?>
@@ -62,7 +66,14 @@
 
                     <div class="form-group">
                         <label for="issue">Please set your Limit for Scan Packs: </label>
-                        <input style ="width:50%" type="number" name ="limit" value = "<?= $getScanPack->limit_set ?>" class="form-control" id="exampleFormControlInput1" placeholder="<?= $getScanPack->limit_set ?>" required="" > 
+                        <div class = "row">
+                            <div class = "col-md-1" style="padding-right: 0px;    margin-left: -60px;">
+                                <p style="float: right;font-size: 26px">$</p>
+                            </div>
+                            <div class = "col-md-8" style="padding-left: 0px">
+                                <input style ="width:50%" type="number" name ="limit" value = "<?= $getScanPack->limit_set ?>" class="form-control" id="exampleFormControlInput1" placeholder="<?= $getScanPack->limit_set ?>" required="" > 
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-10">
@@ -70,7 +81,7 @@
                         </div>
                     </div>
                 </form>
-                  <p class="paragraph-agileits-w3layouts"><b>Note: This is the maximum monthly spend on scan packs.  Once the current scan pack finishes, a new one will be purchased automatically till this limit is reached. </b>
+                <p class="paragraph-agileits-w3layouts"><b>Note: This is the maximum monthly spend on scan packs.  Once the current scan pack finishes, a new one will be purchased automatically till this limit is reached. </b>
             </div>
         </div>
     </div>
