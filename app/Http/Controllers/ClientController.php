@@ -18,7 +18,7 @@ class ClientController extends Controller {
         $getScanPack = UserScanPack::where('user_id', Auth::id())->first();
         $userPlan = UserPlan::where('user_id', Auth::id())->first();
         $planInfo = Plan::where('id', $userPlan->plan_id)->first();
-        $dayDiffrence = date('d/m/Y',strtotime($userPlan->plan_expiry_date));
+        $dayDiffrence = date('d/m/Y', strtotime($userPlan->plan_expiry_date));
 
         return view('client.home', ['getScanPack' => $getScanPack, 'expiryDate' => $dayDiffrence, 'userPlan' => $userPlan]);
     }
@@ -45,12 +45,18 @@ class ClientController extends Controller {
         $myTransactions = \App\PaidPlantHistory::where('user_id', Auth::id())->with('plan')->get();
         $paidScanPacksHistory = \App\PaidScanPacksHistory::where('user_id', Auth::id())->get();
 
-        $getUserScan = userProjectScan::where('project_owner_id', Auth::id())->with('project_detail')->with('project_user')->get();
+        $getUserScan = DB::select("SELECT name,count(*) as uniquess, SUM(user_project_scans.count) as totalcount
+FROM user_project_scans
+
+LEFT JOIN projects
+ON user_project_scans.project_id = projects.id
+WHERE user_project_scans.project_owner_id = " . Auth::id() . " group by user_project_scans.user_id
+;");
 
         $projectReport = DB::select("SELECT *,SUM(paid_price) as totalSum,COUNT(DISTINCT  user_id) as totalSubs FROM  `paid_project_history_details`  LEFT JOIN projects ON paid_project_history_details.project_id = projects.id WHERE paid_project_history_details.project_admin_id =  " . Auth::id() . " GROUP BY paid_project_history_details.project_id");
 
-       
-        
+
+
         return view('client.reports', [
             'userDetails' => $userDetails,
             'paidInfo' => $paidInfo,
@@ -58,7 +64,7 @@ class ClientController extends Controller {
             'myTransactions' => $myTransactions,
             'paidScanPacksHistory' => $paidScanPacksHistory,
             'getUserScan' => $getUserScan,
-            'projectReport'=>$projectReport
+            'projectReport' => $projectReport
         ]);
     }
 
@@ -100,7 +106,7 @@ class ClientController extends Controller {
 
         $getScanPack = UserScanPack::where('user_id', Auth::id())->first();
         $scanPackDetails = Scanpack::first();
-        return view('client.scanpack', ['getScanPack' => $getScanPack,'scanPackDetails'=>$scanPackDetails]);
+        return view('client.scanpack', ['getScanPack' => $getScanPack, 'scanPackDetails' => $scanPackDetails]);
     }
 
     public function getPaidProjectGraphData() {

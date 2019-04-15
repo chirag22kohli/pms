@@ -182,8 +182,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Project Name</th>
-                                    <th>User Email</th>
-                                    <th>Scans Used</th>
+                                    <th>Unique Users</th>
+                                    <th>Total Scans Used</th>
 
                                 </tr>
                             </thead>
@@ -195,9 +195,9 @@
                                         ?>
                                         <tr>
                                             <td><?= $i ?></td>
-                                            <td><?= $info->project_detail->name ?></td>
-                                            <td><span class="badge badge-pill badge-secondary"><?= $info->project_user->email ?></span></td>
-                                            <td><?= $info->count ?></td>
+                                            <td><?= $info->name ?></td>
+                                            <td><span class="badge badge-pill badge-secondary"><?= $info->uniquess ?></span></td>
+                                            <td><?=$info->totalcount ?></td>
                                         </tr>
                                         <?php
                                         $i++;

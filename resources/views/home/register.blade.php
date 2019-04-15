@@ -82,7 +82,7 @@
 
                         <div class="form-group col-lg-12">
                             <input type="checkbox"  class="checkbox "  style = "float:left" required/> 
-                            <a href = "#" style = "float:left;margin-left:10px" >Agree Terms and Conditions</a>
+                            <a href = "<?= url('terms')?>" style = "float:left;margin-left:10px" >Agree Terms and Conditions</a>
                         </div>
                         </br>
                         <div class="form-group col-lg-12">

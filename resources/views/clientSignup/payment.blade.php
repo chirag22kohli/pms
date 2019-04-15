@@ -99,7 +99,7 @@
 
     <div class="clear"> </div>
     <div class="agileits_copyright">
-        <p>© 2018 CHAP Augumented Reality. All rights reserved </p>
+        <p>© <?= date('Y') ?> CHAP Augumented Reality. All rights reserved </p>
     </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
@@ -152,13 +152,16 @@ card.addEventListener('change', function (event) {
 var form = document.getElementById('payment-form');
 form.addEventListener('submit', function (event) {
     event.preventDefault();
-
+ $(".paypalButton").attr("disabled", true);
     stripe.createToken(card).then(function (result) {
         if (result.error) {
+            //  $(".paypalButton").attr("disabled", true);
             // Inform the user if there was an error.
+             $(".paypalButton").attr("disabled", false);
             var errorElement = document.getElementById('card-errors');
             errorElement.textContent = result.error.message;
         } else {
+           // $(".paypalButton").attr("disabled", true);
             // Send the token to your server.
             stripeTokenHandler(result.token);
         }
@@ -168,8 +171,9 @@ form.addEventListener('submit', function (event) {
 function stripeTokenHandler(token) {
 
 
-    console.log(token);
-
+   // console.log(token);
+   // return false;
+    //$(".paypalButton").attr("disabled", true);
     $.ajax({
         url: "makePayment",
         method: 'post',

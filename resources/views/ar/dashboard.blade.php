@@ -208,6 +208,7 @@
         <div class = "row">
             <div class = "col-md-9">
                 <button class = "btn btn-link finalizeButton"  onclick="finalizeTracker()" >Finalize Tracker</button>
+                <a class = "btn btn-primary btn-xs" href="<?= url('admin/trackers?p_id='.$trackerDetails->project_id.'')?>">Back</a>
             </div>
             <!--<div class = "col-md-3"> <button onclick ="uploadTracker()" class = "btn btn-success trackerButton">Upload Tracker</button></div>
             <form  style ="display: none" enctype="multipart/form-data" name ="imageUploadForm" id =  "imageUploadForm" method = "post" action = "trackerUpload">

@@ -20,8 +20,8 @@ class WelcomeController extends Controller {
 
         return view('home.welcome', ['plans' => $plans]);
     }
-    
-     public function viewPlans() {
+
+    public function viewPlans() {
         $plans = Plan::all();
 
         return view('home.plans', ['plans' => $plans]);
@@ -30,6 +30,11 @@ class WelcomeController extends Controller {
     public function register($plan_id) {
 
         return view('home.register', ['plan_id' => base64_decode($plan_id)]);
+    }
+
+    public function terms() {
+        $terms = Metum::where('meta_name', 'terms')->first();
+        return view('home.terms', ['terms' => $terms]);
     }
 
     public function getMetas(Request $request) {

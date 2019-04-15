@@ -29,7 +29,7 @@
 
 <div id = "pricing" style = "display:none">
     <div  class="form-group {{ $errors->has('price') ? 'has-error' : ''}}">
-        {!! Form::label('Price', 'Price', ['class' => 'col-md-4 control-label']) !!}
+        {!! Form::label('Price', 'Price (SGD)', ['class' => 'col-md-4 control-label']) !!}
         <div class="col-md-6">
             {!! Form::text('price', 0, ('required' == 'required') ? ['class' => 'price form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
             {!! $errors->first('price', '<p class="help-block">:message</p>') !!}

@@ -15,6 +15,7 @@
 Route::get('/', 'WelcomeController@welcome');
 Route::get('signup/{plan_id}', 'WelcomeController@register');
 Route::get('/viewPlans', 'WelcomeController@viewPlans');
+Route::get('terms', 'WelcomeController@terms');
 
 Auth::routes();
 
