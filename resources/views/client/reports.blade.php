@@ -183,7 +183,7 @@
                                     <th>#</th>
                                     <th>Project Name</th>
                                     <th>Unique Users</th>
-                                    <th>Total Scans Used</th>
+                                    <th>Number of Scans </th>
 
                                 </tr>
                             </thead>
