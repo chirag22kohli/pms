@@ -194,6 +194,6 @@ return [
         'SWAL' => Softon\SweetAlert\Facades\SWAL::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'VideoThumbnail' => Pawlox\VideoThumbnail\Facade\VideoThumbnail::class,
-        'Image' => Intervention\Image\Facades\Image::class,
+        'Image' => Intervention\Image\ImageManagerStatic::class,
     ],
 ];
