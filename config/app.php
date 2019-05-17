@@ -145,6 +145,7 @@ return [
         PhpJunior\LaravelHtmlEncrypt\LaravelHtmlEncryptServiceProvider::class,
         Pawlox\VideoThumbnail\VideoThumbnailServiceProvider::class,
         Codecasts\Auth\JWT\ServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
     ],
     /*
       |--------------------------------------------------------------------------
@@ -192,6 +193,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'SWAL' => Softon\SweetAlert\Facades\SWAL::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
-        'VideoThumbnail' => Pawlox\VideoThumbnail\Facade\VideoThumbnail::class
+        'VideoThumbnail' => Pawlox\VideoThumbnail\Facade\VideoThumbnail::class,
+        'Image' => Intervention\Image\Facades\Image::class,
     ],
 ];
