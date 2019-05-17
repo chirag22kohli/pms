@@ -78,7 +78,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
     });
     Route::post('updateProfile', 'ClientController@updateProfile');
     Route::post('renewPlan', 'PaymentController@renewPlan');
-  
+
 
 
     Route::post('manageReoccurring', 'PaymentController@manageReoccurring');
@@ -102,6 +102,7 @@ Route::post('client/addPaymentMethod', 'PaymentController@addPaymentMethod');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles', 'verifyPayment', 'checkPaymentMethod', 'PlanExpiry'], 'roles' => ['Admin', 'Client', 'Api']], function () {
     Route::resource('admin/projects', 'Admin\\ProjectsController');
     Route::get('arDashboard', 'Admin\ArController@index');
+    Route::get('tok', 'Admin\ArController@tok');
     Route::post('trackerUpload', 'Admin\ArController@trackerUpload');
     Route::post('addUpdateObject', 'Admin\objectsController@addUpdateObject');
     Route::post('finalizeTracker', 'Admin\ArController@finalizeTracker');
@@ -180,7 +181,7 @@ Route::get('projectCron', 'CronController@projectCron');
 Route::get('scanPackReset', 'CronController@scanPackReset');
 
 Route::get('testCron', 'CronController@testCron');
-  Route::post('client/renewExpiredPlan', 'PaymentController@renewExpiredPlan');
+Route::post('client/renewExpiredPlan', 'PaymentController@renewExpiredPlan');
 
 
 

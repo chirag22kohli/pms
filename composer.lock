@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "28f19fd6121ce5902efee8b11b889c6e",
+    "content-hash": "eb5100072b9f724393b7c8cd9e7570ea",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -228,6 +228,57 @@
             "description": "BaconQrCode is a QR code generator for PHP.",
             "homepage": "https://github.com/Bacon/BaconQrCode",
             "time": "2017-10-17T09:59:25+00:00"
+        },
+        {
+            "name": "codecasts/laravel-jwt",
+            "version": "0.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codecasts/laravel-jwt.git",
+                "reference": "cd5cf11d4f5be42cbf2d1202612779e84c13a980"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codecasts/laravel-jwt/zipball/cd5cf11d4f5be42cbf2d1202612779e84c13a980",
+                "reference": "cd5cf11d4f5be42cbf2d1202612779e84c13a980",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*",
+                "illuminate/support": ">=5.4.0",
+                "lcobucci/jwt": "^3.2",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.9",
+                "orchestra/testbench": "^3.4",
+                "phpunit/phpunit": "^6.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Codecasts\\Auth\\JWT\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Codecasts\\Auth\\JWT\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Diego Hernandes",
+                    "email": "diego@hernandev.com"
+                }
+            ],
+            "description": "Dead simple JWT Auth Provider for Laravel 5.4+",
+            "time": "2018-04-04T16:10:06+00:00"
         },
         {
             "name": "defuse/php-encryption",
@@ -826,12 +877,12 @@
             "version": "v0.3.22",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Folkloreatelier/laravel-image.git",
+                "url": "https://github.com/folkloreinc/laravel-image.git",
                 "reference": "06a7e5ced5cd6eb5b7f7da6b5af84715d77beb82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Folkloreatelier/laravel-image/zipball/06a7e5ced5cd6eb5b7f7da6b5af84715d77beb82",
+                "url": "https://api.github.com/repos/folkloreinc/laravel-image/zipball/06a7e5ced5cd6eb5b7f7da6b5af84715d77beb82",
                 "reference": "06a7e5ced5cd6eb5b7f7da6b5af84715d77beb82",
                 "shasum": ""
             },
@@ -3117,6 +3168,57 @@
                 "stripe"
             ],
             "time": "2018-01-25T09:26:51+00:00"
+        },
+        {
+            "name": "rbdwllr/reallysimplejwt",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RobDWaller/ReallySimpleJWT.git",
+                "reference": "1df7d62951c93babdf2962493588561382dbca38"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RobDWaller/ReallySimpleJWT/zipball/1df7d62951c93babdf2962493588561382dbca38",
+                "reference": "1df7d62951c93babdf2962493588561382dbca38",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "phpmd/phpmd": "2.6.*",
+                "phpstan/phpstan": "^0.10",
+                "phpunit/phpunit": "^7.0",
+                "squizlabs/php_codesniffer": "^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ReallySimpleJWT\\": "src",
+                    "Tests\\": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rob Waller",
+                    "email": "rdwaller1984@gmail.com"
+                }
+            ],
+            "description": "A really simple library to generate user authentication JSON Web Tokens.",
+            "keywords": [
+                "Authentication",
+                "json",
+                "json web tokens",
+                "jwt",
+                "php",
+                "tokens"
+            ],
+            "time": "2019-04-10T09:36:48+00:00"
         },
         {
             "name": "simplesoftwareio/simple-qrcode",

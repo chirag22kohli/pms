@@ -23,10 +23,10 @@ class ArController extends Controller {
      * @return void
      */
     const JSON_CONTENT_TYPE = 'application/json';
-    const ACCESS_KEY = '72a4c0a54659757ae901449adcfd5b82e02a5da2';
-    const SECRET_KEY = '2bca7331b17c8fa727e54c260c2f3a8c68b0db88';
-    const BASE_URL = 'https://vws.vuforia.com';
-    const TARGETS_PATH = '/targets';
+    const ACCESS_KEY = '196d3b643d5947dc9a00c44256a7ca5e';
+    const SECRET_KEY = 'fc04c9bde9434283934965ec7f891a84';
+    const BASE_URL = 'https://developer.maxst.com/api';
+    const TARGETS_PATH = '/Trackables';
     const ID_INDEX = 0;
     const IMAGE_INDEX = 1;
     const WINE_COM_URL = 2;
@@ -36,7 +36,14 @@ class ArController extends Controller {
     public $imagePath = '/';
     public $imageName = 'fr.png';
 
+    public function tok() {
+        return CreateTokenController::createToken();
+    }
+
     public function index(Request $request) {
+
+
+
 
         $trackerId = $request->input('id');
 
@@ -44,7 +51,7 @@ class ArController extends Controller {
         if (count($trackerDetails) < 1):
             return view('client.mayDay');
         endif;
-       // $objectLastId = object::where('tracker_id', $trackerDetails->id)->orderBy('id', 'desc')->first();
+        // $objectLastId = object::where('tracker_id', $trackerDetails->id)->orderBy('id', 'desc')->first();
 
         $objects = object::where('tracker_id', $trackerId)->get();
 //        if (count($objectLastId) > 0):
@@ -65,8 +72,8 @@ class ArController extends Controller {
         else:
             $cloneId = 1;
         endif;
-        
-        
+
+
         if (!Auth::user()->hasRole('Admin')):
             $projectOwnerCheck = Tracker::where('id', $trackerId)->where('created_by', Auth::id())->first();
             if (count($projectOwnerCheck) < 1):
@@ -132,7 +139,7 @@ class ArController extends Controller {
             if ($trackerDetails->parm != '') {
                 $trackerVuforia = json_decode($trackerDetails->parm);
 
-                $vuforiaParams = $this->updateVuforia($trackerDimensions, $trackerDetails->project_id, $trackerVuforia->target_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
+                $vuforiaParams = $this->updateVuforia($trackerDimensions, $trackerDetails->project_id, $trackerVuforia->Id, $trackerDetails->tracker_path, $trackerDetails['objects']);
                 $updateTracker = Tracker::where('id', $tracker_id)->update(['updated_vuforia' => $vuforiaParams]);
                 return [
                     'obj' => $trackerDetails['objects'],
@@ -141,7 +148,7 @@ class ArController extends Controller {
             } else {
                 $vuforiaParams = $this->uploadDataVuforia($trackerDimensions, $trackerDetails->project_id, $trackerDetails->tracker_path, $trackerDetails['objects']);
                 $trackerVuforia = json_decode($vuforiaParams);
-                $updateTracker = Tracker::where('id', $tracker_id)->update(['target_id' => $trackerVuforia->target_id, 'parm' => $vuforiaParams]);
+                $updateTracker = Tracker::where('id', $tracker_id)->update(['target_id' => $trackerVuforia->Id, 'parm' => $vuforiaParams]);
                 //return $vuforiaParams;
                 return [
                     'obj' => $trackerDetails['objects'],
@@ -167,16 +174,16 @@ class ArController extends Controller {
         $file = pathinfo($this->imageName);
         $filename = $file['filename'];
         $fileextension = $file['extension'];
+
         $post_data = array(
-            'name' => $filename . "_" . $dateTime . "." . $fileextension,
-            'width' => 74.5,
-            'image' => $image_base64,
-            'application_metadata' => $this->createMetadata($trackerDimensions, $project_id, $objectData),
-            'active_flag' => 1
+            'Name' => time(),
+            'RealWidth' => 74.5,
+            'Custom' => $this->createMetadata($trackerDimensions, $project_id, $objectData),
         );
 
         $data_json = json_encode($post_data);
-
+       // dd($data_json);
+       // dd(self::BASE_URL . self::TARGETS_PATH . '/' . $id);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, self::BASE_URL . self::TARGETS_PATH . '/' . $id);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->getHeaders('PUT', self::TARGETS_PATH . '/' . $id, self::JSON_CONTENT_TYPE, $data_json));
@@ -184,7 +191,10 @@ class ArController extends Controller {
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
+        
+       // dd(curl_error($ch));
         curl_close($ch);
+        dd($response);
         return $response;
     }
 
@@ -205,23 +215,29 @@ class ArController extends Controller {
         $file = pathinfo($this->imageName);
         $filename = $file['filename'];
         $fileextension = $file['extension'];
+//dd('ss');
         $post_data = array(
-            'name' => $filename . "_" . $dateTime . "." . $fileextension,
-            'width' => 74.5,
-            'image' => $image_base64,
-            'application_metadata' => $this->createMetadata($trackerDimensions, $project_id, $objectData),
+            'Name' => time(),
+            'RealWidth' => 74.5,
+            'UploadFile' => $image_base64,
+            'OriginalFileName' => 'ksks.jpg',
+            'Custom' => $this->createMetadata($trackerDimensions, $project_id, $objectData),
             'active_flag' => 1
         );
         $body = json_encode($post_data);
+        //dd($body);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->getHeaders('POST', self::TARGETS_PATH, self::JSON_CONTENT_TYPE, $body));
         curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
         $response = curl_exec($ch);
         $info = curl_getinfo($ch);
+        //$response = json_decode($response);
+       // dd(json_decode($response)->Id);
         if ($info['http_code'] !== 201) {
             print 'Failed to add target: ' . $response;
             return 'none';
         } else {
-            $vuforiaTargetID = json_decode($response)->target_id;
+
+            $vuforiaTargetID = json_decode($response)->Id;
             // print 'Successfully added target: ' . $vuforiaTargetID . "\n";
             return $response;
         }
@@ -327,9 +343,13 @@ class ArController extends Controller {
         $md5 = md5($body, false);
         $string_to_sign = $method . "\n" . $md5 . "\n" . $content_type . "\n" . $dateString . "\n" . $path;
         $signature = $this->hexToBase64(hash_hmac("sha1", $string_to_sign, self::SECRET_KEY));
-        $headers[] = 'Authorization: VWS ' . self::ACCESS_KEY . ':' . $signature;
-        $headers[] = 'Content-Type: ' . $content_type;
-        $headers[] = 'Date: ' . $dateString;
+        //echo CreateTokenController::createToken();
+        $headers[] = 'Authorization: Token ' . CreateTokenController::createToken() . '';
+        $headers[] = 'Content-Type: application/json';
+        //$headers[] = 'Date: ' . $dateString;
+        $headers[] = 'Host: developer.maxst.com';
+        $headers[] = 'User-Agent: Fiddler';
+
         return $headers;
     }
 
@@ -354,7 +374,7 @@ class ArController extends Controller {
             'project_id' => $project_id,
             'objects' => $objects
         );
-        return base64_encode(json_encode($metadata));
+        return json_encode($metadata);
     }
 
     public function finalize(Request $request) {
