@@ -23,8 +23,8 @@ class ArController extends Controller {
      * @return void
      */
     const JSON_CONTENT_TYPE = 'application/json';
-    const ACCESS_KEY = '1b969cfdd7454e5db4d7ae56ad99cf32';
-    const SECRET_KEY = '9ade706bfed04c5c980bf0ca8655b9f2';
+    const ACCESS_KEY = '9ade706bfed04c5c980bf0ca8655b9f2';
+    const SECRET_KEY = '1b969cfdd7454e5db4d7ae56ad99cf32';
     const BASE_URL = 'https://developer.maxst.com/api';
     const TARGETS_PATH = '/Trackables';
     const ID_INDEX = 0;
