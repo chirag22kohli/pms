@@ -7,23 +7,23 @@ use Auth;
 
 class PaidPlantHistory extends Model {
 
-    public static function boot() {
-        static::creating(function ($model) {
-//            echo '<pre>';print_r($model->fillable);die;
-            if (in_array('created_by', $model->fillable)):
-                $model->created_by = (!empty(Auth::id())) ? Auth::id() : '2';
-            endif;
-
-            //$model->created_at = \Carbon\Carbon::now();
-            // $model->updated_at = \Carbon\Carbon::now();
-        });
-        static::updating(function ($model) {
-
-            if (in_array('created_by', $model->fillable)):
-                $model->created_by = (!empty(Auth::id())) ? Auth::id() : '2';
-            endif;
-        });
-    }
+//    public static function boot() {
+//        static::creating(function ($model) {
+////            echo '<pre>';print_r($model->fillable);die;
+//            if (in_array('created_by', $model->fillable)):
+//                $model->created_by = (!empty(Auth::id())) ? Auth::id() : '2';
+//            endif;
+//
+//            //$model->created_at = \Carbon\Carbon::now();
+//            // $model->updated_at = \Carbon\Carbon::now();
+//        });
+//        static::updating(function ($model) {
+//
+//            if (in_array('created_by', $model->fillable)):
+//                $model->created_by = (!empty(Auth::id())) ? Auth::id() : '2';
+//            endif;
+//        });
+//    }
 
     /**
      * The database table used by the model.

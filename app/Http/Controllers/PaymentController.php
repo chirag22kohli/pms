@@ -192,7 +192,11 @@ class PaymentController extends Controller {
             'payment_type' => 'Renewed Current Plan',
             'price_paid' => $planDetails->price
         ];
+        
+        //dd($historyParams);
+         
         PaidPlantHistory::create($historyParams);
+        //dd($historyParams);
     }
 
     public function payWithStripe(Request $request) {
@@ -302,8 +306,7 @@ class PaymentController extends Controller {
             if ($charge->status == 'succeeded') {
 
                 $this->upgradeExpiredPlan($charge);
-
-                return 'success';
+       return 'success';
             } else {
                 return 'false';
             }

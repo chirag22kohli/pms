@@ -8,6 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta charset="utf-8">
         <meta name="keywords" content="Chap Augumented Reality" />
+         <meta name="csrf-token" content="{{ csrf_token() }}">
         <script>
             addEventListener("load", function () {
             setTimeout(hideURLbar, 0);

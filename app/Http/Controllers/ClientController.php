@@ -116,4 +116,8 @@ WHERE user_project_scans.project_owner_id = " . Auth::id() . " group by user_pro
         return response()->json($data);
     }
 
+    public function ecommerce() {
+        return view('client.ecommerce');
+    }
+
 }

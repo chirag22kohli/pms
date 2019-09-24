@@ -265,4 +265,131 @@ class UserController extends Controller {
         endif;
     }
 
+    public function getProductDetails(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'product_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+
+        $product_id = $request->input('product_id');
+
+        $getProduct = \App\Product::with('product_options')->with('product_attribute_combinations')->where('id', $product_id)->first();
+        if ($getProduct):
+            return parent::success($getProduct, $this->successStatus);
+        else:
+            return parent::error('No Product Found', 200);
+        endif;
+    }
+
+    public function addToCart(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'product_id' => 'required',
+                    'attributes' => 'required',
+                    'stock' => 'required',
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+
+
+        $addToCart = \App\Cart::create([
+                    'user_id' => Auth::id(),
+                    'product_id' => $request->input('product_id'),
+                    'stock' => $request->input('stock'),
+                    'attributes' => $request->input('attributes'),
+        ]);
+
+        return parent::success("Product Added to Cart", $this->successStatus);
+    }
+
+    public function getMyCart(Request $request) {
+        $getCart = \App\Cart::with('product_detail')->where('user_id', Auth::id())->get();
+        if ($getCart) {
+            return parent::success($getCart, $this->successStatus);
+        } else {
+            return parent::error('Your cart is empty', 200);
+        }
+    }
+
+    public function addAddress(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'name' => 'required',
+                    'mobile' => 'required',
+                    'pin_code' => 'required',
+                    'city' => 'required',
+                    'state' => 'required',
+                    'address_1' => 'required',
+                    'address_2' => 'required',
+                    'landmark' => 'required',
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+
+
+        $addAddress = \App\UserAddress::create([
+                    'user_id' => Auth::id(),
+                    'name' => $request->input('name'),
+                    'mobile' => $request->input('mobile'),
+                    'pin_code' => $request->input('pin_code'),
+                    'city' => $request->input('city'),
+                    'state' => $request->input('state'),
+                    'address_1' => $request->input('address_1'),
+                    'address_2' => $request->input('address_2'),
+                    'landmark' => $request->input('landmark')
+        ]);
+
+        return parent::success("New Address Added Successfully", $this->successStatus);
+    }
+
+    public function getMyAddress(Request $request) {
+        $getAddress = \App\UserAddress::where('user_id', Auth::id())->get();
+        if ($getAddress) {
+            return parent::success($getAddress, $this->successStatus);
+        } else {
+            return parent::error('No Address Found', 200);
+        }
+    }
+
+    public function updateCartQuatity(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'id' => 'required',
+                    'stock' => 'required',
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+        
+        
+        $updateCart = \App\Cart::where('id',$request->input('id'))->update([
+            'stock' => $request->input('stock')
+        ]);
+        
+         return parent::success("Cart Update Successfully", $this->successStatus);
+    }
+    
+    
+    public function deleteFromCart(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'id' => 'required',
+                    
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+        
+        
+        $updateCart = \App\Cart::where('id',$request->input('id'))->delete();
+        
+         return parent::success("Cart Update Successfully", $this->successStatus);
+    }
+    
+
 }

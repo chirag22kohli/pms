@@ -92,6 +92,9 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
     Route::get('updateScanPack', 'Admin\UserScanPacksController@updateScanPack');
     Route::get('getPaidProjectGraphData', 'ClientController@getPaidProjectGraphData');
     Route::post('getFinances', 'ClientController@getFinances');
+    
+    
+     Route::get('ecommerce', 'ClientController@ecommerce');
 });
 
 Route::post('client/makePayment', 'PaymentController@payWithStripe');
@@ -186,3 +189,10 @@ Route::post('client/renewExpiredPlan', 'PaymentController@renewExpiredPlan');
 
 
 
+
+Route::resource('admin/product-categories', 'Admin\\ProductCategoriesController');
+Route::resource('admin/products', 'Admin\\ProductsController');
+Route::resource('admin/cart', 'Admin\\CartController');
+Route::resource('admin/product-options', 'Admin\\ProductOptionsController');
+Route::resource('admin/product-attribute-combinations', 'Admin\\ProductAttributeCombinationsController');
+Route::resource('admin/user-address', 'Admin\\UserAddressController');

@@ -70,6 +70,14 @@
             </a>
         </li>
         
+        <li>
+            <a href="{{url('client/ecommerce')}}">
+                <i class="far fa-cart-arrow-down"></i>
+                Ecommerce 
+               
+            </a>
+        </li>
+        
       
        
        <!-- <li>
