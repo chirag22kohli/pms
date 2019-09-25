@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\ProductCategory;
+use App\OrderDetail;
 use Illuminate\Http\Request;
-use Auth;
-class ProductCategoriesController extends Controller
+
+class OrderDetailsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,13 +21,17 @@ class ProductCategoriesController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $productcategories = ProductCategory::where('user_id',Auth::id())->where('name', 'LIKE', "%$keyword%")
+            $orderdetails = OrderDetail::where('order_id', 'LIKE', "%$keyword%")
+                ->orWhere('product_id', 'LIKE', "%$keyword%")
+                ->orWhere('attributes', 'LIKE', "%$keyword%")
+                ->orWhere('attribute_options', 'LIKE', "%$keyword%")
+                ->orWhere('quantity', 'LIKE', "%$keyword%")
                 ->paginate($perPage);
         } else {
-            $productcategories = ProductCategory::where('user_id',Auth::id())->paginate($perPage);
+            $orderdetails = OrderDetail::paginate($perPage);
         }
 
-        return view('admin.product-categories.index', compact('productcategories'));
+        return view('admin.order-details.index', compact('orderdetails'));
     }
 
     /**
@@ -37,7 +41,7 @@ class ProductCategoriesController extends Controller
      */
     public function create()
     {
-        return view('admin.product-categories.create');
+        return view('admin.order-details.create');
     }
 
     /**
@@ -50,13 +54,17 @@ class ProductCategoriesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-			'name' => 'required'
+			'order_id' => 'required',
+			'product_id' => 'required',
+			'attributes' => 'required',
+			'attribute_options' => 'required',
+			'quantity' => 'required'
 		]);
         $requestData = $request->all();
         
-        ProductCategory::create($requestData);
+        OrderDetail::create($requestData);
 
-        return redirect('admin/product-categories')->with('flash_message', 'ProductCategory added!');
+        return redirect('admin/order-details')->with('flash_message', 'OrderDetail added!');
     }
 
     /**
@@ -68,9 +76,9 @@ class ProductCategoriesController extends Controller
      */
     public function show($id)
     {
-        $productcategory = ProductCategory::findOrFail($id);
+        $orderdetail = OrderDetail::findOrFail($id);
 
-        return view('admin.product-categories.show', compact('productcategory'));
+        return view('admin.order-details.show', compact('orderdetail'));
     }
 
     /**
@@ -82,9 +90,9 @@ class ProductCategoriesController extends Controller
      */
     public function edit($id)
     {
-        $productcategory = ProductCategory::findOrFail($id);
+        $orderdetail = OrderDetail::findOrFail($id);
 
-        return view('admin.product-categories.edit', compact('productcategory'));
+        return view('admin.order-details.edit', compact('orderdetail'));
     }
 
     /**
@@ -98,14 +106,18 @@ class ProductCategoriesController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-			'name' => 'required'
+			'order_id' => 'required',
+			'product_id' => 'required',
+			'attributes' => 'required',
+			'attribute_options' => 'required',
+			'quantity' => 'required'
 		]);
         $requestData = $request->all();
         
-        $productcategory = ProductCategory::findOrFail($id);
-        $productcategory->update($requestData);
+        $orderdetail = OrderDetail::findOrFail($id);
+        $orderdetail->update($requestData);
 
-        return redirect('admin/product-categories')->with('flash_message', 'ProductCategory updated!');
+        return redirect('admin/order-details')->with('flash_message', 'OrderDetail updated!');
     }
 
     /**
@@ -117,8 +129,8 @@ class ProductCategoriesController extends Controller
      */
     public function destroy($id)
     {
-        ProductCategory::destroy($id);
+        OrderDetail::destroy($id);
 
-        return redirect('admin/product-categories')->with('flash_message', 'ProductCategory deleted!');
+        return redirect('admin/order-details')->with('flash_message', 'OrderDetail deleted!');
     }
 }

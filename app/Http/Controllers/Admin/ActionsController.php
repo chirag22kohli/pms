@@ -8,7 +8,7 @@ use App\Action;
 use Illuminate\Http\Request;
 use App\object;
 use Pawlox\VideoThumbnail\VideoThumbnail;
-
+use Auth;
 class ActionsController extends Controller {
 
     /**
@@ -20,14 +20,14 @@ class ActionsController extends Controller {
         $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
-        return view('actions.google', ['object_id' => $object_details->id, 'objectAction' => $objectActionDetails,'objectImage' => $object_details->object_image]);
+        return view('actions.google', ['object_id' => $object_details->id, 'objectAction' => $objectActionDetails, 'objectImage' => $object_details->object_image]);
     }
 
     public function facebook(Request $request) {
         $object_details = $this->getObjectDetails($request->input('object_id'));
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
-        return view('actions.facebook', ['object_id' => $object_details->id, 'objectAction' => $objectActionDetails,'objectImage' => $object_details->object_image]);
+        return view('actions.facebook', ['object_id' => $object_details->id, 'objectAction' => $objectActionDetails, 'objectImage' => $object_details->object_image]);
     }
 
     public function audio(Request $request) {
@@ -112,6 +112,16 @@ class ActionsController extends Controller {
         $objectActionDetails = $this->objectActionDetails($object_details->id);
 
         return view('actions.tapVideo', ['object_id' => $object_details->id, 'objectImage' => $object_details->object_image, 'objectAction' => $objectActionDetails]);
+    }
+
+    public function ecom(Request $request) {
+        $object_details = $this->getObjectDetails($request->input('object_id'));
+        $objectActionDetails = $this->objectActionDetails($object_details->id);
+        
+       // dd($object_details->id);
+        $products = \App\Product::where('user_id',Auth::id())->get();
+          
+        return view('actions.ecom', ['products'=>$products,'object_id' => $object_details->id, 'objectImage' => $object_details->object_image, 'objectAction' => $objectActionDetails]);
     }
 
     public function googleUpload(Request $request) {
@@ -662,6 +672,47 @@ class ActionsController extends Controller {
         return json_encode([
             'success' => '1',
             'path' => url($imagePath_new),
+            'width' => $width,
+            'height' => $height,
+            'newHeight' => $targetHeight
+        ]);
+    }
+    
+    
+     public function ecomUpload(Request $request) {
+
+        $object_id = $request->input('object_id');
+        $product = $request->input('product');
+        
+        $data = [
+            'object_id' => $object_id,
+            'message' => $product,
+        ];
+
+        $checkObjectAction = Action::where('object_id', $object_id)->first();
+        if (count($checkObjectAction) > 0):
+         
+            $addAction = Action::where('object_id', $object_id)->update($data);
+        else:
+            $addAction = Action::create($data);
+        endif;
+
+        if ($request->file('imagefile') === null):
+            return json_encode([
+                'success' => $product,
+            ]);
+        endif;
+        $size = $request->file('imagefile')->getClientSize();
+        $imagePath = $this->uploadObjectFile($request, 'imagefile', '/images/actions');
+
+        $updateObjectImage = object::where('id', $object_id)->update(['size' => $size, 'object_image' => url($imagePath)]);
+
+        list($width, $height) = getimagesize(url($imagePath));
+        $ratio = $width / $height;
+        $targetHeight = 70 / $ratio;
+        return json_encode([
+            'success' => '1',
+            'path' => url($imagePath),
             'width' => $width,
             'height' => $height,
             'newHeight' => $targetHeight

@@ -92,9 +92,9 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
     Route::get('updateScanPack', 'Admin\UserScanPacksController@updateScanPack');
     Route::get('getPaidProjectGraphData', 'ClientController@getPaidProjectGraphData');
     Route::post('getFinances', 'ClientController@getFinances');
-    
-    
-     Route::get('ecommerce', 'ClientController@ecommerce');
+
+
+    Route::get('ecommerce', 'ClientController@ecommerce');
 });
 
 Route::post('client/makePayment', 'PaymentController@payWithStripe');
@@ -129,6 +129,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles', 'verifyPaym
     Route::get('screenShot', 'Admin\ActionsController@screenShot');
     Route::get('tapAudio', 'Admin\ActionsController@tapAudio');
     Route::get('tapVideo', 'Admin\ActionsController@tapVideo');
+    Route::get('ecom', 'Admin\ActionsController@ecom');
+
+
 
     Route::post('googleUpload', 'Admin\ActionsController@googleUpload');
     Route::post('facebookUpload', 'Admin\ActionsController@facebookUpload');
@@ -145,6 +148,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles', 'verifyPaym
     Route::post('updateHieghtNewObject', 'Admin\ActionsController@updateHieghtNewObject');
     Route::post('tapAudioUpload', 'Admin\ActionsController@tapAudioUpload');
     Route::post('tapVideoUpload', 'Admin\ActionsController@tapVideoUpload');
+    Route::post('ecomUpload', 'Admin\ActionsController@ecomUpload');
 
 
 
@@ -196,3 +200,6 @@ Route::resource('admin/cart', 'Admin\\CartController');
 Route::resource('admin/product-options', 'Admin\\ProductOptionsController');
 Route::resource('admin/product-attribute-combinations', 'Admin\\ProductAttributeCombinationsController');
 Route::resource('admin/user-address', 'Admin\\UserAddressController');
+
+Route::resource('admin/orders', 'Admin\\OrdersController');
+Route::resource('admin/order-details', 'Admin\\OrderDetailsController');

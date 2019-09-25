@@ -31,8 +31,8 @@ class CreateTokenController extends \ReallySimpleJWT\Token {
      * @return void
      */
     const JSON_CONTENT_TYPE = 'application/json';
-    const ACCESS_KEY = '1b969cfdd7454e5db4d7ae56ad99cf32';
-    const SECRET_KEY = '9ade706bfed04c5c980bf0ca8655b9f2';
+    const ACCESS_KEY = 'd9baa7efc6384bc8b06bfa4a615ed247';
+    const SECRET_KEY = '102177cab7e44b868a85aae2bd70383c';
     const BASE_URL = 'https://developer.maxst.com/api/';
     const TARGETS_PATH = '/Trackables';
     const ID_INDEX = 0;

@@ -26,7 +26,7 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response 
      */
     public function login() {
-        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
+        if (Auth::guard('web')->attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
             $success['token'] = $user->createToken('MyApp')->accessToken;
             return parent::success($success, $this->successStatus);
@@ -331,7 +331,7 @@ class UserController extends Controller {
             return parent::error($errors, 200);
         }
 
-
+        \App\UserAddress::where('user_id', Auth::id())->update(['default_address' => 0]);
         $addAddress = \App\UserAddress::create([
                     'user_id' => Auth::id(),
                     'name' => $request->input('name'),
@@ -341,7 +341,8 @@ class UserController extends Controller {
                     'state' => $request->input('state'),
                     'address_1' => $request->input('address_1'),
                     'address_2' => $request->input('address_2'),
-                    'landmark' => $request->input('landmark')
+                    'landmark' => $request->input('landmark'),
+                    'default_address' => 1
         ]);
 
         return parent::success("New Address Added Successfully", $this->successStatus);
@@ -365,31 +366,119 @@ class UserController extends Controller {
             $errors = self::formatValidator($validator);
             return parent::error($errors, 200);
         }
-        
-        
-        $updateCart = \App\Cart::where('id',$request->input('id'))->update([
+
+
+        $updateCart = \App\Cart::where('id', $request->input('id'))->update([
             'stock' => $request->input('stock')
         ]);
-        
-         return parent::success("Cart Update Successfully", $this->successStatus);
+
+        return parent::success("Cart Update Successfully", $this->successStatus);
     }
-    
-    
+
     public function deleteFromCart(Request $request) {
         $validator = Validator::make($request->all(), [
                     'id' => 'required',
-                    
         ]);
         if ($validator->fails()) {
             $errors = self::formatValidator($validator);
             return parent::error($errors, 200);
         }
-        
-        
-        $updateCart = \App\Cart::where('id',$request->input('id'))->delete();
-        
-         return parent::success("Cart Update Successfully", $this->successStatus);
+
+
+        $updateCart = \App\Cart::where('id', $request->input('id'))->delete();
+
+        return parent::success("Cart Update Successfully", $this->successStatus);
     }
-    
+
+    public function placeOrder(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'address_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+        $getCart = \App\Cart::where('user_id', Auth::id())->with('product_detail')->get();
+
+        foreach ($getCart as $cart) {
+            $getClientId = \App\Product::where('id', $cart->product_id)->first();
+            $client[$getClientId->user_id][] = $cart;
+        }
+
+        foreach ($client as $clientId => $products) {
+            $createOrder = \App\Order::create([
+                        'amount' => 0,
+                        'user_id' => Auth::id(),
+                        'client_id' => $clientId,
+                        'is_paid' => 0,
+                        'address_id' => $request->input('address_id'),
+                        'params' => json_encode($products)
+            ]);
+            $amount = 0;
+            foreach ($products as $product) {
+                $productDetails = \App\Product::where('id', $product->product_id)->first();
+                // dd($product->attributes);
+
+
+                $amount += $productDetails->price * $product->stock;
+                $getProduct = \App\ProductOption::where('product_id', $product->product_id)->pluck('attribute');
+
+
+                \App\OrderDetail::create([
+                    'order_id' => $createOrder->id,
+                    'product_id' => $product->product_id,
+                    'attributes' => json_encode($getProduct),
+                    'attribute_options' => $product->attributes,
+                    'quantity' => $product->stock
+                ]);
+            }
+            $updateOrderAmount = \App\Order::where('id', $createOrder->id)->update([
+                'amount' => $amount
+            ]);
+        }
+
+        $updateCart = \App\Cart::where('user_id', Auth::id())->delete();
+        return parent::success("Order Placed Successfully", $this->successStatus);
+    }
+
+    public function getOrders(Request $request) {
+        $getOrders = \App\Order::where('user_id', Auth::id())->with('order_details')->with('address')->get();
+
+        if ($getOrders) {
+            return parent::success($getOrders, $this->successStatus);
+        } else {
+            return parent::error('No Orders Found', 200);
+        }
+    }
+
+    public function updateDefaultAddress(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'address_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+        \App\UserAddress::where('user_id', Auth::id())->update(['default_address' => 0]);
+        $updateAddress = \App\UserAddress::where('id', $request->input('address_id'))->update([
+            'default_address' => 1
+        ]);
+
+        return parent::success("Default Address Updated", $this->successStatus);
+    }
+
+    public function deleteAddress(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'address_id' => 'required',
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+        // \App\UserAddress::where('user_id', Auth::id())->update(['default_address' => 0]);
+        $updateAddress = \App\UserAddress::where('id', $request->input('address_id'))->delete();
+
+        return parent::success("Address Deleted", $this->successStatus);
+    }
 
 }

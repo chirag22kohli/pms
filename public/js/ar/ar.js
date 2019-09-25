@@ -17,6 +17,8 @@ function initActions() {
     $(".dragged12").off("dblclick");
     $(".dragged13").off("dblclick");
     $(".dragged14").off("dblclick");
+    $(".dragged15").off("dblclick");
+
 
 
     $(".dragged1").dblclick(function () {
@@ -715,6 +717,54 @@ function initActions() {
             }
         });
     });
+    
+    
+    
+    
+    $(".dragged15").dblclick(function () {
+        if (!checkPlanUsage().status) {
+            if (checkPlanUsage().plan_type == 'size') {
+                $.alert(checkPlanUsage().message);
+                return false;
+            }
+
+        }
+        var ids = this.id;
+        //  $('#fbModal').modal('show');
+        $.confirm({
+            theme: 'supervan', // 'material', 'bootstrap'
+            animation: 'rotate',
+            title: 'Add Ecommerce Product',
+            content: 'url:ecom?object_id=' + this.id,
+            buttons: {
+                formSubmit: {
+                    text: 'Submit',
+                    btnClass: 'btn-blue',
+                    action: function () {
+                        var name = this.$content.find('#product').val();
+                        if (!name) {
+                            $.alert('Please Select File.');
+                            return false;
+                        }
+
+                        actionUploadImage('ecomUpload', ids);
+                    }
+                },
+                cancel: function () {
+                    //close
+                },
+            },
+            onContentReady: function () {
+                // bind to events
+                var jc = this;
+                this.$content.find('form').on('submit', function (e) {
+                    // if the user submits the form by pressing enter in the field.
+                    e.preventDefault();
+                    jc.$$formSubmit.trigger('click'); // reference the button and click it
+                });
+            }
+        });
+    });
 
 
 
@@ -794,7 +844,7 @@ function updateHieghtNewObject(id, height) {
         success: function (msg) {
             console.log('Done');
 
-           
+
         }
     });
 }
@@ -810,7 +860,7 @@ function actionUpload(formName) {
             var obj = JSON.parse(this.responseText);
             // console.log(obj);
             $j("body").removeClass("loading");
-            
+
             if (obj.success == '1') {
                 // $j('#frame').css("background-image", "url(" + obj.path + ")");
 
@@ -835,14 +885,14 @@ function actionUploadImage(formName, ids) {
             var obj = JSON.parse(this.responseText);
             console.log(obj);
             $j("body").removeClass("loading");
-            
+
             if (obj.success == '1') {
-                
-                
-                
+
+
+
                 //  $j('#' + ids).css("background-size", "cover");
                 if (obj.newHeight != '0') {
-                    
+
                     $j('#' + ids).css("height", "" + obj.newHeight + "px");
                     $j('#' + ids).css("background-image", "url(" + obj.path + ")");
                     var height = obj.newHeight + "px";

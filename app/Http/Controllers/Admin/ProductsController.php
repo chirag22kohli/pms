@@ -20,7 +20,7 @@ class ProductsController extends Controller {
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $products = Product::where('sku', 'LIKE', "%$keyword%")
+            $products = Product::where('user_id',Auth::id())->where('sku', 'LIKE', "%$keyword%")
                     ->orWhere('name', 'LIKE', "%$keyword%")
                     ->orWhere('price', 'LIKE', "%$keyword%")
                     ->orWhere('stock', 'LIKE', "%$keyword%")
@@ -30,7 +30,7 @@ class ProductsController extends Controller {
                     ->orWhere('category_id', 'LIKE', "%$keyword%")
                     ->paginate($perPage);
         } else {
-            $products = Product::paginate($perPage);
+            $products = Product::where('user_id',Auth::id())->paginate($perPage);
         }
 
         return view('admin.products.index', compact('products'));
@@ -62,6 +62,7 @@ class ProductsController extends Controller {
             'price' => 'required',
             'image' => 'required',
             'user_id' => 'required',
+            'description'=>'required',
             'category_id' => 'required'
         ]);
 

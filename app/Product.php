@@ -25,7 +25,7 @@ class Product extends Model {
      *
      * @var array
      */
-    protected $fillable = ['sku', 'name', 'price', 'stock', 'image', 'status', 'user_id', 'category_id'];
+    protected $fillable = ['sku', 'name', 'price', 'stock', 'image', 'status', 'user_id', 'category_id','description'];
 
     public function product_options() {
         return $this->hasMany(\App\ProductOption::class, 'product_id', 'id');

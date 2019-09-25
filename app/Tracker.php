@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Tracker extends Model {
 
     public static function boot() {
+        parent::boot();
+        
+        
         static::creating(function ($model) {
 //            echo '<pre>';print_r($model->fillable);die;
             if (in_array('created_by', $model->fillable)):

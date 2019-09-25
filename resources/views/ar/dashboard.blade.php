@@ -5,7 +5,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         //Counter
-      var counter = <?php echo $cloneId; ?>;
+        var counter = <?php echo $cloneId; ?>;
 
         //Make element draggable
         $j(".drag").draggable({
@@ -184,8 +184,8 @@
                     title: 'Oops!',
                     content: 'There is some error in uploading tracker. Please try again with a diffrent image',
                 });
-                 $("body").removeClass("loading");
-                  console.log(xhr);
+                $("body").removeClass("loading");
+                console.log(xhr);
             },
             success: function (msg) {
                 console.log(msg);
@@ -208,7 +208,7 @@
         <div class = "row">
             <div class = "col-md-9">
                 <button class = "btn btn-link finalizeButton"  onclick="finalizeTracker()" >Finalize Tracker</button>
-                <a class = "btn btn-primary btn-xs" href="<?= url('admin/trackers?p_id='.$trackerDetails->project_id.'')?>">Back</a>
+                <a class = "btn btn-primary btn-xs" href="<?= url('admin/trackers?p_id=' . $trackerDetails->project_id . '') ?>">Back</a>
             </div>
             <!--<div class = "col-md-3"> <button onclick ="uploadTracker()" class = "btn btn-success trackerButton">Upload Tracker</button></div>
             <form  style ="display: none" enctype="multipart/form-data" name ="imageUploadForm" id =  "imageUploadForm" method = "post" action = "trackerUpload">
@@ -235,6 +235,7 @@
             <div id="drag12" main_class ="dragged12" type ="screenshot" class="drag dragCommon" title="Screen Shot" ></div> <!-- end of drag6 -->
             <div id="drag13" main_class ="dragged13" type ="tapaudio" class="drag dragCommon" title="Tap to play audio"></div> <!-- end of drag6 -->
             <div id="drag14" main_class ="dragged14" type ="tapvideo" class="drag dragCommon" title="Tap to play video"></div> <!-- end of drag6 -->
+            <div id="drag15" main_class ="dragged15" type ="ecom" class="drag dragCommon" title="Add Ecommerce Product"></div> <!-- end of drag6 -->
 
         </div><!-- end of options -->
         <div class="card-header frameHeader"><h4>Frame</h4></div>

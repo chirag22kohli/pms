@@ -3,15 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class UserAddress extends Model
+class OrderDetail extends Model
 {
+    use SoftDeletes;
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'user_addresses';
+    protected $table = 'order_details';
 
     /**
     * The database primary key value.
@@ -25,7 +27,9 @@ class UserAddress extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'name', 'mobile', 'pin_code', 'city', 'state', 'address_1', 'address_2', 'landmark','default'];
+    protected $fillable = ['order_id', 'product_id', 'attributes', 'attribute_options', 'quantity'];
 
-    
+     public function product_details() {
+        return $this->hasOne(\App\Product::class, 'id', 'product_id');
+    }
 }

@@ -51,6 +51,16 @@ Route::group(['middleware' => ['auth:api', 'roles'], 'roles' => ['Api', 'Client'
     Route::get('getMyAddress', 'API\UserController@getMyAddress');
     Route::post('updateCartQuatity', 'API\UserController@updateCartQuatity');
     Route::post('deleteFromCart', 'API\UserController@deleteFromCart');
+    Route::post('placeOrder', 'API\UserController@placeOrder');
+    Route::get('getOrders', 'API\UserController@getOrders');
+    Route::post('updateDefaultAddress', 'API\UserController@updateDefaultAddress');
+    
+    Route::post('deleteAddress', 'API\UserController@deleteAddress');
+    
+    
+    
+    
+    
     
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {

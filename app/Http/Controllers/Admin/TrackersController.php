@@ -28,19 +28,21 @@ class TrackersController extends Controller {
         $keyword = $request->get('search');
         $perPage = 25;
         $project_id = $request->get('p_id');
-        
+       
         if (!Auth::user()->hasRole('Admin')):
             $projectOwnerCheck = Project::where('id', $project_id)->where('created_by', Auth::id())->first();
             if (count($projectOwnerCheck) < 1):
                 return view('client.mayDay');
             endif;
         endif;
+        
         $projectDetails = \App\Project::where('id', $project_id)->first();
         $var = ['id' => base64_encode($projectDetails->id), 'name' => base64_encode($projectDetails->name)];
         $details = json_encode($var);
         if (empty($request->get('p_id'))) {
             return response('Internal Server Error', 500);
         }
+        
         if (!empty($keyword)) {
             $trackers = Tracker::where('tracker_name', 'LIKE', "%$keyword%")
                     ->orWhere('height', 'LIKE', "%$keyword%")
@@ -50,8 +52,10 @@ class TrackersController extends Controller {
                     ->Where('project_id', $project_id)
                     ->paginate($perPage);
         } else {
+           
             $trackers = Tracker::Where('project_id', $project_id)->paginate($perPage);
         }
+        
         $usageInfo = parent::checkPlanUsage();
         return view('admin.trackers.index', compact('trackers'), ['project_id' => $project_id, 'usageInfo' => $usageInfo, 'details' => $details]);
     }
