@@ -27,7 +27,7 @@ class UserController extends Controller {
      */
     public function login() {
         if (Auth::guard('web')->attempt(['email' => request('email'), 'password' => request('password')])) {
-            $user = Auth::user();
+            $user = User::where('id',Auth::id())->first();
             $success['token'] = $user->createToken('MyApp')->accessToken;
             return parent::success($success, $this->successStatus);
         } else {
