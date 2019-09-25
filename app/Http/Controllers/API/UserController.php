@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\Controller;
 use App\User;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 use Validator;
 use DB;
 use App\Role;
