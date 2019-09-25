@@ -16,7 +16,7 @@
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Product Categories (12)</h5>
+                        <h5 class="card-title">Product Categories ({{$categoryCount}})</h5>
                        
                         <a href="{{ url('admin/product-categories')}}" class="btn btn-primary">Add/View Categories</a>
                     </div>
@@ -25,7 +25,7 @@
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Products (11)</h5>
+                        <h5 class="card-title">Products ({{$productCount}})</h5>
                      
                         <a href="{{ url('admin/products')}}" class="btn btn-primary">Add/View Products</a>
                     </div>
