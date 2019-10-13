@@ -20,7 +20,7 @@ class ProductsController extends Controller {
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $products = Product::where('user_id',Auth::id())->where('sku', 'LIKE', "%$keyword%")
+            $products = Product::where('user_id', Auth::id())->where('sku', 'LIKE', "%$keyword%")
                     ->orWhere('name', 'LIKE', "%$keyword%")
                     ->orWhere('price', 'LIKE', "%$keyword%")
                     ->orWhere('stock', 'LIKE', "%$keyword%")
@@ -30,7 +30,7 @@ class ProductsController extends Controller {
                     ->orWhere('category_id', 'LIKE', "%$keyword%")
                     ->paginate($perPage);
         } else {
-            $products = Product::where('user_id',Auth::id())->paginate($perPage);
+            $products = Product::where('user_id', Auth::id())->paginate($perPage);
         }
 
         return view('admin.products.index', compact('products'));
@@ -62,7 +62,7 @@ class ProductsController extends Controller {
             'price' => 'required',
             'image' => 'required',
             'user_id' => 'required',
-            'description'=>'required',
+            'description' => 'required',
             'category_id' => 'required'
         ]);
 
@@ -91,7 +91,7 @@ class ProductsController extends Controller {
         }
         //dd($this->get_combinations($optionArray));
         foreach ($this->get_combinations($optionArray) as $option) {
-            
+
             \App\ProductAttributeCombination::create([
                 'product_id' => $product->id,
                 'value' => json_encode($option),
@@ -129,7 +129,8 @@ class ProductsController extends Controller {
         $product = Product::findOrFail($id);
         $productCategories = \App\ProductCategory::where('user_id', Auth::id())->get();
 
-        return view('admin.products.edit', compact('product', 'productCategories'));
+        $productOptions = \App\ProductOption::where('product_id', $id)->where('user_id', Auth::id())->get();
+        return view('admin.products.edit', compact('product', 'productCategories', 'productOptions'));
     }
 
     /**
@@ -185,6 +186,25 @@ class ProductsController extends Controller {
             $result = $tmp;
         }
         return $result;
+    }
+
+    function getProductAttributeStock(Request $request) {
+        $attributes = json_encode($request->input('attributes'));
+        $product_id = $request->input('product_id');
+
+        $stock = \App\ProductAttributeCombination::where('product_id', $product_id)->where('value', $attributes)->where('user_id', Auth::id())->first();
+
+        return $stock['stock'];
+    }
+
+    function updateStock(Request $request) {
+        $attributes = json_encode($request->input('attributes'));
+        $product_id = $request->input('product_id');
+        $stockValue = $request->input('stockValue');
+        \App\ProductAttributeCombination::where('product_id', $product_id)->where('value', $attributes)->where('user_id', Auth::id())->update([
+            'stock' =>$stockValue
+        ]);
+        return "Updated";
     }
 
 }

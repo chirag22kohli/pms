@@ -37,9 +37,9 @@
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Orders (22)</h5>
+                        <h5 class="card-title">Orders ({{$ordersCount}})</h5>
                    
-                        <a href="#" class="btn btn-primary">View Orders</a>
+                        <a href="{{ url('admin/orders')}}" class="btn btn-primary">View Orders</a>
                     </div>
                 </div>
             </div>

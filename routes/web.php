@@ -168,6 +168,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles', 'verifyPaym
     Route::post('/import_process', 'RestrictedUidController@processImport')->name('import_process');
     Route::get('checkPlanUsage', 'ClientController@checkPlanUsage');
     Route::post('deleteMultipleUid', 'Admin\RestrictedUidController@deleteMultipleUid');
+
+    Route::post('getProductAttributeStock', 'Admin\ProductsController@getProductAttributeStock');
+     Route::post('updateStock', 'Admin\ProductsController@updateStock');
+    
+    
+    
 });
 
 

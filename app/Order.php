@@ -36,6 +36,11 @@ class Order extends Model
         return $this->hasOne(\App\UserAddress::class, 'id', 'address_id');
     }
     
+      public function user_details() {
+        return $this->hasOne(\App\User::class, 'id', 'user_id');
+    }
+    
+    
     
     
 }

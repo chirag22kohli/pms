@@ -120,7 +120,8 @@ WHERE user_project_scans.project_owner_id = " . Auth::id() . " group by user_pro
         
         $productCount = \App\Product::where('user_id',Auth::id())->get()->count();
         $categoryCount = \App\ProductCategory::where('user_id',Auth::id())->get()->count();
-        return view('client.ecommerce' , compact('productCount','categoryCount'));
+        $ordersCount = \App\Order::where('client_id',Auth::id())->get()->count();
+        return view('client.ecommerce' , compact('productCount','categoryCount','ordersCount'));
     }
 
 }

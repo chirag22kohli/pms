@@ -4,31 +4,32 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use Auth;
 use App\Order;
 use Illuminate\Http\Request;
 
-class OrdersController extends Controller
-{
+class OrdersController extends Controller {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\View\View
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         $keyword = $request->get('search');
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $orders = Order::where('amount', 'LIKE', "%$keyword%")
-                ->orWhere('user_id', 'LIKE', "%$keyword%")
-                ->orWhere('client_id', 'LIKE', "%$keyword%")
-                ->orWhere('is_paid', 'LIKE', "%$keyword%")
-                ->orWhere('params', 'LIKE', "%$keyword%")
-                ->paginate($perPage);
+            $orders = Order::where('client_id', Auth::id())->where('amount', 'LIKE', "%$keyword%")
+                    ->orWhere('user_id', 'LIKE', "%$keyword%")
+                    ->orWhere('client_id', 'LIKE', "%$keyword%")
+                    ->orWhere('is_paid', 'LIKE', "%$keyword%")
+                    ->orWhere('params', 'LIKE', "%$keyword%")
+                    ->with('order_details')->with('address')
+                     ->with('user_details')
+                    ->paginate($perPage);
         } else {
-            $orders = Order::paginate($perPage);
+            $orders = Order::where('client_id', Auth::id())->with('order_details')->with('address')->with('user_details')->paginate($perPage);
         }
 
         return view('admin.orders.index', compact('orders'));
@@ -39,8 +40,7 @@ class OrdersController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
-    {
+    public function create() {
         return view('admin.orders.create');
     }
 
@@ -51,17 +51,16 @@ class OrdersController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $this->validate($request, [
-			'amount' => 'required',
-			'user_id' => 'required',
-			'client_id' => 'required',
-			'is_paid' => 'required',
-			'params' => 'required'
-		]);
+            'amount' => 'required',
+            'user_id' => 'required',
+            'client_id' => 'required',
+            'is_paid' => 'required',
+            'params' => 'required'
+        ]);
         $requestData = $request->all();
-        
+
         Order::create($requestData);
 
         return redirect('admin/orders')->with('flash_message', 'Order added!');
@@ -74,9 +73,9 @@ class OrdersController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function show($id)
-    {
-        $order = Order::findOrFail($id);
+    public function show($id) {
+        $order = Order::where('client_id',Auth::id())->with('order_details')->with('address')
+                     ->with('user_details')->findOrFail($id);
 
         return view('admin.orders.show', compact('order'));
     }
@@ -88,8 +87,7 @@ class OrdersController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $order = Order::findOrFail($id);
 
         return view('admin.orders.edit', compact('order'));
@@ -103,17 +101,16 @@ class OrdersController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $this->validate($request, [
-			'amount' => 'required',
-			'user_id' => 'required',
-			'client_id' => 'required',
-			'is_paid' => 'required',
-			'params' => 'required'
-		]);
+            'amount' => 'required',
+            'user_id' => 'required',
+            'client_id' => 'required',
+            'is_paid' => 'required',
+            'params' => 'required'
+        ]);
         $requestData = $request->all();
-        
+
         $order = Order::findOrFail($id);
         $order->update($requestData);
 
@@ -127,10 +124,10 @@ class OrdersController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         Order::destroy($id);
 
         return redirect('admin/orders')->with('flash_message', 'Order deleted!');
     }
+
 }

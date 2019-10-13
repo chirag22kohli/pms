@@ -1,10 +1,10 @@
 <style>
-    
+
     .noteClass{
         font-family: italic;
         color:green;
     }
-    
+
 </style>
 
 <div class="form-group {{ $errors->has('sku') ? 'has-error' : ''}}">
@@ -31,9 +31,10 @@
 <div class="form-group {{ $errors->has('category_id') ? 'has-error' : ''}}">
     {!! Form::label('Category', 'Category', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
+     
         <select name = "category_id" class = "form-control">
             <?php foreach ($productCategories as $category) { ?>
-                <option value = "<?= $category->id ?>"> <?= $category->name ?></option>
+                <option  value = "<?= $category->id ?>" <?php if(isset($product) && $product->category_id == $category->id){ echo " selected ";}?>> <?= $category->name ?></option>
             <?php } ?>
         </select>
         {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
@@ -62,9 +63,9 @@
 </div>
 
 <div class="form-group {{ $errors->has('status') ? 'has-error' : ''}}">
-    {!! Form::label('status', 'Status', ['class' => 'col-md-4 control-label']) !!}
+    
     <div class="col-md-6">
-        {!! Form::number('status', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
+        {!! Form::hidden('status', null, ('' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
         {!! $errors->first('status', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
@@ -74,24 +75,27 @@
 
 
 
+<?php if (!isset($product)) { ?>
+    <div class="form-group table-fields">
+        {!! Form::label('Attributes', 'Attributes', ['class' => 'col-md-4 control-label']) !!}
+        </br>
 
+        {!! Form::label('Note: Please separate attribute value using , value', 'Note: Please separate attribute value using , value', ['class' => 'col-md-10 noteClass control-label']) !!}
 
-<div class="form-group table-fields">
-   {!! Form::label('Attributes', 'Attributes', ['class' => 'col-md-4 control-label']) !!}
-   </br>
-   
-   {!! Form::label('Note: Please separate attribute value using , value', 'Note: Please separate attribute value using , value', ['class' => 'col-md-10 noteClass control-label']) !!}
-  
-    <div class="entry col-md-6 form-inline">
-        <input class="form-control" name="fields[]" type="text" placeholder="Attribute Name" required="true">
-        <input class="form-control" type = "text" name = "fieldsValue[]" placeholder="Attribute Value">
+        <div class="entry col-md-6 form-inline">
+            <input class="form-control" name="fields[]" type="text" placeholder="Attribute Name" required="true">
+            <input class="form-control" type = "text" name = "fieldsValue[]" placeholder="Attribute Value">
 
-        &nbsp;
-        <button class="btn btn-success btn-add inline btn-sm" type="button">
-            <span class="fa fa-plus"></span>
-        </button>
+            &nbsp;
+            <button class="btn btn-success btn-add inline btn-sm" type="button">
+                <span class="fa fa-plus"></span>
+            </button>
+        </div>
     </div>
-</div>
+
+<?php } ?>
+
+
 
 
 

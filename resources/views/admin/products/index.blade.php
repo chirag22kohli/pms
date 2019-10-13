@@ -39,7 +39,7 @@
                                 @foreach($products as $item)
                                     <tr>
                                         <td>{{  $item->id }}</td>
-                                        <td>{{ $item->sku }}</td><td>{{ $item->name }}</td><td>{{ $item->price }}</td>
+                                        <td>{{ $item->sku }}</td><td>{{ $item->name }}</td><td>${{ $item->price }}</td>
                                         <td>
                                             <a href="{{ url('/admin/products/' . $item->id) }}" title="View Product"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
                                             <a href="{{ url('/admin/products/' . $item->id . '/edit') }}" title="Edit Product"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
