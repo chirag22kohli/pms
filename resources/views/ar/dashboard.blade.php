@@ -236,7 +236,7 @@
             <div id="drag13" main_class ="dragged13" type ="tapaudio" class="drag dragCommon" title="Tap to play audio"></div> <!-- end of drag6 -->
             <div id="drag14" main_class ="dragged14" type ="tapvideo" class="drag dragCommon" title="Tap to play video"></div> <!-- end of drag6 -->
 
-            <?php if ($planInfo->is_ecom == '1') { ?>
+            <?php if ($planInfo->is_ecom == '1' && $connectStatus) { ?>
 
                 <div id="drag15" main_class ="dragged15" type ="ecom" class="drag dragCommon" title="Add Ecommerce Product"></div> <!-- end of drag6 -->
             <?php } ?>

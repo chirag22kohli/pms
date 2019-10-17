@@ -41,7 +41,7 @@ class ArController extends Controller {
     }
 
     public function index(Request $request) {
-
+        $connectStatus = parent::checkClientConnectedAccount();
         $userPlan = \App\UserPlan::where('user_id', Auth::id())->first();
         $planInfo = \App\Plan::where('id', $userPlan->plan_id)->first();
         $trackerId = $request->input('id');
@@ -80,7 +80,7 @@ class ArController extends Controller {
             endif;
         endif;
         if (count($trackerDetails) > 0):
-            return view('ar.dashboard', ['planInfo' => $planInfo, 'trackerDetails' => $trackerDetails, 'tracker_id' => $trackerId, 'tracker' => $trackerDetails->tracker_path, 'cloneId' => $cloneId, 'objects' => $objects]);
+            return view('ar.dashboard', ['connectStatus'=>$connectStatus,'planInfo' => $planInfo, 'trackerDetails' => $trackerDetails, 'tracker_id' => $trackerId, 'tracker' => $trackerDetails->tracker_path, 'cloneId' => $cloneId, 'objects' => $objects]);
         else:
             return 'Tracker Not Found';
         endif;
