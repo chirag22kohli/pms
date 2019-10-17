@@ -60,7 +60,6 @@ class PlansController extends Controller {
     public function store(Request $request) {
 
         $requestData = $request->all();
-
         Plan::create($requestData);
 
         return redirect('plans')->with('flash_message', 'Plan added!');
@@ -129,7 +128,7 @@ class PlansController extends Controller {
 
 
             $data = [
-                'client_secret' =>  env("STRIPE_SECRET"),
+                'client_secret' => env("STRIPE_SECRET"),
                 'code' => $request->get('code'),
                 'grant_type' => 'authorization_code'
             ];

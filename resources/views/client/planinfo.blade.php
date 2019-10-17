@@ -5,7 +5,7 @@
 <h2 class="main-title-w3layouts mb-2 text-center" lang="en">Your Plan Info</h2>
 
 <?php if (!$connectStatus) { ?>
-    <p>Note: <i>To create Paid projects and recieve payouts please connect your stripe account with Chap.</i></p></br>
+    <p>Note: <i>To create Paid projects / Use Ecommerce and recieve payouts please connect your stripe account with Chap.</i></p></br>
     <a href ="https://dashboard.stripe.com/oauth/authorize?response_type=code&client_id=ca_Dmf4jy6DhLIkrtRdASsxeEcd7cyQ3z69&scope=read_write&redirect_uri={{ env('STRIPE_REDIRECT_URI') }}">
         <img src="{{ url('images/stripe.png')}}"></a> 
 <?php } ?>
@@ -40,7 +40,11 @@
                     </h5>
 
                     <ul class="list-unstyled mt-3 mb-4">
+                        <?php if ($planInfo->is_ecom == '1') { ?>
+                         
+   <li class="py-2 border-bottom"><i class="fa fa-check w3layouts_icon" aria-hidden="true"></i>Includes Ecommerce</li> 
 
+                        <?php } ?>
                         <?php if ($planInfo->type == 'size') { ?>
                             <li class="py-2 border-bottom"><i class="fa fa-check w3layouts_icon" aria-hidden="true"></i> {{ $planInfo->max_trackers }} MB Storage</li> 
 
@@ -48,7 +52,7 @@
 
                             <li class="py-2 border-bottom"><i class="fa fa-check w3layouts_icon" aria-hidden="true"></i>{{ $planInfo->max_trackers }} Trackers</li> 
 
-                            <!--<li class="py-2 border-bottom"><i class="fa fa-check w3layouts_icon" aria-hidden="true"></i>Unlimited Storage</li> --> 
+                                <!--<li class="py-2 border-bottom"><i class="fa fa-check w3layouts_icon" aria-hidden="true"></i>Unlimited Storage</li> --> 
 
                         <?php } ?>
                         <li class="py-2 border-bottom"><i class="fa fa-check" aria-hidden="true"></i>True AR Experience</li>
@@ -60,15 +64,17 @@
 
             <div class="outer-w3-agile mt-3  col-xl-8">
                 <div class = "row">
-                     <div class = "col-md-6">
-                        
+                    <div class = "col-md-6">
+
                     </div>
                     <div class = "col-md-4">
                         <h4>Auto-renew</h4>
                     </div>
                     <div class = "col-md-2">
                         <label class="switch">
-                            <input onchange = "manageReoccurring()" type="checkbox" <?php if($userPlan->reoccuring_status){ echo  'checked'; } ?>>
+                            <input onchange = "manageReoccurring()" type="checkbox" <?php if ($userPlan->reoccuring_status) {
+                            echo 'checked';
+                        } ?>>
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -81,13 +87,13 @@
 
                     </thead>
                     <tbody>
-                        <?php if ($planInfo->type == 'size') { ?>
+<?php if ($planInfo->type == 'size') { ?>
                             <tr>
                                 <th class="text-nowrap"  lang="en" data-lang-token="Storage_thai" scope="row">Storage</th>
 
                                 <td>{{ $planInfo->max_trackers }} MB Storage</td>
                             </tr>
-                        <?php } else { ?>
+<?php } else { ?>
                             <tr>
                                 <th class="text-nowrap" scope="row">Total Trackers</th>
                                 <td>
@@ -102,25 +108,25 @@
                                 </td>
 
                             </tr> -->
-                        <?php } ?>
+<?php } ?>
                         <tr>
                             <th class="text-nowrap" scope="row">Expiry Date</th>
                             <td>
-                                <?= date('d/m/Y', strtotime($userPlan->plan_expiry_date ));?> ({{ $difference }})
+<?= date('d/m/Y', strtotime($userPlan->plan_expiry_date)); ?> ({{ $difference }})
                             </td>
 
                         </tr>
-                         <?php if ($planInfo->type == 'size') { ?>
-                        <tr>
-                            <th class="text-nowrap" scope="row">Usage</th>
-                            <td colspan="5">{{ $usageInfo }}/ {{ $planInfo->max_trackers }} MiB</td>
-                        </tr>
-                         <?php }else{ ?>
-                        <tr>
-                            <th class="text-nowrap" scope="row">Used Trackers</th>
-                            <td colspan="5">{{ $trackerCount }}</td>
-                        </tr>
-                         <?php } ?>
+<?php if ($planInfo->type == 'size') { ?>
+                            <tr>
+                                <th class="text-nowrap" scope="row">Usage</th>
+                                <td colspan="5">{{ $usageInfo }}/ {{ $planInfo->max_trackers }} MiB</td>
+                            </tr>
+<?php } else { ?>
+                            <tr>
+                                <th class="text-nowrap" scope="row">Used Trackers</th>
+                                <td colspan="5">{{ $trackerCount }}</td>
+                            </tr>
+<?php } ?>
                         <tr>
                             <th class="text-nowrap" scope="row"><input type="hidden" id ="csr" value="{{ csrf_token() }}"> </th>
 

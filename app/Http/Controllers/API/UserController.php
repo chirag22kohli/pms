@@ -15,6 +15,8 @@ use Hash;
 use App\PaidProjectHistoryDetail;
 use App\Help;
 use App\tutorialManager;
+use App\Stripe;
+use Rap2hpoutre\LaravelStripeConnect\StripeConnect;
 
 class UserController extends Controller {
 
@@ -27,8 +29,8 @@ class UserController extends Controller {
      */
     public function login() {
         if (Auth::guard('web')->attempt(['email' => request('email'), 'password' => request('password')])) {
-            $user = User::where('email',request('email'))->first();
-           // dd($user);
+            $user = User::where('email', request('email'))->first();
+            // dd($user);
             $success['token'] = $user->createToken('MyApp')->accessToken;
             return parent::success($success, $this->successStatus);
         } else {
@@ -399,6 +401,28 @@ class UserController extends Controller {
             $errors = self::formatValidator($validator);
             return parent::error($errors, 200);
         }
+
+
+
+        if ($request->input('token') != '') {
+
+            try {
+                $removeInvalidCustomer = Stripe::where('user_id', Auth::id())->update(['customer_id' => null]);
+                $customer = StripeConnect::createCustomer($request->input('token'), Auth::user());
+            } catch (\Exception $e) {
+                return parent::error($e->getMessage(), $this->successStatus);
+            }
+        } else {
+            if (!$this->checkPaymentMethod()) {
+                return parent::error('No Payment Method Found', 404);
+            }
+        }
+
+
+
+
+
+
         $getCart = \App\Cart::where('user_id', Auth::id())->with('product_detail')->get();
 
         foreach ($getCart as $cart) {
@@ -433,8 +457,27 @@ class UserController extends Controller {
                     'quantity' => $product->stock
                 ]);
             }
+
+            $productAdmin = \App\User::where('id', $getClientId->user_id)->first();
+
+            try {
+
+                $charge = StripeConnect::transaction()
+                        ->amount($amount * 100, 'sgd')
+                        ->useSavedCustomer()
+                        ->from(Auth::user())
+                        ->to($productAdmin)
+                        ->create();
+            } catch (\Exception $e) {
+
+                $removeInvalidCustomer = Stripe::where('user_id', Auth::id())->update(['customer_id' => null]);
+                return parent::error($e->getMessage(), $this->successStatus);
+            }
+
+
             $updateOrderAmount = \App\Order::where('id', $createOrder->id)->update([
-                'amount' => $amount
+                'amount' => $amount,
+                'is_paid'=>1
             ]);
         }
 
@@ -480,6 +523,23 @@ class UserController extends Controller {
         $updateAddress = \App\UserAddress::where('id', $request->input('address_id'))->delete();
 
         return parent::success("Address Deleted", $this->successStatus);
+    }
+
+    public function checkPaymentMethod() {
+
+
+        $details = Stripe::where('user_id', Auth::id())->first();
+
+        if (count($details) > 0) {
+
+            if ($details->customer_id != '') {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
 }

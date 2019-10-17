@@ -1,4 +1,8 @@
 <!-- Sidebar Holder -->
+<?php
+$userPlan = \App\   UserPlan::where('user_id', Auth::id())->first();
+$planInfo = App\Plan::where('id', $userPlan->plan_id)->first();
+?>
 <nav id="sidebar">
     <div class="sidebar-header">
         <h1>
@@ -14,8 +18,8 @@
                 Dashboard
             </a>
         </li>
-        
-        
+
+
         <li>
             <a href="{{url('admin/projects')}}">
                 <i class="fas fa-th"></i>
@@ -56,35 +60,35 @@
                 Scan Pack Usage/Limit
             </a>
         </li>
-         <li>
+        <li>
             <a href="{{url('client/reports')}}">
                 <i class="far fa-chart-bar"></i>
-               Reports
+                Reports
             </a>
         </li>
         <li>
             <a href="{{url('client/support')}}">
                 <i class="far fa-envelope"></i>
                 Support
-               
+
             </a>
         </li>
-        
-        <li>
-            <a href="{{url('client/ecommerce')}}">
-                <i class="far fa-cart-arrow-down"></i>
-                Ecommerce 
-               
-            </a>
-        </li>
-        
-      
-       
-       <!-- <li>
-            <a href="#">
-                <i class="fas fa-link"></i>
-                Settings
-            </a>
-        </li> -->
+        <?php if ($planInfo->is_ecom == '1') { ?>
+            <li>
+                <a href="{{url('client/ecommerce')}}">
+                    <i class="fa fa-cart-plus"></i>
+                    Ecommerce 
+
+                </a>
+            </li>
+        <?php } ?>
+
+
+        <!-- <li>
+             <a href="#">
+                 <i class="fas fa-link"></i>
+                 Settings
+             </a>
+         </li> -->
     </ul>
 </nav>

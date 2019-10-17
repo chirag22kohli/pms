@@ -42,9 +42,8 @@ class ArController extends Controller {
 
     public function index(Request $request) {
 
-
-
-
+        $userPlan = \App\UserPlan::where('user_id', Auth::id())->first();
+        $planInfo = \App\Plan::where('id', $userPlan->plan_id)->first();
         $trackerId = $request->input('id');
 
         $trackerDetails = Tracker::where('id', $trackerId)->first();
@@ -81,7 +80,7 @@ class ArController extends Controller {
             endif;
         endif;
         if (count($trackerDetails) > 0):
-            return view('ar.dashboard', ['trackerDetails' => $trackerDetails, 'tracker_id' => $trackerId, 'tracker' => $trackerDetails->tracker_path, 'cloneId' => $cloneId, 'objects' => $objects]);
+            return view('ar.dashboard', ['planInfo' => $planInfo, 'trackerDetails' => $trackerDetails, 'tracker_id' => $trackerId, 'tracker' => $trackerDetails->tracker_path, 'cloneId' => $cloneId, 'objects' => $objects]);
         else:
             return 'Tracker Not Found';
         endif;
@@ -182,8 +181,8 @@ class ArController extends Controller {
         );
 
         $data_json = json_encode($post_data);
-       // dd($data_json);
-       // dd(self::BASE_URL . self::TARGETS_PATH . '/' . $id);
+        // dd($data_json);
+        // dd(self::BASE_URL . self::TARGETS_PATH . '/' . $id);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, self::BASE_URL . self::TARGETS_PATH . '/' . $id);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->getHeaders('PUT', self::TARGETS_PATH . '/' . $id, self::JSON_CONTENT_TYPE, $data_json));
@@ -191,8 +190,8 @@ class ArController extends Controller {
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
-        
-       // dd(curl_error($ch));
+
+        // dd(curl_error($ch));
         curl_close($ch);
         dd($response);
         return $response;
@@ -231,7 +230,7 @@ class ArController extends Controller {
         $response = curl_exec($ch);
         $info = curl_getinfo($ch);
         //$response = json_decode($response);
-       // dd(json_decode($response)->Id);
+        // dd(json_decode($response)->Id);
         if ($info['http_code'] !== 201) {
             print 'Failed to add target: ' . $response;
             return 'none';

@@ -34,6 +34,7 @@
         <link href="{{ asset('css/client/widgets.css') }} " rel="stylesheet">
         <!--// Fontawesome Css -->
         <!--// Style-sheets -->
+    
 
         <!--web-fonts-->
         <link href="//fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
@@ -164,6 +165,11 @@
  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
                     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
                     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+   
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    
     </body>
 
 </html>

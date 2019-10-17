@@ -27,7 +27,7 @@ class Plan extends Model
      *
      * @var array
      */
-    protected $fillable = ['name','description', 'type', 'max_trackers', 'max_projects', 'price', 'price_type', 'status', 'created_by'];
+    protected $fillable = ['name','description', 'is_ecom','type', 'max_trackers', 'max_projects', 'price', 'price_type', 'status', 'created_by'];
 
     
 }

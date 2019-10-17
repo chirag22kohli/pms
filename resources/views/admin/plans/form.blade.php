@@ -24,6 +24,13 @@
           {!! $errors->first('type', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
+<div class="form-group {{ $errors->has('is_ecom') ? 'has-error' : ''}}">
+    {!! Form::label('type', 'Includes Ecommerce', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+        <input type = "checkbox" name = "is_ecom" id = "is_ecom" value = "1" class = "form-control">
+        {!! $errors->first('status', '<p class="help-block">:message</p>') !!}
+    </div>
+</div> 
 
 <div class="form-group {{ $errors->has('max_trackers') ? 'has-error' : ''}}">
     {!! Form::label('max_trackers', 'Max Trackers', ['class' => 'typeLable col-md-4 control-label']) !!}
@@ -55,6 +62,8 @@
           {!! $errors->first('price_type', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
+
+
 <div class="form-group {{ $errors->has('status') ? 'has-error' : ''}}">
    
     <div class="col-md-6">
