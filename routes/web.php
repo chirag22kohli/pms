@@ -59,6 +59,9 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => 'Admin'], function (
     Route::resource('plans', 'admin\\PlansController');
 });
 
+
+
+    Route::get('client/planinfo', 'Admin\PlansController@planinfo');
 //Client MiddleWare-------------------------------------------------------------
 Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPayment', 'checkPaymentMethod', 'PlanExpiry'], 'roles' => ['Api', 'Client']], function () {
     Route::get('home', [
@@ -69,7 +72,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
         return View::make("client.support");
     });
 
-    Route::get('planinfo', 'Admin\PlansController@planinfo');
+   // Route::get('planinfo', 'Admin\PlansController@planinfo');
 
     Route::get('profile', 'ClientController@profile');
     Route::get('reports', 'ClientController@reports');
