@@ -125,7 +125,7 @@ class PlansController extends Controller {
     public function planinfo(Request $request) {
 
         if ($request->get('code') && $request->get('code') != ''):
-die();
+//die();
 
             $data = [
                 'client_secret' => env("STRIPE_SECRET"),
