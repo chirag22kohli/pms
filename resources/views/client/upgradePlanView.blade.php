@@ -28,7 +28,10 @@
                                 <small class="text-muted">/ <?= $planInfo->price_type; ?></small>
                             </h5>
                             <ul class="list-unstyled mt-3 mb-4">
+                                <?php if ($planInfo->is_ecom == '1') { ?>
+                                    <li class="py-2 border-bottom"><i class="fa fa-check w3layouts_icon" aria-hidden="true"></i>Includes Ecommerce</li> 
 
+                                <?php } ?>
                                 <?php if ($planInfo->type == 'size') { ?>
                                     <li class="py-2 border-bottom"><i class="fa fa-check w3layouts_icon" aria-hidden="true"></i> {{ $planInfo->max_trackers }} MB Storage</li> 
 
@@ -48,7 +51,7 @@
                 <?php } ?>
 
             </div>
-           <?php } else {
+        <?php } else {
             ?>
             <div class = "outer-w3-agile mt-12">
                 <h4 class="tittle-w3-agileits mb-4">You are currently using the most advanced and upgraded Plan!</h4>

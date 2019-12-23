@@ -61,7 +61,7 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => 'Admin'], function (
 
 
 
-    Route::get('client/planinfo', 'Admin\PlansController@planinfo');
+Route::get('client/planinfo', 'Admin\PlansController@planinfo');
 //Client MiddleWare-------------------------------------------------------------
 Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPayment', 'checkPaymentMethod', 'PlanExpiry'], 'roles' => ['Api', 'Client']], function () {
     Route::get('home', [
@@ -72,7 +72,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
         return View::make("client.support");
     });
 
-   // Route::get('planinfo', 'Admin\PlansController@planinfo');
+    // Route::get('planinfo', 'Admin\PlansController@planinfo');
 
     Route::get('profile', 'ClientController@profile');
     Route::get('reports', 'ClientController@reports');
@@ -98,6 +98,8 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth', 'roles', 'verifyPay
 
 
     Route::get('ecommerce', 'ClientController@ecommerce');
+    Route::get('editAttribute', 'ClientController@editAttribute');
+    Route::post('attributeForm', 'ClientController@attributeForm');
 });
 
 Route::post('client/makePayment', 'PaymentController@payWithStripe');
@@ -173,10 +175,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'roles', 'verifyPaym
     Route::post('deleteMultipleUid', 'Admin\RestrictedUidController@deleteMultipleUid');
 
     Route::post('getProductAttributeStock', 'Admin\ProductsController@getProductAttributeStock');
-     Route::post('updateStock', 'Admin\ProductsController@updateStock');
-    
-    
-    
+    Route::post('updateStock', 'Admin\ProductsController@updateStock');
 });
 
 

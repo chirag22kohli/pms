@@ -39,14 +39,14 @@
         </div>
         <div class = "col-md-4">
             <div class="card">
-                <div class="card-header">Attributes</div>
+                <div class="card-header">Attributes - </div>
                 <div class="card-body" style="padding:30px">
                     <?php
                     foreach ($productOptions as $option) {
                         $attributes = explode(',', $option->attribute_values);
                         ?>
                         <div class = "row">
-                            <?= $option->attribute ?> 
+                            <?= $option->attribute ?> &nbsp; <a  style = "color:blue" href = "#" onclick = "editAttribute({{ $option->id }})">Edit</a>
                             <select class="form-control" onchange ="$('.stock').html(' ')" name = "attributeValues">
                                 <?php foreach ($attributes as $attribute) { ?>
                                     <option><?= $attribute ?></option>
@@ -70,53 +70,94 @@
 <script>
 
     function getAttributes() {
-        $('.stock').html(' ');
-        var attributes = $("select[name='attributeValues'] :selected").map(function (i, el) {
-            return $(el).val();
-        }).get();
-        var product_id = '<?= $product->id ?>';
-        var url = '<?= url('/') ?>';
-        $.ajax({
-            url: url + "/admin/getProductAttributeStock",
+    $('.stock').html(' ');
+    var attributes = $("select[name='attributeValues'] :selected").map(function (i, el) {
+    return $(el).val();
+    }).get();
+    var product_id = '<?= $product->id ?>';
+    var url = '<?= url('/') ?>';
+    $.ajax({
+    url: url + "/admin/getProductAttributeStock",
             method: 'post',
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             data: {attributes: attributes, product_id: product_id}
-            ,
+    ,
             cache: false,
-
             success: function (data) {
-                var stockHtml = '</br>In Stock - <input type = "number" class= "form-control" id = "stockValue" name= "stock" value= "' + data + '"></br> <a href = "#" onclick = "updateStock()" class="btn btn-xs btn-success">Update</a>';
-                $('.stock').html(stockHtml);
+            var stockHtml = '</br>In Stock - <input type = "number" class= "form-control" id = "stockValue" name= "stock" value= "' + data + '"></br> <a href = "#" onclick = "updateStock()" class="btn btn-xs btn-success">Update</a>';
+            $('.stock').html(stockHtml);
             }
-        });
+    });
     }
-    
+
     function updateStock(){
-     var attributes = $("select[name='attributeValues'] :selected").map(function (i, el) {
-            return $(el).val();
-        }).get();
-        var product_id = '<?= $product->id ?>';
-        
-        var stockValue = $('#stockValue').val();
-        
-        
-        var url = '<?= url('/') ?>';
-        $.ajax({
-            url: url + "/admin/updateStock",
+    var attributes = $("select[name='attributeValues'] :selected").map(function (i, el) {
+    return $(el).val();
+    }).get();
+    var product_id = '<?= $product->id ?>';
+    var stockValue = $('#stockValue').val();
+    var url = '<?= url('/') ?>';
+    $.ajax({
+    url: url + "/admin/updateStock",
             method: 'post',
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             data: {attributes: attributes, product_id: product_id, stockValue:stockValue}
-            ,
+    ,
             cache: false,
-
             success: function (data) {
-                $.alert('Stock Updated Successfully');
+            $.alert('Stock Updated Successfully');
             }
-        });
+    });
+    }
+
+    function editAttribute(productId){
+    var url = '<?= url('client/editAttribute') ?>';
+    var urlForm = '<?= url('client/attributeForm') ?>';
+    $.confirm({
+    theme: 'supervan', // 'material', 'bootstrap'
+            animation: 'rotate',
+            title: 'Edit Attributes',
+            content: 'url:' + url + '?id=' + productId,
+            buttons: {
+            formSubmit: {
+            text: 'Submit',
+                    btnClass: 'btn-blue',
+                    action: function () {
+
+
+
+                    $.ajax({
+                    url: urlForm,
+                            method: 'post',
+                            headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: $('#attributeForm').serialize(),
+                            cache: false,
+                            success: function (data) {
+                            location.reload();
+                            }
+                    });
+                    }
+            },
+                    cancel: function () {
+                    //close
+                    },
+            },
+            onContentReady: function () {
+            // bind to events
+            var jc = this;
+            this.$content.find('form').on('submit', function (e) {
+            // if the user submits the form by pressing enter in the field.
+            e.preventDefault();
+            jc.$$formSubmit.trigger('click'); // reference the button and click it
+            });
+            }
+    });
     }
 </script>
 @endsection

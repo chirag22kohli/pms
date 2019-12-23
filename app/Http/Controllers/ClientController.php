@@ -126,10 +126,23 @@ WHERE user_project_scans.project_owner_id = " . Auth::id() . " group by user_pro
             $productCount = \App\Product::where('user_id', Auth::id())->get()->count();
             $categoryCount = \App\ProductCategory::where('user_id', Auth::id())->get()->count();
             $ordersCount = \App\Order::where('client_id', Auth::id())->get()->count();
-            return view('client.ecommerce', compact('productCount', 'categoryCount', 'ordersCount','connectStatus'));
+            return view('client.ecommerce', compact('productCount', 'categoryCount', 'ordersCount', 'connectStatus'));
         } else {
             return view('client.mayDay');
         }
+    }
+
+    public function editAttribute(Request $request) {
+        $getAttributes = \App\ProductOption::where('id', $request->input('id'))->get();
+        return view('client.editAttribute', compact('getAttributes'));
+    }
+
+    public function attributeForm(Request $request) {
+        \App\ProductOption::where('id', $request->input('id'))->update(
+                [
+                    'attribute' => $request->input('attribute')
+                ]
+        );
     }
 
 }
