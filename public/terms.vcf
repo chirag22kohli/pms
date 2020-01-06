@@ -1,0 +1,15 @@
+BEGIN:VCARD
+VERSION:3.0
+REV:2019-12-20T16:21:03Z
+N;CHARSET=utf-8:Jatinder;;;;
+FN;CHARSET=utf-8:Jatinder
+ORG;CHARSET=utf-8:Siesqo
+TITLE;CHARSET=utf-8:Please chooses
+ROLE;CHARSET=utf-8:Data Protection Officer
+EMAIL;INTERNET:
+TEL;PREF;WORK:09878780009
+TEL;WORK:123456789
+ADR;WORK;POSTAL;CHARSET=utf-8:;;street;worktown;;workpostcode;Belgium
+LABEL:street, worktown, workpostcode Belgium
+URL:123
+END:VCARD

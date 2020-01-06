@@ -28,7 +28,7 @@ class Cart extends Model {
     protected $fillable = ['product_id', 'user_id', 'attributes', 'stock'];
 
     public function product_detail() {
-        return $this->hasMany(\App\Product::class, 'id', 'product_id');
+        return $this->hasOne(\App\Product::class, 'id', 'product_id')->with('vendor_details');
     }
 
 }

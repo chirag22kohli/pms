@@ -34,5 +34,9 @@ class Product extends Model {
     public function product_attribute_combinations() {
         return $this->hasMany(\App\ProductAttributeCombination::class, 'product_id', 'id');
     }
+    
+    public function vendor_details(){
+        return $this->hasOne(\App\User::class, 'id', 'user_id');
+    }
 
 }

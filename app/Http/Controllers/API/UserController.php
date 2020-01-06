@@ -311,7 +311,7 @@ class UserController extends Controller {
 
     public function getMyCart(Request $request) {
         $getCart = \App\Cart::with('product_detail')->where('user_id', Auth::id())->get();
-        if ($getCart) {
+        if (!empty($getCart)) {
             return parent::success($getCart, $this->successStatus);
         } else {
             return parent::error('Your cart is empty', 200);

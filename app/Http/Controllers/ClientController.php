@@ -145,4 +145,8 @@ WHERE user_project_scans.project_owner_id = " . Auth::id() . " group by user_pro
         );
     }
 
+    public function settings() {
+        return view('client.settings');
+    }
+
 }

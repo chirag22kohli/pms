@@ -3,6 +3,7 @@
 @section('content')
 
 <!-- main-heading -->
+<a href="#">Settings</a>
 <h2 class="main-title-w3layouts mb-2 text-center">Ecommerce</h2>
 
 <!--// main-heading -->
@@ -49,8 +50,19 @@
                         </div>
                     </div>
                 </div>
+                 <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Settings</h5>
+
+                            <a href="{{ url('client/settings')}}" class="btn btn-primary">Settings</a>
+                        </div>
+                    </div>
+                </div>
 
             </div>
+            
+            
         </section>
     <?php } ?>
     <!--// Error Page Info -->
