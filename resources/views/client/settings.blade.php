@@ -15,15 +15,18 @@
     <!-- Error Page Info -->
 
     <section class="pricing-tables">
+        <form method="POST" action = "updateSettings">
+            @csrf
         <div class="form-group">
             <div class="form-group row">
-                <label class="control-label col-sm-2">Delivery Charges</label>
-                <input type="text" value ="0" class="form-control col-sm-6" name ="name" placeholder="Enter username" required="">
+                <label class="control-label col-sm-2">Delivery Charges (SGD)</label>
+                <input type="text" value ="<?= $user->delivery_charge?>" class="form-control col-sm-6" name ="delivery_charge" placeholder="Delivery Charges" required="">
             </div>
         </div>
         
         
         <button class="btn btn-success">Update</button>
+        </form>
     </section>
 </div>
 <script>

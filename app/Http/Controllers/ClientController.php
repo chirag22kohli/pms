@@ -146,7 +146,19 @@ WHERE user_project_scans.project_owner_id = " . Auth::id() . " group by user_pro
     }
 
     public function settings() {
-        return view('client.settings');
+        
+        $user = User::where('id',Auth::id())->first();
+        return view('client.settings',compact('user'));
+        
+    }
+    
+    public function updateSettings(Request $request){
+        $delivery_charge = $request->input('delivery_charge');
+        
+        $updateUser = User::where('id',Auth::id())->update([
+            'delivery_charge'=>$delivery_charge
+        ]);
+        return redirect('client/settings')->with('flash_message', 'Settings Updated');
     }
 
 }
