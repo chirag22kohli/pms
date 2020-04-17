@@ -323,7 +323,7 @@ class UserController extends Controller {
                     'name' => 'required',
                     'mobile' => 'required',
                     'pin_code' => 'required',
-                    'city' => 'required',
+                    
                     'state' => 'required',
                     'address_1' => 'required',
                     'address_2' => 'required',
@@ -340,7 +340,7 @@ class UserController extends Controller {
                     'name' => $request->input('name'),
                     'mobile' => $request->input('mobile'),
                     'pin_code' => $request->input('pin_code'),
-                    'city' => $request->input('city'),
+                    'city' => 'SG',
                     'state' => $request->input('state'),
                     'address_1' => $request->input('address_1'),
                     'address_2' => $request->input('address_2'),
