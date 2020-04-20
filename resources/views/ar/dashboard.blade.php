@@ -209,6 +209,10 @@
             <div class = "col-md-9">
                 <button class = "btn btn-link finalizeButton"  onclick="finalizeTracker()" >Finalize Tracker</button>
                 <a class = "btn btn-primary btn-xs" href="<?= url('admin/trackers?p_id=' . $trackerDetails->project_id . '') ?>">Back</a>
+                
+                 <?php if ($planInfo->is_ecom == '1' && !$connectStatus  ) { ?>
+                <p style="color:red;margin-left: 15px" > To Use Ecommerce Object Please Connect Your Account with Stripe <a href="{{ url('client/planinfo')}}">here</a> </p>
+              <?php } ?>
             </div>
             <!--<div class = "col-md-3"> <button onclick ="uploadTracker()" class = "btn btn-success trackerButton">Upload Tracker</button></div>
             <form  style ="display: none" enctype="multipart/form-data" name ="imageUploadForm" id =  "imageUploadForm" method = "post" action = "trackerUpload">
@@ -241,7 +245,9 @@
                 <div id="drag15" main_class ="dragged15" type ="ecom" class="drag dragCommon" title="Add Ecommerce Product"></div> <!-- end of drag6 -->
             <?php } ?>
         </div><!-- end of options -->
-        <div class="card-header frameHeader"><h4>Frame</h4></div>
+        
+         
+        <div class="card-header frameHeader"><h4>Frame </h4></div>
         <div id="frame" <?php if (!empty($tracker)) { ?> style="background-image: url(<?php echo url($tracker); ?>); background-size: contain;width:<?= $trackerDetails->width ?>px;height:<?= $trackerDetails->height ?>px" <?php } ?>>
 
             <?php
