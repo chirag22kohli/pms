@@ -396,6 +396,7 @@ class UserController extends Controller {
     public function placeOrder(Request $request) {
         $validator = Validator::make($request->all(), [
                     'address_id' => 'required',
+                
         ]);
         if ($validator->fails()) {
             $errors = self::formatValidator($validator);
@@ -437,7 +438,8 @@ class UserController extends Controller {
                         'client_id' => $clientId,
                         'is_paid' => 0,
                         'address_id' => $request->input('address_id'),
-                        'params' => json_encode($products)
+                        'params' => json_encode($products),
+                        'table_number'=>$request->input('table_number')
             ]);
             $amount = 0;
             foreach ($products as $product) {

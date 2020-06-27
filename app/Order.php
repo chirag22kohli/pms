@@ -27,7 +27,7 @@ class Order extends Model
      *
      * @var array
      */
-    protected $fillable = ['amount', 'user_id', 'client_id', 'is_paid', 'params','address_id'];
+    protected $fillable = ['amount', 'user_id', 'client_id', 'is_paid', 'params','address_id','table_number'];
 
      public function order_details() {
         return $this->hasMany(\App\OrderDetail::class, 'order_id', 'id')->with('product_details');

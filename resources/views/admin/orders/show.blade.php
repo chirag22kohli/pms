@@ -1,6 +1,9 @@
 @extends(\Auth::user()->roles[0]->name == 'Client' ? 'layouts.client' : 'layouts.backend')
 
 @section('content')
+<?php
+$orderStatus = ['Recieved', 'Ready', 'Collected'];
+?>
 <div class="container">
     <div class="row">
         @if(Auth::user()->roles[0]->name == 'Admin')
@@ -26,6 +29,19 @@
                                 <tr><th> Amount </th>
                                     <td> ${{ $order->amount }} </td></tr>
                                 <tr><th> User Email </th><td> <b>{{ $order->user_details->email }} </b></td></tr>
+                                <tr><th> Table Number </th>
+                                    <td> {{ $order->table_number }} </td></tr>
+
+                                <tr><th> Order Status </th>
+                                    <td> <select onchange="updateStatus(this.value,<?= $order->id ?>)"> <?php foreach ($orderStatus as $status) { ?>
+                                                <option value = "<?= $status ?>" <?php
+                                                if ($order->status == $status) {
+                                                    echo "selected";
+                                                }
+                                                ?> >Order <?= $status ?></option>
+<?php }
+?>
+                                        </select></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -54,22 +70,21 @@
                                             <td>{{ $ord->product_details->name   }}</td>
                                             <td>${{ $ord->product_details->price  }}</td>
                                             <td>
-                                                
+
                                                 <?php
                                                 $attributes = json_decode($ord->attributes);
                                                 $attributeOptions = json_decode($ord->attribute_options);
-                                                $i=0;
-                                                foreach($attributes as $attribute){
-                                                    echo $attribute.' - '. '<b>'. $attributeOptions[$i].'</b>'. "</br>";
+                                                $i = 0;
+                                                foreach ($attributes as $attribute) {
+                                                    echo $attribute . ' - ' . '<b>' . $attributeOptions[$i] . '</b>' . "</br>";
                                                     $i++;
                                                 }
-                                                
                                                 ?>
-                                                
-                                                
-                                                
-                                                
-                                                
+
+
+
+
+
                                             </td>
                                             <td>{{ $ord->quantity }}</td>
 
@@ -92,7 +107,7 @@
                         <div class="card-header" style="background:#5d7cf7;color:#fff">Address Details</div>
                         <div class="card-body">
 
-                           
+
 
                             <br/>
                             <br/>
@@ -102,23 +117,23 @@
                                     <tbody>
                                         <tr>
                                             <th>Name</th><td>{{ $order->address->name }}</td>
-                                            
+
                                         </tr>
                                         <tr></tr>
-                                         <th>Contact Number</th><td>{{ $order->address->mobile }}</td>
-                                           <tr>  <th>Address </th><td>{{ $order->address->address_1 }}</td></tr>
-                                            
-                                                <tr><th>Address 1</th><td>{{ $order->address->address_2 }}</td></tr>
-                                               
-                                                 <tr> <th>Landmark</th><td>{{ $order->address->landmark }}</td></tr>
-                                               
-                                                  <tr> <th>City</th><td>{{ $order->address->city }}</td></tr>
-                                                
-                                                   <tr><th>State</th><td>{{ $order->address->state }}</td></tr>
-                                                  
-                                                    <tr><th>Pin Code</th><td>{{ $order->address->pin_code }}</td></tr>
-                                                   
-                                       
+                                    <th>Contact Number</th><td>{{ $order->address->mobile }}</td>
+                                    <tr>  <th>Address </th><td>{{ $order->address->address_1 }}</td></tr>
+
+                                    <tr><th>Address 1</th><td>{{ $order->address->address_2 }}</td></tr>
+
+                                    <tr> <th>Landmark</th><td>{{ $order->address->landmark }}</td></tr>
+
+                                    <tr> <th>City</th><td>{{ $order->address->city }}</td></tr>
+
+                                    <tr><th>State</th><td>{{ $order->address->state }}</td></tr>
+
+                                    <tr><th>Pin Code</th><td>{{ $order->address->pin_code }}</td></tr>
+
+
                                     </tbody>
                                 </table>
                             </div>
@@ -130,4 +145,19 @@
         </div>
     </div>
 </div>
+
+<script>
+    function updateStatus(status, order_id) {
+        $.ajax({
+            type: 'GET',
+            url: "{{url('admin/updateOrderStatus')}}",
+            data: {
+                id: order_id,
+                status: status
+            }
+        }).done(function (data) {
+            $.alert(data);
+        });
+    }
+</script>
 @endsection

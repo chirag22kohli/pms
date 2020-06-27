@@ -26,7 +26,7 @@ class OrdersController extends Controller {
                     ->orWhere('is_paid', 'LIKE', "%$keyword%")
                     ->orWhere('params', 'LIKE', "%$keyword%")
                     ->with('order_details')->with('address')
-                     ->with('user_details')
+                    ->with('user_details')
                     ->paginate($perPage);
         } else {
             $orders = Order::where('client_id', Auth::id())->with('order_details')->with('address')->with('user_details')->paginate($perPage);
@@ -74,8 +74,8 @@ class OrdersController extends Controller {
      * @return \Illuminate\View\View
      */
     public function show($id) {
-        $order = Order::where('client_id',Auth::id())->with('order_details')->with('address')
-                     ->with('user_details')->findOrFail($id);
+        $order = Order::where('client_id', Auth::id())->with('order_details')->with('address')
+                        ->with('user_details')->findOrFail($id);
 
         return view('admin.orders.show', compact('order'));
     }
@@ -128,6 +128,13 @@ class OrdersController extends Controller {
         Order::destroy($id);
 
         return redirect('admin/orders')->with('flash_message', 'Order deleted!');
+    }
+
+    public function updateOrderStatus(Request $request) {
+        $updateStatus = Order::where('id', $request->id)->update([
+            'status' => $request->status
+        ]);
+        return "Order Status Updated";
     }
 
 }
