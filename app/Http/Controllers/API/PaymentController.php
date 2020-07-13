@@ -87,7 +87,7 @@ class PaymentController extends Controller {
                     'project_id' => $request->input('project_id'),
                     'project_admin_id' => $projectDetails->created_by,
                     'expriy_date' => $expiryDate,
-                    'paid_price'=>$productPrice,
+                    'paid_price' => $productPrice,
                     'payment_params' => json_encode($charge),
                 ];
                 $checkPayment = PaidProjectDetail::where('user_id', Auth::id())->where('project_id', $request->input('project_id'))->first();
@@ -110,6 +110,77 @@ class PaymentController extends Controller {
             }
         } else {
             return parent::error('Project Not Found (Please select another project)', $this->successStatus);
+        }
+    }
+
+    public function getAllCards(Request $request) {
+
+        $userStripe = Stripe::where('user_id', Auth::id())->first();
+       // dd($userStripe);
+        if ($userStripe) {
+
+
+            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            $cards = \Stripe\Customer::allSources(
+                            $userStripe->customer_id,
+                            ['object' => 'card', 'limit' => 20]
+            );
+
+            if (count($cards) > 0) {
+                return parent::success($cards, $this->successStatus);
+            } else {
+                return parent::error('No Cards Found)', $this->successStatus);
+            }
+        } else {
+            return parent::error('No Payment Method Found', $this->successStatus);
+        }
+    }
+
+    public function createCard(Request $request) {
+
+        $validator = Validator::make($request->all(), [
+                    'token' => 'required',
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+        $userStripe = Stripe::where('user_id', Auth::id())->first();
+
+        if ($userStripe) {
+            try {
+                 \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+                $card = \Stripe\Customer::createSource(
+                                $userStripe->customer_id,
+                                ['source' => $request->token]
+                );
+            } catch (\Exception $e) {
+                return parent::error($e->getMessage(), $this->successStatus);
+            }
+        } else {
+            try {
+                $customer = StripeConnect::createCustomer($request->token, Auth::user());
+            } catch (\Exception $e) {
+                return parent::error($e->getMessage(), $this->successStatus);
+            }
+        }
+
+        return parent::success("Payment Method Added Successfully", $this->successStatus);
+    }
+    
+    
+    public function updateDefaultCard(Request $request){
+        try {
+            
+            $user = Stripe::where('user_id', Auth::id())->first();
+            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            $customer = \Stripe\Customer::retrieve($user->customer_id);
+            $customer->default_source = $request->card_id;
+            $customer->save();
+            return parent::successCreated(['message' => 'Updated Successfully']);
+        } catch (\Exception $ex) {
+            return parent::error($ex->getMessage());
         }
     }
 

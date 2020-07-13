@@ -34,7 +34,7 @@ class PaymentController extends Controller {
         /** PayPal api context * */
         $paypal_conf = \Config::get('paypal');
         $this->_api_context = new ApiContext(new OAuthTokenCredential(
-                $paypal_conf['client_id'], $paypal_conf['secret'])
+                        $paypal_conf['client_id'], $paypal_conf['secret'])
         );
         $this->_api_context->setConfig($paypal_conf['settings']);
     }
@@ -170,8 +170,8 @@ class PaymentController extends Controller {
         ];
         PaidPlantHistory::create($historyParams);
     }
-    
-       protected function upgradeExpiredPlan($result) {
+
+    protected function upgradeExpiredPlan($result) {
         $userId = Auth::id();
         $userPlan = UserPlan::where('user_id', $userId)->first();
         $planDetails = Plan::where('id', $userPlan->plan_id)->first();
@@ -192,9 +192,9 @@ class PaymentController extends Controller {
             'payment_type' => 'Renewed Current Plan',
             'price_paid' => $planDetails->price
         ];
-        
+
         //dd($historyParams);
-         
+
         PaidPlantHistory::create($historyParams);
         //dd($historyParams);
     }
@@ -207,15 +207,17 @@ class PaymentController extends Controller {
         // return Auth::user();
         // $customer->user_id = Auth::id();
         $customer = StripeConnect::createCustomer($token['id'], Auth::user());
+
+
         //return $token['id'];
         $superAdmin = \App\User::where('id', 2)->first();
 
-        $charge = StripeConnect::transaction()
-                ->amount($price * 100, 'sgd')
-                ->useSavedCustomer()
-                ->from(Auth::user())
-                ->to($superAdmin)
-                ->create();
+
+        try {
+            $charge = $this->payToSuperAdmin($price, $customer->customer_id);
+        } catch (\Exception $e) {
+            return parent::error($e->getMessage(), $this->successStatus);
+        }
 
 
         //$createVendor = StripeConnect::createAccount(Auth::user());
@@ -270,12 +272,16 @@ class PaymentController extends Controller {
         if (count($planInfo) > 0) {
 
             $price = $planInfo->price;
-            $charge = StripeConnect::transaction()
-                    ->amount($price * 100, 'sgd')
-                    ->useSavedCustomer()
-                    ->from(Auth::user())
-                    ->to($superAdmin)
-                    ->create();
+
+
+
+            try {
+                $customer = \App\Stripe::where('user_id', Auth::id())->first();
+                $charge = $this->payToSuperAdmin($price, $customer->customer_id);
+            } catch (\Exception $e) {
+                return parent::error($e->getMessage(), $this->successStatus);
+            }
+
 
             if ($charge->status == 'succeeded') {
 
@@ -287,8 +293,8 @@ class PaymentController extends Controller {
             }
         }
     }
-    
-     public function renewExpiredPlan(Request $request) {
+
+    public function renewExpiredPlan(Request $request) {
         $planId = $request->input('plan_id');
         $planInfo = Plan::where('id', $planId)->first();
         $superAdmin = \App\User::where('id', 2)->first();
@@ -296,17 +302,17 @@ class PaymentController extends Controller {
         if (count($planInfo) > 0) {
 
             $price = $planInfo->price;
-            $charge = StripeConnect::transaction()
-                    ->amount($price * 100, 'sgd')
-                    ->useSavedCustomer()
-                    ->from(Auth::user())
-                    ->to($superAdmin)
-                    ->create();
+            try {
+                $customer = \App\Stripe::where('user_id', Auth::id())->first();
+                $charge = $this->payToSuperAdmin($price, $customer->customer_id);
+            } catch (\Exception $e) {
+                return parent::error($e->getMessage(), $this->successStatus);
+            }
 
             if ($charge->status == 'succeeded') {
 
                 $this->upgradeExpiredPlan($charge);
-       return 'success';
+                return 'success';
             } else {
                 return 'false';
             }
@@ -327,12 +333,12 @@ class PaymentController extends Controller {
         //return $token['id'];
         $superAdmin = \App\User::where('id', 2)->first();
 
-        $charge = StripeConnect::transaction()
-                ->amount($price * 100, 'sgd')
-                ->useSavedCustomer()
-                ->from(Auth::user())
-                ->to($superAdmin)
-                ->create();
+        try {
+            $customer = \App\Stripe::where('user_id', Auth::id())->first();
+            $charge = $this->payToSuperAdmin($price, $customer->customer_id);
+        } catch (\Exception $e) {
+            return parent::error($e->getMessage(), $this->successStatus);
+        }
 
 
         // $createVendor = StripeConnect::createAccount(Auth::user());
@@ -429,12 +435,12 @@ class PaymentController extends Controller {
         if (count($planInfo) > 0) {
 
             $price = $planInfo->price;
-            $charge = StripeConnect::transaction()
-                    ->amount($newChargeDetails['newPayment'] * 100, 'sgd')
-                    ->useSavedCustomer()
-                    ->from(Auth::user())
-                    ->to($superAdmin)
-                    ->create();
+            try {
+                $customer = \App\Stripe::where('user_id', Auth::id())->first();
+                $charge = $this->payToSuperAdmin($price, $customer->customer_id);
+            } catch (\Exception $e) {
+                return parent::error($e->getMessage(), $this->successStatus);
+            }
 
             if ($charge->status == 'succeeded') {
 
@@ -497,13 +503,34 @@ class PaymentController extends Controller {
     public function testPayment(Request $request) {
         $superAdmin = \App\User::where('id', $request->input('id'))->first();
         //dd(Auth::user());
-        $charge = StripeConnect::transaction()
-                ->amount(10 * 100, 'sgd')
-                ->useSavedCustomer()
-                ->from(Auth::user())
-                ->to($superAdmin)
-                ->create();
+        $price = 10;
+        try {
+            $customer = \App\Stripe::where('user_id', Auth::id())->first();
+            $charge = $this->payToSuperAdmin($price, $customer->customer_id);
+        } catch (\Exception $e) {
+            return parent::error($e->getMessage(), $this->successStatus);
+        }
         return $charge;
     }
 
+    public function payToSuperAdmin($amount, $from) {
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        return $charge = \Stripe\Charge::create(array(
+                    'customer' => $from,
+                    'amount' => $amount * 100,
+                    'currency' => 'sgd'
+        ));
+    }
+
+    
+    public function getAllCards($customer_id){
+        
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        $cards = \Stripe\Customer::allSources(
+                        $customer_id,
+                        ['object' => 'card', 'limit' => 20]
+        );
+        
+    }
 }

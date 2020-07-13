@@ -54,12 +54,13 @@ Route::group(['middleware' => ['auth:api', 'roles'], 'roles' => ['Api', 'Client'
     Route::post('placeOrder', 'API\UserController@placeOrder');
     Route::get('getOrders', 'API\UserController@getOrders');
     Route::post('updateDefaultAddress', 'API\UserController@updateDefaultAddress');
-    
+
     Route::post('deleteAddress', 'API\UserController@deleteAddress');
-    
-    
-    
-    
+
+
+    Route::get('getAllCards', 'API\PaymentController@getAllCards');
+    Route::post('createCard', 'API\PaymentController@createCard');
+    Route::post('updateDefaultCard', 'API\PaymentController@updateDefaultCard');
     
     
 });
