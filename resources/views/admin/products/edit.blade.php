@@ -86,7 +86,7 @@
     ,
             cache: false,
             success: function (data) {
-            var stockHtml = '</br>In Stock - <input type = "number" class= "form-control" id = "stockValue" name= "stock" value= "' + data + '"></br> <a href = "#" onclick = "updateStock()" class="btn btn-xs btn-success">Update</a>';
+            var stockHtml = '</br>In Stock - <input type = "number" class= "form-control" id = "stockValue" name= "stock" value= "' + data[0] + '"></br>Price - (in SGD) $<input type = "number" class= "form-control" id = "priceValue" name= "priceValue" value= "' + data[1] + '"></br> <a href = "#" onclick = "updateStock()" class="btn btn-xs btn-success">Update</a>';
             $('.stock').html(stockHtml);
             }
     });
@@ -98,6 +98,7 @@
     }).get();
     var product_id = '<?= $product->id ?>';
     var stockValue = $('#stockValue').val();
+     var price = $('#priceValue').val();
     var url = '<?= url('/') ?>';
     $.ajax({
     url: url + "/admin/updateStock",
@@ -105,7 +106,7 @@
             headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            data: {attributes: attributes, product_id: product_id, stockValue:stockValue}
+            data: {attributes: attributes, product_id: product_id, stockValue:stockValue,price:price}
     ,
             cache: false,
             success: function (data) {

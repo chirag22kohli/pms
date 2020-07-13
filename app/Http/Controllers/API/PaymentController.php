@@ -116,7 +116,7 @@ class PaymentController extends Controller {
     public function getAllCards(Request $request) {
 
         $userStripe = Stripe::where('user_id', Auth::id())->first();
-       // dd($userStripe);
+        // dd($userStripe);
         if ($userStripe) {
 
 
@@ -136,6 +136,21 @@ class PaymentController extends Controller {
         }
     }
 
+    public function getCards() {
+        $userStripe = Stripe::where('user_id', Auth::id())->first();
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        $cards = \Stripe\Customer::allSources(
+                        $userStripe->customer_id,
+                        ['object' => 'card', 'limit' => 20]
+        );
+
+        if (count($cards) > 0) {
+            return $cards;
+        } else {
+            return "No Cards Found";
+        }
+    }
+
     public function createCard(Request $request) {
 
         $validator = Validator::make($request->all(), [
@@ -149,7 +164,7 @@ class PaymentController extends Controller {
 
         if ($userStripe) {
             try {
-                 \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+                \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
                 $card = \Stripe\Customer::createSource(
                                 $userStripe->customer_id,
@@ -166,19 +181,18 @@ class PaymentController extends Controller {
             }
         }
 
-        return parent::success("Payment Method Added Successfully", $this->successStatus);
+        return parent::success($this->getCards(), $this->successStatus);
     }
-    
-    
-    public function updateDefaultCard(Request $request){
+
+    public function updateDefaultCard(Request $request) {
         try {
-            
+
             $user = Stripe::where('user_id', Auth::id())->first();
             \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
             $customer = \Stripe\Customer::retrieve($user->customer_id);
             $customer->default_source = $request->card_id;
             $customer->save();
-            return parent::successCreated(['message' => 'Updated Successfully']);
+            return parent::success($this->getCards(), $this->successStatus);
         } catch (\Exception $ex) {
             return parent::error($ex->getMessage());
         }

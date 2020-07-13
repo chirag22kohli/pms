@@ -96,7 +96,8 @@ class ProductsController extends Controller {
                 'product_id' => $product->id,
                 'value' => json_encode($option),
                 'user_id' => Auth::id(),
-                'stock' => $request->input('stock')
+                'stock' => $request->input('stock'),
+                'price'=>$request->input('price')
             ]);
         }
 
@@ -194,15 +195,17 @@ class ProductsController extends Controller {
 
         $stock = \App\ProductAttributeCombination::where('product_id', $product_id)->where('value', $attributes)->where('user_id', Auth::id())->first();
 
-        return $stock['stock'];
+        return array($stock['stock'],$stock['price']);
     }
 
     function updateStock(Request $request) {
         $attributes = json_encode($request->input('attributes'));
         $product_id = $request->input('product_id');
         $stockValue = $request->input('stockValue');
+        $price = $request->input('price');
         \App\ProductAttributeCombination::where('product_id', $product_id)->where('value', $attributes)->where('user_id', Auth::id())->update([
-            'stock' =>$stockValue
+            'stock' =>$stockValue,
+            'price'=>$price
         ]);
         return "Updated";
     }

@@ -323,7 +323,6 @@ class UserController extends Controller {
                     'name' => 'required',
                     'mobile' => 'required',
                     'pin_code' => 'required',
-                    
                     'state' => 'required',
                     'address_1' => 'required',
                     'address_2' => 'required',
@@ -396,7 +395,6 @@ class UserController extends Controller {
     public function placeOrder(Request $request) {
         $validator = Validator::make($request->all(), [
                     'address_id' => 'required',
-                
         ]);
         if ($validator->fails()) {
             $errors = self::formatValidator($validator);
@@ -439,15 +437,18 @@ class UserController extends Controller {
                         'is_paid' => 0,
                         'address_id' => $request->input('address_id'),
                         'params' => json_encode($products),
-                        'table_number'=>$request->input('table_number')
+                        'table_number' => $request->input('table_number')
             ]);
             $amount = 0;
             foreach ($products as $product) {
                 $productDetails = \App\Product::where('id', $product->product_id)->first();
                 // dd($product->attributes);
 
+                $getAmount = \App\ProductAttributeCombination::where('product_id', $product->product_id)->where('value', $product->attributes)->first();
+                //$amount = $getAmount->price;
 
-                $amount += $productDetails->price * $product->stock;
+
+                $amount += $getAmount->price * $product->stock;
                 $getProduct = \App\ProductOption::where('product_id', $product->product_id)->pluck('attribute');
 
 
@@ -479,7 +480,7 @@ class UserController extends Controller {
 
             $updateOrderAmount = \App\Order::where('id', $createOrder->id)->update([
                 'amount' => $amount,
-                'is_paid'=>1
+                'is_paid' => 1
             ]);
         }
 

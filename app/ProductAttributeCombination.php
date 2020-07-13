@@ -25,7 +25,7 @@ class ProductAttributeCombination extends Model
      *
      * @var array
      */
-    protected $fillable = ['product_id', 'value', 'stock', 'user_id'];
+    protected $fillable = ['product_id', 'value', 'stock', 'user_id','price'];
 
     
 }
