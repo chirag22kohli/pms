@@ -461,7 +461,7 @@ class UserController extends Controller {
                 //$amount = $getAmount->price;
 
 
-                $amount += $getAmount->price * $product->stock;
+                $amount += $productDetails->price * $product->stock;
                 $getProduct = \App\ProductOption::where('product_id', $product->product_id)->pluck('attribute');
 
 
