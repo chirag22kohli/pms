@@ -117,7 +117,8 @@ class PaymentController extends Controller {
 
         $userStripe = Stripe::where('user_id', Auth::id())->first();
         // dd($userStripe);
-        if ($userStripe) {
+        if ($userStripe && $userStripe->customer_id != null) {
+
 
 
             \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
