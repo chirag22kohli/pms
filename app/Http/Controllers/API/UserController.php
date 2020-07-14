@@ -486,7 +486,7 @@ class UserController extends Controller {
                         ->create();
             } catch (\Exception $e) {
 
-                $removeInvalidCustomer = Stripe::where('user_id', Auth::id())->update(['customer_id' => null]);
+                //$removeInvalidCustomer = Stripe::where('user_id', Auth::id())->update(['customer_id' => null]);
                 return parent::error($e->getMessage(), $this->successStatus);
             }
 
