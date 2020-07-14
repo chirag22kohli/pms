@@ -403,6 +403,19 @@ class UserController extends Controller {
 
 
 
+        if (isset($request->card_id)) {
+            try {
+
+                $user = Stripe::where('user_id', Auth::id())->first();
+                \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+                $customer = \Stripe\Customer::retrieve($user->customer_id);
+                $customer->default_source = $request->card_id;
+                $customer->save();
+                //return parent::success($this->getCards(), $this->successStatus);
+            } catch (\Exception $ex) {
+                return parent::error($ex->getMessage());
+            }
+        }
         if ($request->input('token') != '') {
 
             try {
