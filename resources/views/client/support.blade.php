@@ -41,7 +41,7 @@ input:focus,
 </style>
 <script src="https://js.stripe.com/v3/"></script>
 
-<form action="/charge" method="post" id="payment-form" style = "display:none">
+<form action="/charge" method="post" id="payment-form" style = "">
   <div class="form-row">
     <label for="card-element">
       Credit or debit card
