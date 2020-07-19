@@ -393,13 +393,7 @@ class UserController extends Controller {
     }
 
     public function placeOrder(Request $request) {
-        $validator = Validator::make($request->all(), [
-                    'address_id' => 'required',
-        ]);
-        if ($validator->fails()) {
-            $errors = self::formatValidator($validator);
-            return parent::error($errors, 200);
-        }
+
 
 
 
@@ -436,7 +430,7 @@ class UserController extends Controller {
 
 
         $getCart = \App\Cart::where('user_id', Auth::id())->with('product_detail')->get();
-
+        //dd(Auth::id());
         foreach ($getCart as $cart) {
             $getClientId = \App\Product::where('id', $cart->product_id)->first();
             $client[$getClientId->user_id][] = $cart;
@@ -555,6 +549,23 @@ class UserController extends Controller {
             }
         } else {
             return false;
+        }
+    }
+
+    public function getAttributeDetails(Request $request) {
+        $validator = Validator::make($request->all(), [
+                    'product_id' => 'required',
+                    'attributes' => 'required'
+        ]);
+        if ($validator->fails()) {
+            $errors = self::formatValidator($validator);
+            return parent::error($errors, 200);
+        }
+        $getAttribute = \App\ProductAttributeCombination::where('value',  $request->input('attributes'))->where('product_id', $request->product_id)->first();
+        if ($getAttribute) {
+            return parent::success($getAttribute, $this->successStatus);
+        } else {
+            return parent::error('Product not Found', 200);
         }
     }
 

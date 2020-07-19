@@ -62,6 +62,8 @@ Route::group(['middleware' => ['auth:api', 'roles'], 'roles' => ['Api', 'Client'
     Route::post('createCard', 'API\PaymentController@createCard');
     Route::post('updateDefaultCard', 'API\PaymentController@updateDefaultCard');
     
+    Route::post('getAttributeDetails', 'API\UserController@getAttributeDetails');
+
     
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {
