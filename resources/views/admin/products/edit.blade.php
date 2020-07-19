@@ -86,16 +86,19 @@
     ,
             cache: false,
             success: function (data) {
-            var stockHtml = '</br>In Stock - <input type = "number" class= "form-control" id = "stockValue" name= "stock" value= "' + data[0] + '"></br>Price - (in SGD) $<input type = "number" class= "form-control" id = "priceValue" name= "priceValue" value= "' + data[1] + '"></br> <a href = "#" onclick = "updateStock()" class="btn btn-xs btn-success">Update</a>';
+            var stockHtml = '<form name = "stockFrom" id = "stockFrom" enctype="multipart/form-data" action  = "'+url+'/admin/updateStock" method = "post">@csrf</br>In Stock - <input type = "number" class= "form-control" id = "stockValue" name= "stockValue" value= "' + data[0] + '"><input type = "hidden" id = "attributes" name = "attributes" value = "'+data[3]+'"></br>Price - (in SGD) $<input type = "number" class= "form-control" id = "priceValue" name= "priceValue" value= "' + data[1] + '"></br><img style = "width:30%" src = "'+url+data[2]+'"> <input type = "hidden" value = "<?= $product->id ?>" name = "product_id" id = "product_id"></br> </br>Image - <input type = "file" name = "image"></br></br><a href  = "#" class="btn btn-xs btn-success"  onclick = "updateStock()">Update</a> </form>';
             $('.stock').html(stockHtml);
             }
     });
     }
 
     function updateStock(){
+    
     var attributes = $("select[name='attributeValues'] :selected").map(function (i, el) {
     return $(el).val();
     }).get();
+    //$('#attributes').val(attributes);
+    $('#stockFrom').submit(); return false;
     var product_id = '<?= $product->id ?>';
     var stockValue = $('#stockValue').val();
      var price = $('#priceValue').val();
@@ -106,11 +109,11 @@
             headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            data: {attributes: attributes, product_id: product_id, stockValue:stockValue,price:price}
+            data: $('#stockFrom').serialize()
     ,
             cache: false,
             success: function (data) {
-            $.alert('Stock Updated Successfully');
+            $.alert('Product Updated Successfully');
             }
     });
     }

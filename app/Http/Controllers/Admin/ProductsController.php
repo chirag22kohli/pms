@@ -97,7 +97,8 @@ class ProductsController extends Controller {
                 'value' => json_encode($option),
                 'user_id' => Auth::id(),
                 'stock' => $request->input('stock'),
-                'price'=>$request->input('price')
+                'price' => $request->input('price'),
+                'image' => $imagePath
             ]);
         }
 
@@ -195,19 +196,33 @@ class ProductsController extends Controller {
 
         $stock = \App\ProductAttributeCombination::where('product_id', $product_id)->where('value', $attributes)->where('user_id', Auth::id())->first();
 
-        return array($stock['stock'],$stock['price']);
+        return array($stock['stock'], $stock['price'], $stock['image'],$stock['id']);
     }
 
     function updateStock(Request $request) {
-        $attributes = json_encode($request->input('attributes'));
+
+        $attributes = $request->input('attributes');
         $product_id = $request->input('product_id');
         $stockValue = $request->input('stockValue');
-        $price = $request->input('price');
-        \App\ProductAttributeCombination::where('product_id', $product_id)->where('value', $attributes)->where('user_id', Auth::id())->update([
-            'stock' =>$stockValue,
-            'price'=>$price
-        ]);
-        return "Updated";
+        $price = $request->input('priceValue');
+        //dd($attributes);
+        if ($request->file('image') !== null) {
+            $imagePath = $this->uploadFile($request, 'image', '/images/products');
+          //  dd($imagePath);
+            \App\ProductAttributeCombination::where('product_id', $product_id)->where('id', $attributes)->where('user_id', Auth::id())->update([
+                'stock' => $stockValue,
+                'price' =>  (int)$price,
+                'image' => $imagePath
+            ]);
+        } else {
+            \App\ProductAttributeCombination::where('product_id', $product_id)->where('id', $attributes)->where('user_id', Auth::id())->update([
+                'stock' => $stockValue,
+                'price' => (int)$price
+            ]);
+        }
+
+
+         return redirect('admin/products/'.$product_id.'/edit')->with('flash_message', 'Product updated!');;
     }
 
 }
