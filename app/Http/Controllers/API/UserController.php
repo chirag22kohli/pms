@@ -461,13 +461,17 @@ class UserController extends Controller {
                 $amount += $productDetails->price * $product->stock;
                 $getProduct = \App\ProductOption::where('product_id', $product->product_id)->pluck('attribute');
 
+                
+                $getAttribute = \App\ProductAttributeCombination::where('value', $product->attributes)->where('product_id', $product->product_id)->first();
 
                 \App\OrderDetail::create([
                     'order_id' => $createOrder->id,
                     'product_id' => $product->product_id,
                     'attributes' => json_encode($getProduct),
                     'attribute_options' => $product->attributes,
-                    'quantity' => $product->stock
+                    'quantity' => $product->stock,
+                    'image'=>$getAttribute->image,
+                    'price'=>$getAttribute->price
                 ]);
             }
 
