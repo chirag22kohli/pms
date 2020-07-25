@@ -306,7 +306,7 @@ class UserController extends Controller {
                     'stock' => $request->input('stock'),
                     'attributes' => $request->input('attributes'),
                     'price' => $getAttribute->price,
-                    'image'=>$getAttribute->image
+                    'image' => $getAttribute->image
         ]);
 
         return parent::success("Product Added to Cart", $this->successStatus);
@@ -451,6 +451,9 @@ class UserController extends Controller {
             ]);
             $amount = 0;
             foreach ($products as $product) {
+
+                $getAttribute = \App\ProductAttributeCombination::where('value', $product->attributes)->where('product_id', $product->product_id)->first();
+
                 $productDetails = \App\Product::where('id', $product->product_id)->first();
                 // dd($product->attributes);
 
@@ -458,11 +461,10 @@ class UserController extends Controller {
                 //$amount = $getAmount->price;
 
 
-                $amount += $productDetails->price * $product->stock;
+                $amount += $getAttribute->price * $product->stock;
                 $getProduct = \App\ProductOption::where('product_id', $product->product_id)->pluck('attribute');
 
-                
-                $getAttribute = \App\ProductAttributeCombination::where('value', $product->attributes)->where('product_id', $product->product_id)->first();
+
 
                 \App\OrderDetail::create([
                     'order_id' => $createOrder->id,
@@ -470,8 +472,8 @@ class UserController extends Controller {
                     'attributes' => json_encode($getProduct),
                     'attribute_options' => $product->attributes,
                     'quantity' => $product->stock,
-                    'image'=>$getAttribute->image,
-                    'price'=>$getAttribute->price
+                    'image' => $getAttribute->image,
+                    'price' => $getAttribute->price
                 ]);
             }
 
