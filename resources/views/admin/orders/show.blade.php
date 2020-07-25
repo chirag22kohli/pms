@@ -102,7 +102,7 @@ $orderStatus = ['Recieved', 'Ready', 'Collected'];
                 </div>
 
 
-                <div class = "col-md-4">
+                <!--<div class = "col-md-4">
                     <div class="card">
                         <div class="card-header" style="background:#5d7cf7;color:#fff">Address Details</div>
                         <div class="card-body">
@@ -140,7 +140,7 @@ $orderStatus = ['Recieved', 'Ready', 'Collected'];
 
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>

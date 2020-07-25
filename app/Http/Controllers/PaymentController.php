@@ -439,7 +439,7 @@ class PaymentController extends Controller {
                 $customer = \App\Stripe::where('user_id', Auth::id())->first();
                 $charge = $this->payToSuperAdmin($price, $customer->customer_id);
             } catch (\Exception $e) {
-                return parent::error($e->getMessage(), $this->successStatus);
+                return parent::error($e->getMessage());
             }
 
             if ($charge->status == 'succeeded') {
