@@ -52,7 +52,7 @@ $orderStatus = ['Recieved', 'Ready', 'Collected'];
             </br></br>
 
             <div class = "row">
-                <div class = "col-md-8">
+                <div class = "col-md-12">
                     <div class="card">
                         <div class="card-header" style="background:#4CAF50;color:#fff">Products</div>
                         <div class="card-body">
