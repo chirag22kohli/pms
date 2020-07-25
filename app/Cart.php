@@ -25,7 +25,7 @@ class Cart extends Model {
      *
      * @var array
      */
-    protected $fillable = ['product_id', 'user_id', 'attributes', 'stock','price'];
+    protected $fillable = ['product_id', 'user_id', 'attributes', 'stock','price','image'];
 
     public function product_detail() {
         return $this->hasOne(\App\Product::class, 'id', 'product_id')->with('vendor_details');

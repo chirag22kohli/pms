@@ -305,7 +305,8 @@ class UserController extends Controller {
                     'product_id' => $request->input('product_id'),
                     'stock' => $request->input('stock'),
                     'attributes' => $request->input('attributes'),
-                    'price' => $getAttribute->price
+                    'price' => $getAttribute->price,
+                    'image'=>$getAttribute->image
         ]);
 
         return parent::success("Product Added to Cart", $this->successStatus);
