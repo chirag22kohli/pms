@@ -298,12 +298,14 @@ class UserController extends Controller {
             return parent::error($errors, 200);
         }
 
+        $getAttribute = \App\ProductAttributeCombination::where('value', $request->input('attributes'))->where('product_id', $request->product_id)->first();
 
         $addToCart = \App\Cart::create([
                     'user_id' => Auth::id(),
                     'product_id' => $request->input('product_id'),
                     'stock' => $request->input('stock'),
                     'attributes' => $request->input('attributes'),
+                    'price' => $getAttribute->price
         ]);
 
         return parent::success("Product Added to Cart", $this->successStatus);
@@ -561,7 +563,7 @@ class UserController extends Controller {
             $errors = self::formatValidator($validator);
             return parent::error($errors, 200);
         }
-        $getAttribute = \App\ProductAttributeCombination::where('value',  $request->input('attributes'))->where('product_id', $request->product_id)->first();
+        $getAttribute = \App\ProductAttributeCombination::where('value', $request->input('attributes'))->where('product_id', $request->product_id)->first();
         if ($getAttribute) {
             return parent::success($getAttribute, $this->successStatus);
         } else {
