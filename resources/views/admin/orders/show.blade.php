@@ -102,45 +102,7 @@ $orderStatus = ['Recieved', 'Ready', 'Collected'];
                 </div>
 
 
-                <!--<div class = "col-md-4">
-                    <div class="card">
-                        <div class="card-header" style="background:#5d7cf7;color:#fff">Address Details</div>
-                        <div class="card-body">
-
-
-
-                            <br/>
-                            <br/>
-
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <tbody>
-                                        <tr>
-                                            <th>Name</th><td>{{ $order->address->name }}</td>
-
-                                        </tr>
-                                        <tr></tr>
-                                    <th>Contact Number</th><td>{{ $order->address->mobile }}</td>
-                                    <tr>  <th>Address </th><td>{{ $order->address->address_1 }}</td></tr>
-
-                                    <tr><th>Address 1</th><td>{{ $order->address->address_2 }}</td></tr>
-
-                                    <tr> <th>Landmark</th><td>{{ $order->address->landmark }}</td></tr>
-
-                                    <tr> <th>City</th><td>{{ $order->address->city }}</td></tr>
-
-                                    <tr><th>State</th><td>{{ $order->address->state }}</td></tr>
-
-                                    <tr><th>Pin Code</th><td>{{ $order->address->pin_code }}</td></tr>
-
-
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>-->
+              
             </div>
         </div>
     </div>
