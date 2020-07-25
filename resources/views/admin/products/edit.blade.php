@@ -86,7 +86,7 @@
     ,
             cache: false,
             success: function (data) {
-            var stockHtml = '<form name = "stockFrom" id = "stockFrom" enctype="multipart/form-data" action  = "'+url+'/admin/updateStock" method = "post">@csrf</br>In Stock - <input type = "number" class= "form-control" id = "stockValue" name= "stockValue" value= "' + data[0] + '"><input type = "hidden" id = "attributes" name = "attributes" value = "'+data[3]+'"></br>Price - (in SGD) $<input type = "number" class= "form-control" id = "priceValue" name= "priceValue" value= "' + data[1] + '"></br><img style = "width:30%" src = "'+url+data[2]+'"> <input type = "hidden" value = "<?= $product->id ?>" name = "product_id" id = "product_id"></br> </br>Image - <input type = "file" name = "image"></br></br><a href  = "#" class="btn btn-xs btn-success"  onclick = "updateStock()">Update</a> </form>';
+            var stockHtml = '<form name = "stockFrom" id = "stockFrom" enctype="multipart/form-data" action  = "'+url+'/admin/updateStock" method = "post">@csrf</br>In Stock - <input type = "number" class= "form-control" id = "stockValue" name= "stockValue" value= "' + data[0] + '"><input type = "hidden" id = "attributes" name = "attributes" value = "'+data[3]+'"></br>Price - (in SGD) $<input type = "number" step = "0.01" class= "form-control" id = "priceValue" name= "priceValue" value= "' + data[1] + '"></br><img style = "width:30%" src = "'+url+data[2]+'"> <input type = "hidden" value = "<?= $product->id ?>" name = "product_id" id = "product_id"></br> </br>Image - <input type = "file" name = "image"></br></br><a href  = "#" class="btn btn-xs btn-success"  onclick = "updateStock()">Update</a> </form>';
             $('.stock').html(stockHtml);
             }
     });
