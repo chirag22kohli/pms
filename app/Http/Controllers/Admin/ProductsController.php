@@ -211,13 +211,13 @@ class ProductsController extends Controller {
           //  dd($imagePath);
             \App\ProductAttributeCombination::where('product_id', $product_id)->where('id', $attributes)->where('user_id', Auth::id())->update([
                 'stock' => $stockValue,
-                'price' =>  (int)$price,
+                'price' =>  $price,
                 'image' => $imagePath
             ]);
         } else {
             \App\ProductAttributeCombination::where('product_id', $product_id)->where('id', $attributes)->where('user_id', Auth::id())->update([
                 'stock' => $stockValue,
-                'price' => (int)$price
+                'price' => $price
             ]);
         }
 
