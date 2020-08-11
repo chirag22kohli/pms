@@ -35,30 +35,33 @@
 
                 <br>
                 <h2>Scan Pack Data</h2>
+                <div style = "display:none;">
                 <p>Scan's Used: <b><?= $getScanPack->scans_used ?> </b></p>
-                <p>Scan's Left: <b><?= $getScanPack->scans ?></b></p>
-
-                <?php if ($getScanPack->used_scan_packs != null && $getScanPack->used_scan_packs != "") { ?>
-                    <p>Total Used Scan Packs(According to Limit) : <b><?= $getScanPack->used_scan_packs ?></b></p> 
-
-                <?php } else { ?>
-                    <p>Total Used Scan Packs(According to Limit) : <b>N/A</b></p> 
-                <?php }
-                ?>
-
-                <?php if ($getScanPack->total_scan_packs != null && $getScanPack->total_scan_packs != "") { ?>
+                
+                    <p>Scan's Left: <b><?= $getScanPack->scans ?></b></p>
 
                     <?php if ($getScanPack->used_scan_packs != null && $getScanPack->used_scan_packs != "") { ?>
-                        <p>Total Scan Packs Left: <b><?= $getScanPack->total_scan_packs - $getScanPack->used_scan_packs ?></b></p> 
+                        <p>Total Used Scan Packs(According to Limit) : <b><?= $getScanPack->used_scan_packs ?></b></p> 
 
                     <?php } else { ?>
-                        <p>Total Scan Packs Left: <b><?= $getScanPack->total_scan_packs ?></b></p> 
+                        <p>Total Used Scan Packs(According to Limit) : <b>N/A</b></p> 
+                    <?php }
+                    ?>
 
+                    <?php if ($getScanPack->total_scan_packs != null && $getScanPack->total_scan_packs != "") { ?>
+
+                        <?php if ($getScanPack->used_scan_packs != null && $getScanPack->used_scan_packs != "") { ?>
+                            <p>Total Scan Packs Left: <b><?= $getScanPack->total_scan_packs - $getScanPack->used_scan_packs ?></b></p> 
+
+                        <?php } else { ?>
+                            <p>Total Scan Packs Left: <b><?= $getScanPack->total_scan_packs ?></b></p> 
+
+                        <?php } ?>
+
+                    <?php } else { ?>
+                        <p>Total Scan Packs Left: <b>N/A</b></p> 
                     <?php } ?>
-
-                <?php }else{?>
-                     <p>Total Scan Packs Left: <b>N/A</b></p> 
-                <?php } ?>
+                </div>
             </div>
         </div>
         <div class ="row">
