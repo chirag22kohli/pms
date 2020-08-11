@@ -39,6 +39,8 @@ class PaymentController extends Controller {
         $this->_api_context->setConfig($paypal_conf['settings']);
     }
 
+    public $successStatus = 200;
+
     public function payWithpaypal(Request $request) {
         $payer = new Payer();
 
@@ -279,7 +281,7 @@ class PaymentController extends Controller {
                 $customer = \App\Stripe::where('user_id', Auth::id())->first();
                 $charge = $this->payToSuperAdmin($price, $customer->customer_id);
             } catch (\Exception $e) {
-                return parent::error($e->getMessage(),200);
+                return parent::error($e->getMessage(), 200);
             }
 
 
@@ -523,14 +525,13 @@ class PaymentController extends Controller {
         ));
     }
 
-    
-    public function getAllCards($customer_id){
-        
+    public function getAllCards($customer_id) {
+
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
         $cards = \Stripe\Customer::allSources(
                         $customer_id,
                         ['object' => 'card', 'limit' => 20]
         );
-        
     }
+
 }
