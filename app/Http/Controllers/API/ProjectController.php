@@ -250,10 +250,10 @@ class ProjectController extends Controller {
             return parent::error($errors, 200);
             //  return parent::error($validator->errors(), 200);
         }
-
+        return parent::success("Updated Successfully", $this->successStatus);
 
         $selectProjectOwner = Project::where('id', $request->get('project_id'))->first();
-       
+
         $selectScanPlan = UserScanPack::where('user_id', $selectProjectOwner->created_by)->first();
         if ($selectScanPlan->scans == 0) {
             $purchasePack = parent::updateScanPack($selectProjectOwner->created_by);
@@ -267,17 +267,15 @@ class ProjectController extends Controller {
             'scans_used' => $newScanUsed,
             'scans' => $scans
         ]);
-        
+
         userProjectScan::firstOrCreate([
-            'user_id'=>Auth::id(),
-            'project_id'=>$request->get('project_id'),
-            'project_owner_id'=> $selectProjectOwner->created_by,
-            
-           
+            'user_id' => Auth::id(),
+            'project_id' => $request->get('project_id'),
+            'project_owner_id' => $selectProjectOwner->created_by,
         ]);
-        
-        userProjectScan::where( 'user_id', Auth::id())->where('project_id',$request->get('project_id'))->update([
-             'count'=> DB::raw('count+1'), 
+
+        userProjectScan::where('user_id', Auth::id())->where('project_id', $request->get('project_id'))->update([
+            'count' => DB::raw('count+1'),
         ]);
         return parent::success("Updated Successfully", $this->successStatus);
     }
