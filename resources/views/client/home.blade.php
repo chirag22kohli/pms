@@ -34,10 +34,11 @@
                 <p><b>{{ $expiryDate }}</b></p>
 
                 <br>
-                <h2>Scan Pack Data</h2>
                 <div style = "display:none;">
-                <p>Scan's Used: <b><?= $getScanPack->scans_used ?> </b></p>
-                
+                    <h2>Scan Pack Data</h2>
+
+                    <p>Scan's Used: <b><?= $getScanPack->scans_used ?> </b></p>
+
                     <p>Scan's Left: <b><?= $getScanPack->scans ?></b></p>
 
                     <?php if ($getScanPack->used_scan_packs != null && $getScanPack->used_scan_packs != "") { ?>

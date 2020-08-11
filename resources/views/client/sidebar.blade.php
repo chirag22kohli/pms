@@ -54,7 +54,7 @@ $planInfo = App\Plan::where('id', $userPlan->plan_id)->first();
                 Plan Info
             </a>
         </li>
-        <li>
+        <li style="display:none;">
             <a href="{{url('client/scanpack')}}">
                 <i class="far fa-file"></i>
                 Scan Pack Usage/Limit
