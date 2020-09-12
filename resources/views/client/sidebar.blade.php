@@ -73,7 +73,7 @@ $planInfo = App\Plan::where('id', $userPlan->plan_id)->first();
 
             </a>
         </li>
-        <?php if ($planInfo->is_ecom == '1') { ?>
+        <?php if (isset($planInfo->is_ecom) && $planInfo->is_ecom == '1') { ?>
             <li>
                 <a href="{{url('client/ecommerce')}}">
                     <i class="fa fa-cart-plus"></i>
