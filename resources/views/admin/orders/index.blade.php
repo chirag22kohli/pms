@@ -27,12 +27,12 @@
                     <br/>
                     <br/>
                     <div class="table-responsive">
-                        
+
                         <div id = "ajaxOrders"></div>
-                        
-                  
-                    
-                    
+
+
+
+
                     </div>
 
                 </div>
@@ -42,21 +42,31 @@
 </div>
 
 <script>
-window.setInterval(function(){
- 
- 
- 
- 
- $.ajax({
+
+    $.ajax({
+        type: 'GET',
+        url: "{{url('admin/getOrdersAjax')}}"
+
+    }).done(function (data) {
+        console.log('run');
+        $('#ajaxOrders').html(data);
+    });
+
+    window.setInterval(function () {
+
+
+
+
+        $.ajax({
             type: 'GET',
             url: "{{url('admin/getOrdersAjax')}}"
-           
+
         }).done(function (data) {
             console.log('run');
             $('#ajaxOrders').html(data);
-        }); 
- 
-}, 2000);
+        });
+
+    }, 2000);
 
 </script>
 @endsection
