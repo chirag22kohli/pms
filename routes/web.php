@@ -216,6 +216,7 @@ Route::resource('admin/product-options', 'Admin\\ProductOptionsController');
 Route::resource('admin/product-attribute-combinations', 'Admin\\ProductAttributeCombinationsController');
 Route::resource('admin/user-address', 'Admin\\UserAddressController');
 Route::get('admin/updateOrderStatus', 'Admin\OrdersController@updateOrderStatus');
+Route::get('admin/getOrdersAjax', 'Admin\OrdersController@getOrdersAjax');
 
 Route::resource('admin/orders', 'Admin\\OrdersController');
 Route::resource('admin/order-details', 'Admin\\OrderDetailsController');

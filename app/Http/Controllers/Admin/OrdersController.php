@@ -137,4 +137,14 @@ class OrdersController extends Controller {
         return "Order Status Updated";
     }
 
+    public function getOrdersAjax(Request $request) {
+
+
+        $orders = Order::where('client_id', Auth::id())->with('order_details')->with('address')->with('user_details')->paginate($perPage);
+
+
+
+        return view('admin.orders.getOrdersAjax', compact('orders'));
+    }
+
 }
