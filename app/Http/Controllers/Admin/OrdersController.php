@@ -140,7 +140,7 @@ class OrdersController extends Controller {
     public function getOrdersAjax(Request $request) {
 
 
-        $orders = Order::where('client_id', Auth::id())->with('order_details')->with('address')->with('user_details')->paginate($perPage);
+        $orders = Order::where('client_id', Auth::id())->with('order_details')->with('address')->with('user_details')->get();
 
 
 
