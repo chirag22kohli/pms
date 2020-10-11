@@ -68,7 +68,7 @@ $orderStatus = ['Recieved', 'Ready', 'Collected'];
                                         @foreach($order->order_details as $ord)
                                         <tr>
                                             <td>{{ $ord->product_details->name   }}</td>
-                                            <td>${{ $ord->product_details->price  }}</td>
+                                            <td>${{ $ord->price  }}</td>
                                             <td>
 
                                                 <?php
