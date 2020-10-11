@@ -28,7 +28,7 @@
                     <br/>
                     <div class="table-responsive">
                         
-                        <div class = "ajaxOrders"></div>
+                        <div id = "ajaxOrders"></div>
                         
                   
                     
