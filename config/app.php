@@ -145,7 +145,8 @@ return [
         PhpJunior\LaravelHtmlEncrypt\LaravelHtmlEncryptServiceProvider::class,
         Pawlox\VideoThumbnail\VideoThumbnailServiceProvider::class,
         Codecasts\Auth\JWT\ServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class,
+        LaravelFCM\FCMServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------
@@ -195,5 +196,7 @@ return [
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'VideoThumbnail' => Pawlox\VideoThumbnail\Facade\VideoThumbnail::class,
         'Image' => Intervention\Image\ImageManagerStatic::class,
+        'FCM'      => LaravelFCM\Facades\FCM::class,
+	'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
     ],
 ];

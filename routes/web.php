@@ -17,6 +17,8 @@ Route::get('signup/{plan_id}', 'WelcomeController@register');
 Route::get('/viewPlans', 'WelcomeController@viewPlans');
 Route::get('terms', 'WelcomeController@terms');
 
+ Route::get('sendTest', 'WelcomeController@sendTest');
+
 Auth::routes();
 
 Route::get('status', [
@@ -220,3 +222,4 @@ Route::get('admin/getOrdersAjax', 'Admin\OrdersController@getOrdersAjax');
 
 Route::resource('admin/orders', 'Admin\\OrdersController');
 Route::resource('admin/order-details', 'Admin\\OrderDetailsController');
+
