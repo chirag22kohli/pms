@@ -49,6 +49,7 @@ class UserController extends Controller {
                     'email' => 'required|email|unique:users',
                     'password' => 'required',
                     'c_password' => 'required|same:password',
+                    'device_token'=>'required'
         ]);
         if ($validator->fails()) {
             $errors = self::formatValidator($validator);
