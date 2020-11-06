@@ -248,8 +248,7 @@ class Controller extends BaseController {
         $token = $token;
         $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
 
-        echo json_encode($downstreamResponse);
-        die();
+       
         $downstreamResponse->numberSuccess();
         $downstreamResponse->numberFailure();
         $downstreamResponse->numberModification();
