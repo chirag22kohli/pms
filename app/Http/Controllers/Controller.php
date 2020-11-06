@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\DB;
 use Auth;
 use App\Stripe;
 use Carbon;
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use FCM;
 
 class Controller extends BaseController {
 
@@ -224,6 +228,43 @@ class Controller extends BaseController {
         }
         $date = date('Y-m-d', $date);
         return $date;
+    }
+
+    public static function sendNotification($token, $title, $message) {
+        $optionBuilder = new OptionsBuilder();
+        $optionBuilder->setTimeToLive(60 * 20);
+
+        $notificationBuilder = new PayloadNotificationBuilder($title);
+        $notificationBuilder->setBody($message)
+                ->setSound('default');
+
+        $dataBuilder = new PayloadDataBuilder();
+        $dataBuilder->addData(['a_data' => 'my_data']);
+
+        $option = $optionBuilder->build();
+        $notification = $notificationBuilder->build();
+        $data = $dataBuilder->build();
+
+        $token = $token;
+        $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+
+        echo json_encode($downstreamResponse);
+        die();
+        $downstreamResponse->numberSuccess();
+        $downstreamResponse->numberFailure();
+        $downstreamResponse->numberModification();
+
+// return Array - you must remove all this tokens in your database
+        $downstreamResponse->tokensToDelete();
+
+// return Array (key : oldToken, value : new token - you must change the token in your database)
+        $downstreamResponse->tokensToModify();
+
+// return Array - you should try to resend the message to the tokens in the array
+        $downstreamResponse->tokensToRetry();
+
+// return Array (key:token, value:error) - in production you should remove from your database the tokens
+        $downstreamResponse->tokensWithError();
     }
 
 }

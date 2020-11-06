@@ -134,6 +134,15 @@ class OrdersController extends Controller {
         $updateStatus = Order::where('id', $request->id)->update([
             'status' => $request->status
         ]);
+        $order = Order::where('id', $request->id)->first();
+        $getUser = \App\User::where('id', $order->user_id)->first();
+        if ($getUser) {
+            if ($getUser->device_token != null && $getUser->device_token != '') {
+
+                $message = 'hello! Your order status has been update to ' . $request->status;
+                Parent::sendNotification($getUser->device_token, "Order Status Updated ", $message);
+            }
+        }
         return "Order Status Updated";
     }
 
