@@ -139,7 +139,7 @@ class OrdersController extends Controller {
         if ($getUser) {
             if ($getUser->device_token != null && $getUser->device_token != '') {
 
-                $message = 'hello! Your order status has been update to ' . $request->status;
+                $message = 'hello! Your order status has been updated to ' . $request->status;
                 Parent::sendNotification($getUser->device_token, "Order Status Updated ", $message);
             }
         }
