@@ -6,8 +6,12 @@
 
 <?php if (!$connectStatus) { ?>
     <p>Note: <i>To create Paid projects / Use Ecommerce and recieve payouts please connect your stripe account with Chap.</i></p></br>
-    <a href ="https://dashboard.stripe.com/oauth/authorize?response_type=code&client_id={{ env('CONNECTED_CLIENT') }}&scope=read_write&redirect_uri={{ env('STRIPE_REDIRECT_URI') }}">
+  
+   
+    <a href ="https://dashboard.stripe.com/express/oauth/authorize?response_type=code&client_id={{ env('CONNECTED_CLIENT') }}&scope=read_write">
         <img src="{{ url('images/stripe.png')}}"></a> 
+    
+  
 <?php } ?>
 
 <div class="flash-message">
